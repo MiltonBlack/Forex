@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+.output {
+  height: 50px;
+  font-size: 0.9rem;
+}
+.progress-bar {
+  height: 70px;
+  background: rgb(102, 252, 32);
+  margin-top: 15px;
+}

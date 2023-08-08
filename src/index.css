@@ -5,9 +5,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 20px;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.output {
+  height: 50px;
+  font-size: 0.8rem;
+}
+.progress-bar {
+  height: 5px;
+  background: red;
+  margin-top: 15px;
 }
