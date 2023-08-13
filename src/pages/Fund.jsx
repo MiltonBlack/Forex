@@ -1,24 +1,40 @@
 import React from 'react'
-import { FaAngleLeft, FaAngleRight, FaBiohazard } from 'react-icons/fa'
 import Footer from '../components/Footer'
+import { FaAngleLeft, FaAngleRight, FaPlus, FaRecycle, FaRegFutbol } from 'react-icons/fa'
 
-const TransactionHistory = () => {
-  return (
-    <>
-      <div className='pt-16 bg-stone-100 px-10 h-[80vh]'>
+const Fund = () => {
+    return (
+        <>
+                  <div className='pt-16 bg-stone-100 px-10 h-[80vh]'>
         <div className='my-4'>
           <h1 className='text-2xl font-extrabold'>Your Transaction History</h1>
           <span className='font-light text-sm text-slate-600'>Track all your financial data in one place</span>
         </div>
-        <div className='grid grid-cols-2 gap-4 border mt-2 font-normal'>
-          <span className='border text-center p-2 bg-black/75 text-white hover:bg-white hover:text-black'>Deposits</span>
-          <span className='bg-white border text-center p-2'>Withdrawals</span>
+        <div className='grid grid-cols-3 gap-4 mt-2 font-normal '>
+          <span className='border text-center p-2 bg-black/75 text-white hover:bg-white hover:text-black flex items-center justify-center shadow-md cursor-pointer hover:shadow-none'>
+            <FaPlus size={30} className='mr-4'/>
+            Deposit Funds
+          </span>
+          <span className='bg-white border flex justify-between items-center p-1 shadow-md hover:shadow-none'>
+            <FaRecycle size={30}/>
+            <div className='flex flex-col px-1'>
+                <span className='text-sm'>Pending</span>
+                <span>None</span>
+            </div>
+          </span>
+          <span className='bg-white border flex justify-between items-center p-1 shadow-md hover:shadow-none'>
+          <FaRegFutbol size={30}/>
+            <div className='flex flex-col px-1'>
+                <span className='text-sm'>Refunds</span>
+                <span>None</span>
+            </div>
+          </span>
         </div>
+        <div className='flex w-full'></div>
         <div className='border my-4 rounded bg-white shadow-md flex flex-col items-center'>
           <table className='w-full'>
             <thead>
               <tr className='bg-black/75 text-white'>
-                <th>Subscription Type</th>
                 <th>Amount</th>
                 <th>Status</th>
                 <th>Payment Type</th>
@@ -27,7 +43,6 @@ const TransactionHistory = () => {
             </thead>
             <tbody className='font-light text-center'>
               <tr>
-                <td>Premium Plan</td>
                 <td>10,000</td>
                 <td className='p-1 bg-red-400 rounded-sm text-white'>Pending</td>
                 <td>Bitcoin</td>
@@ -47,8 +62,8 @@ const TransactionHistory = () => {
         </div>
       </div>
       <Footer/>
-    </>
-  )
+        </>
+    )
 }
 
-export default TransactionHistory
+export default Fund
