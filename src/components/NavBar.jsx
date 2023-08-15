@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { FaArrowCircleDown, FaBarcode, FaBell, FaCog, FaPalette, FaQuestionCircle } from 'react-icons/fa'
+import { FaArrowCircleDown, FaBarcode, FaBell, FaCog, FaDoorOpen, FaPalette, FaQuestionCircle } from 'react-icons/fa'
+import { Link, NavLink } from 'react-router-dom';
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
@@ -10,13 +11,12 @@ const NavBar = () => {
     <div className='flex w-screen items-center justify-between px-4 py-2 font-thin fixed bg-white shadow-md'>
       <FaBarcode />
       <div className='flex'>
-        <div className='flex items-center mr-3 font-bold border-b-2 border-black cursor-pointer'>Overview</div>
-        <div className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>History</div>
-        <div className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Fund Wallet</div>
-        <div className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Withdraw</div>
-        <div className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Subscriptions</div>
-        <div className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><FaPalette /> Trading Plans</div>
-        <div className='flex items-center hover:border border-black px-1 cursor-pointer'><FaQuestionCircle /><h1>Help</h1></div>
+        <NavLink to='/dashboard' className='flex items-center mr-3 font-bold border-b-2 border-black cursor-pointer'>Overview</NavLink>
+        <NavLink to='transactionHistory' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>History</NavLink>
+        <NavLink to='wallet' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Wallet</NavLink>
+        <NavLink to='subscriptions' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Subscriptions</NavLink>
+        <NavLink to='plans' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><FaPalette /> Trading Plans</NavLink>
+        <NavLink to='help' className='flex items-center hover:border border-black px-1 cursor-pointer'><FaQuestionCircle /><h1>Help</h1></NavLink>
       </div>
       <div className='flex items-center justify-center relative'>
         <FaBell />
@@ -34,6 +34,7 @@ const NavBar = () => {
               <span className='ml-1 text-sm flex'>Milton Azibapu</span>
               <span className='border border-black w-full flex my-1 items-center justify-center'>View Profile</span>
               <span className='flex border-black items-center justify-center border w-full'>Settings <FaCog className='mx-2' /></span>
+              <Link to='/' className='flex border-black items-center justify-center border w-full'>Logout <FaDoorOpen className='mx-2' /></Link>
             </div>
           </div>)}
       </div>
