@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { FaAmazon, FaApple, FaChartLine, FaEbay, FaFacebook, FaGlobeAmericas, FaGoogle,  FaSearchPlus } from 'react-icons/fa'
+import { FaAmazon, FaApple, FaChartLine, FaEbay, FaFacebook, FaGlobeAmericas, FaGoogle, FaSearchPlus } from 'react-icons/fa'
 import solana from '../assets/solana.jpg'
 import broker from '../assets/broker.jpg'
 import device from '../assets/devices.svg'
 import nama from '../assets/nama.svg'
 import Footer from '../components/Footer'
+import { Link } from 'react-router-dom'
 
 const Landing = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -26,8 +27,12 @@ const Landing = () => {
             <h1 className='text-5xl text-center leading-[60px]'>Trade Securely on the <br /> World's Most active Digital Asset Exchange</h1>
             <p className='text-lg text-center my-2'>We are a US Based Digital Asset Exchange offering Maximum Security and Advanced Trading Features</p>
             <div className='my-3'>
-              <button className='border border-lime-500 mx-3 p-2 uppercase bg-lime-700 rounded-sm hover:scale-125 transition'>OPen Account</button>
-              <button className='border border-sky-900 mx-3 p-2 uppercase bg-sky-900 rounded-sm hover:scale-125 transition'>Login Account</button>
+              <Link to='signup'>
+                <button className='border border-lime-500 mx-3 p-2 uppercase bg-lime-700 rounded-sm hover:scale-125 transition'>OPen Account</button>
+              </Link>
+              <Link to='login'>
+                <button className='border border-sky-900 mx-3 p-2 uppercase bg-sky-900 rounded-sm hover:scale-125 transition'>Login Account</button>
+              </Link>
             </div>
           </div>
         </div>
@@ -49,8 +54,8 @@ const Landing = () => {
             <div className=' border-2 h-2 border-black bg-black rounded-lg w-28 my-4'></div>
             <p className='font-mono my-2'>Choose one of the world's top trading platforms and trade on any device. Make Trading a part of your lifestyle.</p>
             <div className='ml-4 flex flex-col'>
-            <span className='font-light my-1'>Award winning platforms, choosen by millions of traders around the world</span>
-            <span className=' font-light my-1'>Inccredibly customizable and user-friendly allowing you to focus on trading</span>
+              <span className='font-light my-1'>Award winning platforms, choosen by millions of traders around the world</span>
+              <span className=' font-light my-1'>Inccredibly customizable and user-friendly allowing you to focus on trading</span>
             </div>
           </div>
           <div className='flex bg-white p-2'>
@@ -116,7 +121,7 @@ const Landing = () => {
           </div>
         </div>
       </section>
-     <Footer/>
+      <Footer />
     </div>
   )
 }

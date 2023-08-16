@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FaArrowCircleDown, FaBarcode, FaBell, FaCog, FaDoorOpen, FaPalette, FaQuestionCircle } from 'react-icons/fa'
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
@@ -8,13 +8,14 @@ const NavBar = () => {
     setOpen(!open);
   }
   return (
-    <div className='flex w-screen items-center justify-between px-4 py-2 font-thin fixed bg-white shadow-md'>
+    <>
+    <div className='flex w-screen items-center justify-between px-4 py-2 font-thin fixed bg-white z-50 shadow-md'>
       <FaBarcode />
       <div className='flex'>
         <NavLink to='/dashboard' className='flex items-center mr-3 font-bold border-b-2 border-black cursor-pointer'>Overview</NavLink>
         <NavLink to='transactionHistory' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>History</NavLink>
         <NavLink to='wallet' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Wallet</NavLink>
-        <NavLink to='subscriptions' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Subscriptions</NavLink>
+        <NavLink to='swap' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Swap</NavLink>
         <NavLink to='plans' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><FaPalette /> Trading Plans</NavLink>
         <NavLink to='help' className='flex items-center hover:border border-black px-1 cursor-pointer'><FaQuestionCircle /><h1>Help</h1></NavLink>
       </div>
@@ -39,6 +40,10 @@ const NavBar = () => {
           </div>)}
       </div>
     </div>
+    <div className='w-full h-full'>
+      <Outlet/>
+    </div>
+    </>
   )
 }
 
