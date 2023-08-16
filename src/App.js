@@ -13,6 +13,8 @@ import Fund from './pages/Fund';
 import Help from './pages/Help';
 import Subscription from './pages/Subscription';
 import CryptoX from './pages/CryptoX';
+import DepositsHistory from './pages/DepositsHistory';
+import WithdrawHistory from './pages/WithdrawHistory';
 
 function App() {
   return (
@@ -22,7 +24,10 @@ function App() {
             <Route index element={<DashHome />} />
             <Route path='plans' element={<Invest />} />
             <Route path='ROI' element={<Profit />} />
-            <Route path='transactionHistory' element={<TransactionHistory />} />
+            <Route path='transactionHistory' element={<TransactionHistory />} >
+              <Route path='deposits' element={<DepositsHistory/>}/>
+              <Route path='withdrawals' element={<WithdrawHistory/>}/>
+            </Route>
             <Route path='wallet' element={<Fund />} />
             <Route path='subscriptions' element={<Subscription />} />
             <Route path='swap' element={<CryptoX />} />

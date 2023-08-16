@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import Footer from '../components/Footer'
-import { FaAngleLeft, FaAngleRight, FaMinusSquare, FaPlus, FaCopy, FaRecycle, FaRegFutbol } from 'react-icons/fa'
+import { FaAngleLeft, FaAngleRight, FaMinusSquare, FaPlus, FaCopy, FaRecycle, FaRegFutbol, FaBitcoin, FaTimes } from 'react-icons/fa'
 import Modal from '../components/Modal';
 
 const Fund = () => {
   const [open, setOPen] = useState(false);
+  const [withdraw, setWithdraw] = useState(false);
   function toggleWallet() {
     setOPen(!open)
+  }
+  function toggleWithdraw(){
+    setWithdraw(!withdraw);
   }
   return (
     <>
@@ -20,7 +24,7 @@ const Fund = () => {
             <FaPlus size={30} className='mr-4' />
             Deposit Funds
           </span>
-          <span className='border text-center p-2 bg-black/75 text-white hover:bg-white hover:text-black flex items-center justify-center shadow-md cursor-pointer hover:shadow-none'>
+          <span className='border text-center p-2 bg-black/75 text-white hover:bg-white hover:text-black flex items-center justify-center shadow-md cursor-pointer hover:shadow-none' onClick={()=> {setWithdraw(true)}}>
             <FaMinusSquare size={30} className='mr-4' />
             Withdraw Funds
           </span>
@@ -72,12 +76,43 @@ const Fund = () => {
         {open &&
           (
             <Modal>
-              <span>Amount</span>
-              <div className='flex w-full'>
-                <input type="text" className='p-1 bg-stone-300' />
-                <button><FaCopy/></button>
+              <div className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer' onClick={toggleWallet}>
+                <FaTimes color='red' />
+              </div>
+              <div className='flex flex-col p-2'>
+                <div className='flex items-center my-1'>
+                  <FaBitcoin />
+                  <span className='ml-2'>Bitcoin Address</span>
+                </div>
+                <div className='flex w-full my-2 bg-stone-300 rounded pl-1'>
+                  <input type="text" className='p-1 bg-stone-300 flex w-full outline-none' />
+                  <button className='p-1'><FaCopy /></button>
+                </div>
+                <span className='text-base my-1'>Upload Proof Of Payment</span>
+                <input type="file" name="" id="" className='border p-2 my-1' />
+                <button className='border my-2 bg-black/50 text-white p-1 rounded'>Complete Payment</button>
               </div>
             </Modal>
+          )}
+          {withdraw && (
+            <Modal>
+            <div className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer' onClick={toggleWithdraw}>
+              <FaTimes color='red' />
+            </div>
+            <div className='flex flex-col p-2'>
+              <div className='flex items-center my-1'>
+                <FaBitcoin />
+                <span className='ml-2'>Bitcoin Address</span>
+              </div>
+              <span>Enter Amount to Withdraw</span>
+              <div className='flex w-full my-2 bg-stone-300 rounded pl-1'>
+                <input type="text" className='p-1 bg-stone-300 flex w-full outline-none' />
+              </div>
+              <span className='text-base my-1'>Enter Wallet Address</span>
+              <input type="text" name="" id="" className='border p-2 my-1' />
+              <button className='border my-2 bg-black/50 text-white p-1 rounded'>Complete Request</button>
+            </div>
+          </Modal>
           )}
       </div>
       <Footer />
