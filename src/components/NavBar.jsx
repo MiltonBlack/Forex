@@ -33,8 +33,8 @@ const NavBar = () => {
                 Logged in as:
               </span>
               <span className='ml-1 text-sm flex'>Milton Azibapu</span>
-              <span className='border border-black w-full flex my-1 items-center justify-center'>View Profile</span>
-              <span className='flex border-black items-center justify-center border w-full'>Settings <FaCog className='mx-2' /></span>
+              <Link to='/dashboard/profile' className='border border-black w-full flex my-1 items-center justify-center'>View Profile</Link>
+              <Link to='/dashboard/settings' className='flex border-black items-center justify-center border w-full'>Settings <FaCog className='mx-2' /></Link>
               <Link to='/' className='flex border-black items-center justify-center border w-full'>Logout <FaDoorOpen className='mx-2' /></Link>
             </div>
           </div>)}
