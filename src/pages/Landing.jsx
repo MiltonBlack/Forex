@@ -3,6 +3,7 @@ import { FaAmazon, FaApple, FaChartLine, FaEbay, FaFacebook, FaGlobeAmericas, Fa
 import solana from '../assets/solana.jpg'
 import broker from '../assets/broker.jpg'
 import device from '../assets/devices.svg'
+import edu from '../assets/education.svg'
 import nama from '../assets/nama.svg'
 import Footer from '../components/Footer'
 import { Link } from 'react-router-dom'
@@ -37,19 +38,19 @@ const Landing = () => {
           </div>
         </div>
       </section>
-      <section className='flex bg-slate-600 px-36 py-10'>
-        <div className='grid grid-cols-2'>
+      <section className='flex bg-slate-800 px-36 py-10 text-white'>
+        <div className='grid grid-cols-2 gap-2'>
           <img src={device} alt="" />
-          <div>
+          <div className='ml-2'>
             <h1 className='text-3xl font-thin'>All You Need To Know About Bitcoin</h1>
             <div className=' border-2 h-2 border-black bg-black rounded-lg w-28 my-4'></div>
-            <p className='font-mono my-2'>
+            <p className='font-thin my-2'>
               Welcome to the exciting world of Bitcoin! In this concise guide, we'll introduce you to the fundamentals of Bitcoin – the pioneering cryptocurrency that has revolutionized finance and technology. Learn what Bitcoin is, how it works, and why it matters. Explore its potential for investments and its impact on the global economy. Whether you're a curious beginner or looking to deepen your understanding, this is your gateway to all things Bitcoin.
             </p>
           </div>
         </div>
       </section>
-      <section className='flex bg-stone-400 px-36 py-10 text-white'>
+      <section className='flex bg-stone-300 px-36 py-10 text-black'>
         <div className='grid grid-cols-2'>
           <div>
             <h1 className='text-3xl font-thin'>Trade on MT4, MT5 and cTrader Everywhere and Anytime</h1>
@@ -65,7 +66,7 @@ const Landing = () => {
           </div>
         </div>
       </section>
-      <section className='flex bg-stone-300 px-36 py-10'>
+      <section className='flex bg-stone-200 px-36 py-10'>
         <div className='grid grid-cols-3 gap-3 font-normal'>
           <div className='flex flex-col items-center justify-center p-6'>
             <FaChartLine size={45} />
@@ -85,26 +86,23 @@ const Landing = () => {
           </div>
         </div>
       </section>
-      <section className='px-36 bg-stone-200'>
-        <div className='py-10'></div>
+      <section className='px-36 bg-stone-100 py-10 font-light text-base'>
+        <div className='grid grid-cols-2 gap-2'>
+          <img src={edu} alt="" />
+          <div>
+            <h1 className='text-2xl my-3'>Equip Yourself With Free Education</h1>
+            <span className='my-2'>
+              Embark on a well-rounded educational journey with experienced mentors. Join free Webinars, explore the Bitcoin Xchange Academy and Watch quick, straight-to-the-point videos.
+            </span>
+          </div>
+        </div>
       </section>
       <section className='px-36 bg-stone-200'>
         <div className='py-10 flex flex-col'>
           <h1 className='text-2xl w-full text-center my-2'>The Best Bitcoin Exchange</h1>
           <span className=' text-justify my-2 font-light'>"Unlock the Future of Finance with Bitcoin: Your One-Stop Exchange for Seamless Trading and Limitless Possibilities!"
 
-            In a world where financial landscapes are rapidly evolving, Bitcoin emerges as the unrivaled pioneer, offering a groundbreaking platform that redefines the way we perceive and engage with currency and investments. As you step into the realm of digital finance, Bitcoin stands tall as your steadfast companion, guiding you through the intricate corridors of crypto trading with unmatched expertise and innovation.
-
-            Why choose Bitcoin as your preferred exchange? The reasons are as boundless as the opportunities it presents:<br />
-
-            1. **Security Beyond Measure:** At Bitcoin, we place your security at the forefront. Our state-of-the-art encryption and multi-layered security protocols shield your assets from any potential threats, providing you with peace of mind as you navigate the digital economy.
-            <br />
-            2. **Unparalleled Accessibility:** Embracing the spirit of inclusivity, Bitcoin offers an interface that caters to both newcomers and seasoned traders. Our user-friendly design ensures that regardless of your level of expertise, you can effortlessly harness the power of cryptocurrency.<br />
-
-            3. **Global Community:** Join a thriving community of individuals who share your enthusiasm for the future of finance. Connect, collaborate, and learn from like-minded traders as you navigate the exciting waters of crypto together.<br />
-
-            4. **Empowerment through Education:** We believe that knowledge is the cornerstone of success in the crypto realm. Bitcoin provides a wealth of educational resources, ensuring that you're equipped with the insights needed to make informed decisions.<br />
-
+            In a world where financial landscapes are rapidly evolving, Bitcoin emerges as the unrivaled pioneer, offering a groundbreaking platform that redefines the way we perceive and engage with currency and investments. As you step into the realm of digital finance, Bitcoin stands tall as your steadfast companion, guiding you through the intricate corridors of crypto trading with unmatched expertise and innovation.<br/>
             It's time to transcend the confines of traditional finance and embrace the boundless potential of cryptocurrency. Bitcoin isn't just an exchange; it's an emblem of empowerment, a gateway to a future where financial limitations are a thing of the past. Join us today and redefine the way you perceive, engage with, and benefit from the world of digital finance. The journey awaits – seize it with Bitcoin!"
           </span>
         </div>
