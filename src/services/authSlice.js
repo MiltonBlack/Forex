@@ -16,12 +16,8 @@ export const Register = createAsyncThunk("auth/Register", () => {
         }
     }).then(response => response.json()).then(json => console.log(json)).catch(err => console.log(err));
 })
-export const Login = createAsyncThunk("auth/Login", () => {
-    const userData = {
-        "email": "eghoi@gmail.com",
-        "password": "12345678"
-    }
-    return fetch('', {
+export const LoginUser = createAsyncThunk("auth/Login", ({userData}) => {
+    return fetch('http://localhost:3005/api/auth/signin', {
         method: "POST",
         body: JSON.stringify(userData),
         headers: {
@@ -58,9 +54,19 @@ const authSlice = createSlice({
         },
         [Register.fulfilled]: (state, action) => {
             state.isLoading = false;
-            state.User = action.payload;
         },
         [Register.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.error = action.error.message;
+        },
+        [LoginUser.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [LoginUser.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.User = action.payload;
+        },
+        [LoginUser.rejected]: (state, action) => {
             state.isLoading = false;
             state.error = action.error.message;
         },
