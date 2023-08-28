@@ -20,29 +20,32 @@ import Personnal from './components/Personnal';
 import Security from './components/Security';
 import Account from './components/Account';
 import Notifications from './components/Notifications';
+import PrivateRoute from './utils/ProtectedRoute';
 
 function App() {
   return (
     <div className="font-bold">
       <Routes>
-        <Route path='/dashboard' element={<NavBar />}>
-          <Route index element={<DashHome />} />
-          <Route path='plans' element={<Invest />} />
-          <Route path='ROI' element={<Profit />} />
-          <Route path='transactionHistory' element={<TransactionHistory />} >
-            <Route path='deposits' element={<DepositsHistory />} />
-            <Route path='withdrawals' element={<WithdrawHistory />} />
-          </Route>
-          <Route path='wallet' element={<Fund />} />
-          <Route path='subscriptions' element={<Subscription />} />
-          <Route path='swap' element={<CryptoX />} />
-          <Route path='help' element={<Help />} />
-          <Route path='profile' element={<Profile />} />
-          <Route path='settings' element={<Settings />} >
-            <Route index element={<Personnal />} />
-            <Route path='security' element={<Security />} />
-            <Route path='account' element={<Account />} />
-            <Route path='notifications' element={<Notifications />} />
+        <Route exact element={<PrivateRoute />}>
+          <Route path='/dashboard' element={<NavBar />}>
+            <Route index element={<DashHome />} />
+            <Route path='plans' element={<Invest />} />
+            <Route path='ROI' element={<Profit />} />
+            <Route path='transactionHistory' element={<TransactionHistory />} >
+              <Route path='deposits' element={<DepositsHistory />} />
+              <Route path='withdrawals' element={<WithdrawHistory />} />
+            </Route>
+            <Route path='wallet' element={<Fund />} />
+            <Route path='subscriptions' element={<Subscription />} />
+            <Route path='swap' element={<CryptoX />} />
+            <Route path='help' element={<Help />} />
+            <Route path='profile' element={<Profile />} />
+            <Route path='settings' element={<Settings />} >
+              <Route index element={<Personnal />} />
+              <Route path='security' element={<Security />} />
+              <Route path='account' element={<Account />} />
+              <Route path='notifications' element={<Notifications />} />
+            </Route>
           </Route>
         </Route>
         <Route index element={<Landing />} />

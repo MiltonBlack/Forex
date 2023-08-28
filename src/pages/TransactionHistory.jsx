@@ -1,5 +1,4 @@
 import React from 'react'
-import { FaAngleLeft, FaAngleRight, FaBiohazard } from 'react-icons/fa'
 import Footer from '../components/Footer'
 import { Link, Outlet } from 'react-router-dom'
 

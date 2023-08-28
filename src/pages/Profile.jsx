@@ -1,8 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import Card from '../components/Card'
 import Footer from '../components/Footer'
 
 const Profile = () => {
+  const { user } = useSelector((state) => state.auth)
   return (
     <>
       <div className='pt-16 bg-stone-100 px-10 h-[100vh] relative'>
@@ -16,15 +18,15 @@ const Profile = () => {
               <div className=''>
                 <div className='flex flex-col my-4'>
                   <span>Name:</span>
-                  <span className='border p-1 rounded-sm text-stone-600 font-normal text-center'>Milton Azibapu</span>
+                  <span className='border p-1 rounded-sm text-stone-600 font-normal text-center'>{user.lastName} {user.firstName}</span>
                 </div>
                 <div className='flex flex-col my-4'>
                   <span>Email:</span>
-                  <span className='border p-1 rounded-sm text-stone-600 font-normal text-center'>MiltonBlack@gmail.com</span>
+                  <span className='border p-1 rounded-sm text-stone-600 font-normal text-center'>{user.email}</span>
                 </div>
                 <div className='flex flex-col my-4'>
                   <span>Address:</span>
-                  <span className='border p-1 rounded-sm text-stone-600 font-normal text-center'>No 1 St Fransisco USA </span>
+                  <span className='border p-1 rounded-sm text-stone-600 font-normal text-center'>{user?.address} </span>
                 </div>
               </div>
               <div className=''>
@@ -34,18 +36,18 @@ const Profile = () => {
                 </div>
                 <div className='flex flex-col my-4'>
                   <span>Investment Plan:</span>
-                  <span className='border p-1 rounded-sm text-stone-600 font-normal text-center'>Premium</span>
+                  <span className='border p-1 rounded-sm text-stone-600 font-normal text-center'>{user.plan}</span>
                 </div>
                 <div className='flex flex-col my-4'>
                   <span>Password:</span>
-                  <span className='border p-1 rounded-sm text-stone-600 font-normal text-center'>12345678</span>
+                  <span className='border p-1 rounded-sm text-stone-600 font-normal text-center'>{user.password}</span>
                 </div>
               </div>
             </div>
           </div>
         </Card>
       </div>
-      <Footer/>
+      <Footer />
     </>
   )
 }

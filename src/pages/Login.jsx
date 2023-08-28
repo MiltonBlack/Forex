@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoginUser } from '../services/authSlice'
@@ -13,10 +13,12 @@ const Login = () => {
   const [data, setData] = useState([])
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { User, error } = useSelector((state) => state.auth);
-  function Login() {
-    navigate('/dashboard')
-  }
+  const { user, error, } = useSelector((state) => state.auth);
+  useEffect(()=>{
+    if(user) {
+      navigate('/dashboard')
+    }
+  },[user]);
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -32,15 +34,11 @@ const Login = () => {
         email,
         password
       };
-      dispatch(LoginUser(userData));
+      
       // send userData to LoginUser function in authSlice for Login Request. 
-      // navigate('/dashboard');
+      dispatch(LoginUser(userData));
     }
   }
-  console.log(formData);
-  console.log(data);
-  console.log(User);
-  // console.error(error);
   return (
     <div className=' bg-sky-500 flex items-center justify-center w-screen h-screen relative'>
       <img src={img} alt="" className='h-screen w-screen' />

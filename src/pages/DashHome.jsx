@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react'
-import NavBar from '../components/NavBar'
+import { useSelector } from 'react-redux'
 import Card from '../components/Card'
 import { FaArrowAltCircleDown, FaArrowAltCircleUp, FaBitcoin, FaChartLine, FaDollarSign, FaEthereum, FaPlus } from 'react-icons/fa'
 import Footer from '../components/Footer'
 
 let tvScriptLoadingPromise;
 const DashHome = () => {
+  const { user } = useSelector((state) => state.auth);
   const onLoadScriptRef = useRef();
 
   useEffect(
@@ -51,11 +52,11 @@ const DashHome = () => {
   );
   return (
     <>
-      <NavBar />
+      {/* <NavBar /> */}
       <div className=' bg-stone-200 w-full h-full flex flex-col px-10 pt-16'>
         <div className='flex w-full justify-between items-center my-8'>
           <div>
-            <h1 className=' font-black text-2xl'>Hello, Milton!</h1>
+            <h1 className=' font-black text-2xl'>Hello, {user.firstName}!</h1>
             <span className='font-light text-sm text-slate-600'>We recommend you to select a subscription package for an investment plan today</span>
           </div>
           <div className='border border-black p-1 bg-rose-500'>

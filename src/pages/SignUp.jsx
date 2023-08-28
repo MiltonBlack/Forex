@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux";
-import { Register, Login } from '../services/authSlice';
+import { useDispatch } from "react-redux";
+import { Register } from '../services/authSlice';
 import img from '../assets/broker.jpg'
 
 const SignUp = () => {
@@ -18,6 +18,11 @@ const SignUp = () => {
     password2: '',
   })
   const { firstName, lastName, email, password, password2 } = formData;
+  useEffect(() => {
+    if (data) {
+      navigate('/dashboard');
+    }
+  }, [data, navigate])
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -40,14 +45,15 @@ const SignUp = () => {
         method: "POST",
         body: JSON.stringify(userData),
         headers: {
-            "Content-type": "application/json; charset=UTF-8"
+          "Content-type": "application/json; charset=UTF-8"
         }
-    }).then((response) => response.json())
-    .then((info) => {
-      setData(info)}).catch(err => console.log(err));
+      }).then((response) => response.json())
+        .then((info) => {
+          setData(info)
+        }).catch(err => console.log(err));
 
       dispatch(Register(userData));
-      // navigate('/dashboard');
+      // 
     }
   };
   console.log(formData);
@@ -103,11 +109,15 @@ const SignUp = () => {
               <button><FaEyeSlash /></button>
             </div>
           </div>
-          <button className='uppercase border-2 p-2 my-4 w-[70%] hover:bg-white text-white transition' onClick={handleSubmit}>Sign Up</button>
+          <button
+            className='uppercase border-2 p-2 my-4 w-[70%] hover:bg-white text-white transition'
+            onClick={handleSubmit}>
+            Sign Up
+          </button>
           <div className='flex justify-center items-center'>
             <h1 className='mr-4 text-sm text-white'>Already Have An Account?</h1>
             <Link to='/login'>
-              <em className=' text-blue-950 text-lg cursor-pointer' >Login</em>
+              <em className=' text-blue-950 text-lg cursor-pointer'>Login</em>
             </Link>
           </div>
         </div>
