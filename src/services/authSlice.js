@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import axios from 'axios';
 
 const user = JSON.parse(localStorage.getItem("user"));
 export const Register = createAsyncThunk("auth/Register", () => {
@@ -15,15 +16,25 @@ export const Register = createAsyncThunk("auth/Register", () => {
             "Content-type": "application/json; charset=UTF-8"
         }
     }).then(response => response.json()).then(json => console.log(json)).catch(err => console.log(err));
-})
-export const LoginUser = createAsyncThunk("auth/Login", ({userData}) => {
-    return fetch('http://localhost:3005/api/auth/signin', {
-        method: "POST",
-        body: JSON.stringify(userData),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
+});
+
+export const LoginUser = createAsyncThunk("auth/Login", async (userData, thunkAPI) => {
+    try {
+        const response = await axios.post(`http://localhost:3005/api/auth/signin`, userData);
+        if (response?.data) {
+          console.log(response.data);
+          localStorage.setItem("user", JSON.stringify(response?.data));
         }
-    }).then(response => response.json()).then(json => localStorage.setItem(json)).catch(err => console.log(err));
+        return response?.data;
+      } catch (error) {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
 })
 
 export const logout = createAsyncThunk("auth/logout", async () => {

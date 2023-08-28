@@ -13,7 +13,7 @@ const Login = () => {
   const [data, setData] = useState([])
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { User } = useSelector((state) => state.auth)
+  const { User, error } = useSelector((state) => state.auth);
   function Login() {
     navigate('/dashboard')
   }
@@ -23,7 +23,7 @@ const Login = () => {
       [e.target.name]: e.target.value,
     }))
   }
-  function handleSubmit(e) {
+  function  handleSubmit(e) {
     e.preventDefault();
     if (formData.email === "" && password === "") {
       console.log('fields cant be empty');
@@ -32,24 +32,15 @@ const Login = () => {
         email,
         password
       };
-      fetch('http://localhost:3005/api/auth/signin', {
-        method: "POST",
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then((response) => response.json())
-        .then((info) => {
-          setData(info)
-        }).catch(err => console.log(err));
-
       dispatch(LoginUser(userData));
+      // send userData to LoginUser function in authSlice for Login Request. 
       // navigate('/dashboard');
     }
   }
   console.log(formData);
   console.log(data);
   console.log(User);
+  // console.error(error);
   return (
     <div className=' bg-sky-500 flex items-center justify-center w-screen h-screen relative'>
       <img src={img} alt="" className='h-screen w-screen' />
@@ -70,7 +61,11 @@ const Login = () => {
             name='password'
             value={password}
             onChange={onChange} />
-          <button className='border-2 uppercase p-2 w-[70%] flex items-center justify-center text-black my-2 hover:bg-white text-white' onClick={handleSubmit}>Login</button>
+          <button
+            className='border-2 uppercase p-2 w-[70%] flex items-center justify-center hover:text-black my-2 hover:bg-white text-white'
+            onClick={handleSubmit}>
+            Login
+          </button>
           <div className='flex flex-col text-base w-full justify-center'>
             <h1 className='text-center text-blue-900 hover:underline cursor-pointer'>
               Forgot Password
