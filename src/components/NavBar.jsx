@@ -28,8 +28,8 @@ const NavBar = () => {
       <div className='flex w-screen items-center justify-between px-4 py-2 font-thin fixed bg-white z-50 shadow-md'>
         <FaBarcode />
         <div className='flex'>
-          <NavLink to='/dashboard' className='flex items-center mr-3 font-bold border-b-2 border-black cursor-pointer'>Overview</NavLink>
-          <NavLink to='transactionHistory' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>History</NavLink>
+          <NavLink to='/dashboard' className='flex items-center mr-1 md:mr-3 text-base md:text-xl md:font-bold border-b-2 border-black cursor-pointer'>Overview</NavLink>
+          <NavLink to='transactionHistory' className='flex items-center mr-1 md:mr-3 text-base md:text-xl hover:border border-black px-1 cursor-pointer'>History</NavLink>
           <NavLink to='wallet' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Wallet</NavLink>
           <NavLink to='swap' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Swap</NavLink>
           <NavLink to='plans' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><FaPalette /> Trading Plans</NavLink>
