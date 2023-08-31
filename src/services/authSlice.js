@@ -2,13 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 
 const user = JSON.parse(localStorage.getItem("user"));
-export const Register = createAsyncThunk("auth/Register", () => {
-    const userData = {
-        "firstName": "Lilian",
-        "lastName": "Milton",
-        "email": "eghoi@gmail.com",
-        "password": "12345678"
-    }
+export const Register = createAsyncThunk("auth/Register", ({ userData }) => {
     return fetch('http://localhost:3005/api/auth/register', {
         method: "POST",
         body: JSON.stringify(userData),
@@ -22,19 +16,19 @@ export const LoginUser = createAsyncThunk("auth/Login", async (userData, thunkAP
     try {
         const response = await axios.post(`http://localhost:3005/api/auth/signin`, userData);
         if (response?.data) {
-          console.log(response.data);
-          localStorage.setItem("user", JSON.stringify(response?.data));
+            console.log(response.data);
+            localStorage.setItem("user", JSON.stringify(response?.data));
         }
         return response?.data;
-      } catch (error) {
+    } catch (error) {
         const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+            (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+            error.message ||
+            error.toString();
         return thunkAPI.rejectWithValue(message);
-      }
+    }
 })
 
 export const logout = createAsyncThunk("auth/logout", async () => {
@@ -45,6 +39,7 @@ const initialState = {
     User: [],
     user: user ? user : null,
     isLoading: false,
+    success: false,
     error: ""
 }
 
@@ -62,12 +57,15 @@ const authSlice = createSlice({
     extraReducers: {
         [Register.pending]: (state) => {
             state.isLoading = true;
+            state.success = false;
         },
         [Register.fulfilled]: (state, action) => {
             state.isLoading = false;
+            state.success = true;
         },
         [Register.rejected]: (state, action) => {
             state.isLoading = false;
+            state.success = false;
             state.error = action.error.message;
         },
         [LoginUser.pending]: (state) => {

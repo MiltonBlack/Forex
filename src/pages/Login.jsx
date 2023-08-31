@@ -10,15 +10,14 @@ const Login = () => {
     password: '',
   })
   const { email, password } = formData;
-  const [data, setData] = useState([])
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, error, } = useSelector((state) => state.auth);
+  const { User  } = useSelector((state) => state.auth);
   useEffect(()=>{
-    if(user) {
+    if(User) {
       navigate('/dashboard')
     }
-  },[user]);
+  },[User, navigate]);
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Register } from '../services/authSlice';
 import img from '../assets/broker.jpg'
 
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { success } = useSelector((state) => state.auth)
 
   const [data, setData] = useState([])
   const [formData, setFormData] = useState({
@@ -19,17 +20,17 @@ const SignUp = () => {
   })
   const { firstName, lastName, email, password, password2 } = formData;
   useEffect(() => {
-    if (data) {
+    if (success) {
       navigate('/dashboard');
     }
-  }, [data, navigate])
+  }, [data, navigate, success]);
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }))
   }
-  const handleSubmit = (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault();
 
     if (password !== password2) {
