@@ -18,7 +18,7 @@ const Uploader = () => {
             <div className='output'>
                 {error && <div>{error}</div>}
                 {file && <div>{file.name}</div>}
-                {file && <ProgressBar file={file} setFile={setFile}/>}
+                {file && <ProgressBar file={file} setFile={setFile} />}
             </div>
         </div>
     )
