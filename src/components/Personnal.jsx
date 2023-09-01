@@ -30,7 +30,7 @@ const Personnal = () => {
         detail,
         config
       )
-      .then((res) => console.log(res.data))
+      .then((res) => {console.log(res.data); localStorage.setItem("user", JSON.stringify(res?.data));})
       .catch((err) => console.log(err));
   }
   console.log(detail)

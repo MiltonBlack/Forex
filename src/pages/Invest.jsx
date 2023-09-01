@@ -11,7 +11,7 @@ import { FaBitcoin, FaCopy, FaTimes } from 'react-icons/fa'
 const Invest = () => {
   const { log } = console;
   const { user } = useSelector((state) => state.auth);
-  const { accessToken, _id, investment, balance, walletAddress } = user;
+  const { accessToken, _id, balance, walletAddress } = user;
   const [copySuccess, setCopySuccess] = useState('');
   const copyRef = useRef(null);
   const [plan1, setPlan] = useState({
@@ -26,11 +26,11 @@ const Invest = () => {
   });
   const [subscribe, setSubscribe] = useState(false);
   const [deposit, setDeposit] = useState(false);
-  function copyAddress(e){
+  function copyAddress(e) {
     copyRef.current.select();
     document.execCommand('copy');
-        e.target.focus();
-        setCopySuccess('copied')
+    e.target.focus();
+    setCopySuccess('copied')
   }
   const handleDeposit = async () => {
     const config = {
@@ -44,8 +44,11 @@ const Invest = () => {
         plan2,
         config
       )
-      .then((res) => log(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        log(res.data);
+        localStorage.setItem("user", JSON.stringify(res?.data));
+      })
+      .catch((err) => log(err));
   }
   const handleRequest = async () => {
     const config = {
@@ -53,20 +56,18 @@ const Invest = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    if (balance < investment) {
+    if (balance < plan1.amount) {
       await axios
         .put(
           `http://localhost:3005/api/auth/plan/${_id}`,
           plan1,
           config
         )
-        .then((res) => log(res.data))
+        .then((res) => { log(res.data); localStorage.setItem("user", JSON.stringify(res?.data)); })
         .catch((err) => console.log(err));
     }
   };
   log(plan1)
-  log(accessToken)
-  log(_id)
   return (
     <>
       <div className='pt-16 bg-stone-100 px-10 relative'>
@@ -80,8 +81,12 @@ const Invest = () => {
           {plans.map((plan, idx) => (<Plan key={idx}>
             <div
               className='flex flex-col w-full h-full'
-              onClick={() => { setPlan({ plan: plan.plan, amount: "$" + plan.amount, balance: parseInt(balance) < parseInt(plan.amount) ? balance : parseInt(balance) - 
-              parseInt(plan.amount) }); setPlan2({plan: plan.plan}); setSubscribe(true); }}>
+              onClick={() => {
+                setPlan({
+                  plan: plan.plan, amount: "$" + plan.amount, balance: parseInt(balance) < parseInt(plan.amount) ? balance : parseInt(balance) -
+                    parseInt(plan.amount)
+                }); setPlan2({ plan: plan.plan }); setSubscribe(true);
+              }}>
               <h1 className='text-2xl'>{plan.plan}</h1>
               <div className='flex items-center'>
                 <span className='text-4xl mr-1 my-2'>${plan.amount}</span>
@@ -130,7 +135,7 @@ const Invest = () => {
                 <span className='mb-3 text-sm'>you will be debited $350 from your wallet or deposit directly to have access to all the features of this plan</span>
                 <span></span>
                 <div className='py-2 flex items-center justify-between font-normal'>
-                  <button className='border p-1 bg-lime-500 rounded px-2' onClick={handleRequest} disabled={balance < investment}>{balance < investment ? "Subscribe from Wallet" : "Insufficient Funds"}</button>
+                  <button className='border p-1 bg-lime-500 rounded px-2' onClick={handleRequest} disabled={balance < plan1.amount}>{balance < plan1.amount ? "Subscribe from Wallet" : "Insufficient Funds"}</button>
                   <button className='border p-1 bg-amber-500 px-2 rounded' onClick={() => { setDeposit(true); }}>Deposit and Subscribe Directly</button>
                 </div>
               </div>
@@ -164,8 +169,8 @@ const Invest = () => {
                       value={walletAddress}
                       readOnly
                       ref={copyRef} />
-                    <button className='p-1 text-sm font-bold' onClick={(e)=> {copyAddress(e)}}>
-                      {copySuccess === "copied" ? copySuccess: <FaCopy />}
+                    <button className='p-1 text-sm font-bold' onClick={(e) => { copyAddress(e) }}>
+                      {copySuccess === "copied" ? copySuccess : <FaCopy />}
                     </button>
                   </div>
                   <span className='text-base my-1'>Upload Proof Of Payment</span>
