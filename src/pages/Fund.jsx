@@ -2,14 +2,76 @@ import React, { useState } from 'react'
 import Footer from '../components/Footer'
 import { FaAngleLeft, FaAngleRight, FaMinusSquare, FaPlus, FaCopy, FaRecycle, FaRegFutbol, FaBitcoin, FaTimes } from 'react-icons/fa'
 import Modal from '../components/Modal';
+import { useSelector } from 'react-redux'
+import { projectStorage } from '../firebase/config';
+import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
+import axios from 'axios';
 
 const Fund = () => {
+  const { user } = useSelector((state) => state.auth);
+  const { accessToken, _id, balance, walletAddress } = user;
+
+  // Proof of Payment URL state
+  const [urlProof, setUrlProof] = useState(null);
   const [open, setOPen] = useState(false);
   const [withdraw, setWithdraw] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [proofImg, setProofImg] = useState(null)
+  const [error, setError] = useState(null)
+  const types = ['image/png', 'image/jpg'];
+  // set balance field in model for the backend to reflect here
+  const [deposit, setDeposit] = useState({
+    proofUrl: urlProof,
+    balance: ""
+  });
+
+  async function handleProofImg(e) {
+    const chooseImg = e.target.files[0]
+    if (chooseImg && types.includes(chooseImg.type)) {
+      setProofImg(chooseImg)
+      setError("")
+    } else {
+      setProofImg(null)
+      setError("please select an image file (.jpg/.png)")
+    }
+    await uploadProof(chooseImg);
+  }
+
+  async function uploadProof(chooseImg) {
+    if (!chooseImg) return;
+    const storageRef = ref(projectStorage, `/deposits/${chooseImg.name}`);
+    const uploadSequence = await uploadBytesResumable(storageRef, chooseImg);
+    uploadSequence.on("state_changed", (snapshot) => {
+      const uploadProgress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+      setProgress(uploadProgress);
+    }, (error) => console.log(error),
+      () => {
+        getDownloadURL(uploadSequence.snapshot.ref).then(url => setUrlProof(url))
+      })
+  }
+
+  async function handleDepositRequest() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    await axios
+    .put(
+      `http://localhost:3005/api/auth/plan/${_id}`,
+      deposit,
+      config
+    )
+    .then((res) => {
+      console.log(res.data);
+      localStorage.setItem("user", JSON.stringify(res?.data));
+    })
+    .catch((err) => console.log(err));
+  }
   function toggleWallet() {
     setOPen(!open)
   }
-  function toggleWithdraw(){
+  function toggleWithdraw() {
     setWithdraw(!withdraw);
   }
   return (
@@ -24,7 +86,7 @@ const Fund = () => {
             <FaPlus size={30} className='mr-4' />
             Deposit Funds
           </span>
-          <span className='border text-center p-2 bg-black/75 text-white hover:bg-white hover:text-black flex items-center justify-center shadow-md cursor-pointer hover:shadow-none' onClick={()=> {setWithdraw(true)}}>
+          <span className='border text-center p-2 bg-black/75 text-white hover:bg-white hover:text-black flex items-center justify-center shadow-md cursor-pointer hover:shadow-none' onClick={() => { setWithdraw(true) }}>
             <FaMinusSquare size={30} className='mr-4' />
             Withdraw Funds
           </span>
@@ -76,7 +138,9 @@ const Fund = () => {
         {open &&
           (
             <Modal>
-              <div className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer' onClick={toggleWallet}>
+              <div
+                className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer'
+                onClick={toggleWallet}>
                 <FaTimes color='red' />
               </div>
               <div className='flex flex-col p-2'>
@@ -86,16 +150,28 @@ const Fund = () => {
                 </div>
                 <div className='flex w-full my-2 bg-stone-300 rounded pl-1'>
                   <input type="text" className='p-1 bg-stone-300 flex w-full outline-none' />
-                  <button className='p-1'><FaCopy /></button>
+                  <button className='p-1'>
+                    <FaCopy />
+                  </button>
                 </div>
                 <span className='text-base my-1'>Upload Proof Of Payment</span>
-                <input type="file" name="" id="" className='border p-2 my-1' />
-                <button className='border my-2 bg-black/50 text-white p-1 rounded'>Complete Payment</button>
+                <input
+                  type="file"
+                  name="file"
+                  id="fileUpload"
+                  className='border p-2 my-1'
+                  onChange={handleProofImg}
+                  accept='image/*' />
+                <button
+                  className='border my-2 bg-black/50 text-white p-1 rounded'
+                  onClick={handleDepositRequest}>
+                  Complete Payment
+                </button>
               </div>
             </Modal>
           )}
-          {withdraw && (
-            <Modal>
+        {withdraw && (
+          <Modal>
             <div className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer' onClick={toggleWithdraw}>
               <FaTimes color='red' />
             </div>
@@ -113,7 +189,7 @@ const Fund = () => {
               <button className='border my-2 bg-black/50 text-white p-1 rounded'>Complete Request</button>
             </div>
           </Modal>
-          )}
+        )}
       </div>
       <Footer />
     </>
