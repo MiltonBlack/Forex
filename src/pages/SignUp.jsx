@@ -63,9 +63,9 @@ const SignUp = () => {
     <div className='bg-sky-500 w-screen h-screen relative'>
       <img src={img} alt="" className='h-screen w-screen' />
       <div className='fixed top-0 right-0 left-0 bottom-0 w-full h-full flex items-center justify-center bg-black/50'>
-        <div className='w-[512px] border-2 border-black shadow-lg p-2 bg-black/75'>
+        <div className='w-[370px] md:w-[512px] border-2 border-black shadow-lg p-2 bg-black/75'>
           <h1 className='text-white text-2xl my-2 uppercase w-full text-center'>Create Your Account</h1>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
             <input
               type="text"
               placeholder='First Name...'
@@ -88,7 +88,7 @@ const SignUp = () => {
             name='email'
             value={email}
             onChange={onChange} />
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
             <div className='flex bg-white pr-1'>
               <input
                 type="text"

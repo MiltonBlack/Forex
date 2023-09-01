@@ -42,7 +42,7 @@ const Login = () => {
     <div className=' bg-sky-500 flex items-center justify-center w-screen h-screen relative'>
       <img src={img} alt="" className='h-screen w-screen' />
       <div className='fixed top-0 right-0 left-0 bottom-0 w-full h-full flex items-center justify-center bg-black/75'>
-        <div className='border-2 border-black shadow-xl p-2 flex flex-col w-[512px] items-start justify-center bg-slate-500'>
+        <div className='border-2 border-black shadow-xl p-2 flex flex-col w-[380px] md:w-[512px] items-start justify-center bg-slate-500'>
           <h1 className='text-white my-2 text-center w-full uppercase'>Sign IN to your Account</h1>
           <input
             type="email"
