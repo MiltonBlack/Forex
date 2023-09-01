@@ -12,9 +12,8 @@ const Uploader = () => {
         console.log(chooseFile);
     }
     return (
-        <div>
-            <input type='file' onChange={changeHandler} />
-            <span>+</span>
+        <div className='flex flex-col items-center'>
+            <input type='file' onChange={changeHandler} className='border p-2 my-1'/>
             <div className='output'>
                 {error && <div>{error}</div>}
                 {file && <div>{file.name}</div>}
