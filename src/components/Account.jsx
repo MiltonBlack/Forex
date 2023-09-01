@@ -37,7 +37,7 @@ const Account = () => {
     console.log(data);
   console.log(details)
   return (
-    <div className='p-4 w-[40%]'>
+    <div className='p-4 w-full md:w-[40%]'>
       <div className='my-4'>
         <h1>Network Type</h1>
         <input type="text" className='border rounded px-2 my-1 w-full border-black' name='walletType' value={walletType} readOnly/>

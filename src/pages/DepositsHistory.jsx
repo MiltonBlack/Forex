@@ -6,14 +6,14 @@ const DepositsHistory = () => {
         <div className='border my-4 rounded bg-white shadow-md flex flex-col items-center'>
             <table className='w-full'>
                 <thead>
-                    <tr className='bg-black/75 text-white'>
+                    <tr className='bg-black/75 text-white md:text-lg text-sm'>
                         <th>Amount</th>
                         <th>Status</th>
                         <th>Payment Type</th>
                         <th>Date Started</th>
                     </tr>
                 </thead>
-                <tbody className='font-light text-center'>
+                <tbody className='font-light text-center md:text-lg text-base'>
                     <tr>
                         <td>10,000</td>
                         <td className='p-1 bg-red-400 rounded-sm text-white'>Pending</td>
@@ -23,7 +23,7 @@ const DepositsHistory = () => {
                 </tbody>
             </table>
             <div className='w-[80%] border mt-4'></div>
-            <div className='flex w-full justify-between items-center my-4 px-4 '>
+            <div className='flex w-full justify-between items-center my-4 px-4 md:text-lg text-base'>
                 <span className=' font-normal'>Showing 1 of 1 entries</span>
                 <div className='flex items-center justify-center'>
                     <FaAngleLeft />

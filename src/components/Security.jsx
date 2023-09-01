@@ -43,7 +43,7 @@ const Security = () => {
   }
   console.log(details);
   return (
-    <div className='p-4 w-[40%]'>
+    <div className='p-4 w-full md:w-[40%]'>
       <div className='my-4'>
         <h1>Old Password</h1>
         <input

@@ -7,6 +7,7 @@ import Footer from '../components/Footer'
 let tvScriptLoadingPromise;
 const DashHome = () => {
   const { user } = useSelector((state) => state.auth);
+  const { plan } = user;
   const onLoadScriptRef = useRef();
 
   useEffect(
@@ -53,7 +54,7 @@ const DashHome = () => {
   return (
     <>
       {/* <NavBar /> */}
-      <div className=' bg-stone-200 w-full h-full flex flex-col px-10 pt-16'>
+      <div className=' bg-stone-200 w-full h-full flex flex-col px-5 md:px-10 pt-16'>
         <div className='flex w-full justify-between items-center my-8'>
           <div>
             <h1 className=' font-black text-2xl'>Hello, {user.firstName}!</h1>
@@ -63,7 +64,7 @@ const DashHome = () => {
             <FaPlus color='white' />
           </div>
         </div>
-        <div className='grid grid-cols-3 gap-[5%]'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-[5%]'>
           <Card>
             <div className='flex w-full justify-between'>
               <div className='flex flex-col h-full justify-between'>
@@ -139,7 +140,7 @@ const DashHome = () => {
         </div>
         <Card>
           <div className='flex justify-center items-center w-full font-light'>
-            Not Subscribed to any Packages
+            {plan ? "You are on the Premium Plan":"Not Subscribed to any Packages"}
           </div>
         </Card>
         <div className='py-8'></div>

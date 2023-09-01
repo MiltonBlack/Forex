@@ -5,7 +5,7 @@ import Footer from '../components/Footer'
 const CryptoX = () => {
   return (
     <>
-      <div className='pt-16 bg-stone-100 px-10 h-[80vh]'>
+      <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh]'>
         <div className='flex w-full h-full items-center justify-center'>
           <div className='bg-white py-2 shadow-lg shadow-black'>
             <div className='flex px-2 w-full justify-between py-2 font-normal'>

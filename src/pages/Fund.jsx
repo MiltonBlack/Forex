@@ -14,12 +14,12 @@ const Fund = () => {
   }
   return (
     <>
-      <div className='pt-16 bg-stone-100 px-10 h-[80vh] relative z-0'>
+      <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh] relative z-0'>
         <div className='my-4'>
-          <h1 className='text-2xl font-extrabold'>Your Transaction History</h1>
-          <span className='font-light text-sm text-slate-600'>Track all your financial data in one place</span>
+          <h1 className='text-2xl font-extrabold'>Fund Your Wallet</h1>
+          <span className='font-light text-sm text-slate-600'>Track all your financial assets and earnings in one place</span>
         </div>
-        <div className='grid grid-cols-4 gap-4 mt-2 font-normal '>
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-4 mt-2 font-normal '>
           <span className='border text-center p-2 bg-black/75 text-white hover:bg-white hover:text-black flex items-center justify-center shadow-md cursor-pointer hover:shadow-none' onClick={() => { setOPen(true) }}>
             <FaPlus size={30} className='mr-4' />
             Deposit Funds
@@ -28,14 +28,14 @@ const Fund = () => {
             <FaMinusSquare size={30} className='mr-4' />
             Withdraw Funds
           </span>
-          <span className='bg-white border flex justify-between items-center p-1 shadow-md hover:shadow-none'>
+          <span className='bg-white border md:flex justify-between items-center p-1 shadow-md hover:shadow-none hidden'>
             <FaRecycle size={30} />
             <div className='flex flex-col px-1'>
               <span className='text-sm'>Deposits History</span>
               <span>None</span>
             </div>
           </span>
-          <span className='bg-white border flex justify-between items-center p-1 shadow-md hover:shadow-none'>
+          <span className='bg-white border md:flex justify-between items-center p-1 shadow-md hover:shadow-none hidden'>
             <FaRegFutbol size={30} />
             <div className='flex flex-col px-1'>
               <span className='text-sm'>Withdrawal History</span>

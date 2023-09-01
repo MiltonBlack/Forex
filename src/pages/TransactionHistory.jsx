@@ -5,7 +5,7 @@ import { Link, Outlet } from 'react-router-dom'
 const TransactionHistory = () => {
   return (
     <>
-      <div className='pt-16 bg-stone-100 px-10 h-[80vh]'>
+      <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh]'>
         <div className='my-4'>
           <h1 className='text-2xl font-extrabold'>Your Transaction History</h1>
           <span className='font-light text-sm text-slate-600'>Track all your financial data in one place</span>
