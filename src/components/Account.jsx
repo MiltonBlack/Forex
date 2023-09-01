@@ -5,6 +5,7 @@ import axios from 'axios'
 const Account = () => {
   const { user } = useSelector((state) => state.auth);
   const {accessToken, _id} = user;
+  const [info, setInfo] = useState(user);
   const [details, setDetails] = useState({
     walletType: user.walletType,
     walletAddress: user.walletAddress
@@ -31,10 +32,15 @@ const Account = () => {
         data,
         config
       )
-      .then((res) => {console.log(res.data); localStorage.setItem("user", JSON.stringify(res?.data));})
+      .then((res) => {console.log(res.data);
+        setInfo((prev) => ({
+          ...prev,
+          walletAddress: res.data.walletAddress
+        }));
+      localStorage.setItem("user", JSON.stringify(info));})
       .catch((err) => console.log(err));
     }
-    console.log(data);
+    console.log(info);
   console.log(details)
   return (
     <div className='p-4 w-full md:w-[40%]'>

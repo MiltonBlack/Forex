@@ -12,6 +12,7 @@ const Personnal = () => {
     address: user.address
   });
   const { firstName, lastName, email, address, dob } = detail;
+  const [info, setInfo] = useState(user);
   function onChange(e) {
     setDetail((prevState) => ({
       ...prevState,
@@ -30,7 +31,17 @@ const Personnal = () => {
         detail,
         config
       )
-      .then((res) => {console.log(res.data); localStorage.setItem("user", JSON.stringify(res?.data));})
+      .then((res) => {
+        console.log(res.data);
+        setInfo((prev) => ({
+          ...prev,
+          firstName: res.data.firstName,
+          lastName: res.data.lastName,
+          email: res.data.email,
+          address: res.data.address
+        }));
+        localStorage.setItem("user", JSON.stringify(info));
+      })
       .catch((err) => console.log(err));
   }
   console.log(detail)
@@ -50,12 +61,12 @@ const Personnal = () => {
       </div>
       <div className='my-4'>
         <h1>Address</h1>
-        <input 
-        type="text" 
-        className='px-2 border rounded my-1 w-full border-black' 
-        name='address' 
-        value={address} 
-        onChange={onChange} />
+        <input
+          type="text"
+          className='px-2 border rounded my-1 w-full border-black'
+          name='address'
+          value={address}
+          onChange={onChange} />
       </div>
       <div className='my-4'>
         <h1>DOB</h1>

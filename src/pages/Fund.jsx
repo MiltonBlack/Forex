@@ -56,17 +56,17 @@ const Fund = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    await axios
-    .put(
-      `http://localhost:3005/api/auth/plan/${_id}`,
-      deposit,
-      config
-    )
-    .then((res) => {
-      console.log(res.data);
-      localStorage.setItem("user", JSON.stringify(res?.data));
-    })
-    .catch((err) => console.log(err));
+    // await axios
+    //   .put(
+    //     `http://localhost:3005/api/auth/plan/${_id}`,
+    //     deposit,
+    //     config
+    //   )
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     localStorage.setItem("user", JSON.stringify(res?.data));
+    //   })
+    //   .catch((err) => console.log(err));
   }
   function toggleWallet() {
     setOPen(!open)
@@ -162,6 +162,7 @@ const Fund = () => {
                   className='border p-2 my-1'
                   onChange={handleProofImg}
                   accept='image/*' />
+                <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium text-base rounded-md">{progress}%</div>
                 <button
                   className='border my-2 bg-black/50 text-white p-1 rounded'
                   onClick={handleDepositRequest}>

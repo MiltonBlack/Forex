@@ -3,7 +3,7 @@ import {  FaFacebook, FaFighterJet,  FaInstagram, FaLinkedin,  FaTwitter, FaYout
 
 const Footer = () => {
   return (
-    <section className='bg-black px-16 md:px-36 py-10 text-white font-thin text-sm'>
+    <section className='bg-black px-10 md:px-36 py-5 md:py-10 text-white font-thin text-sm'>
     <div className='grid grid-cols-3 md:grid-cols-5 gap-5'>
       <div>
         <h1 className='font-normal text-md my-2'>Bitcoin Exchange Trading and Investment Platform</h1>

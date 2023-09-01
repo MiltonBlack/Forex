@@ -7,6 +7,7 @@ import Modal from '../components/Modal'
 import Footer from '../components/Footer'
 import { plans } from '../data/plans'
 import { FaBitcoin, FaCopy, FaTimes } from 'react-icons/fa'
+import ProgressBar from '../components/ProgressBar'
 
 const Invest = () => {
   const { log } = console;
@@ -14,6 +15,7 @@ const Invest = () => {
   const { accessToken, _id, balance, walletAddress } = user;
   const [copySuccess, setCopySuccess] = useState('');
   const copyRef = useRef(null);
+  const [info, setInfo] = useState(user);
   const [plan1, setPlan] = useState({
     // id:_id,
     plan: "none",
@@ -46,7 +48,11 @@ const Invest = () => {
       )
       .then((res) => {
         log(res.data);
-        localStorage.setItem("user", JSON.stringify(res?.data));
+        setInfo((prev) => ({
+          ...prev,
+          plan: res.data.plan
+        }))
+        localStorage.setItem("user", JSON.stringify(info));
       })
       .catch((err) => log(err));
   }
