@@ -19,18 +19,18 @@ const SignUp = () => {
     password2: '',
   })
   const { firstName, lastName, email, password, password2 } = formData;
-  useEffect(() => {
-    if (success) {
-      navigate('/dashboard');
-    }
-  }, [data, navigate, success]);
+  // useEffect(() => {
+  //   if (success) {
+  //     navigate('/dashboard');
+  //   }
+  // }, [data, navigate, success]);
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }))
   }
-  const handleSubmit =  (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (password !== password2) {
@@ -57,6 +57,9 @@ const SignUp = () => {
       // 
     }
   };
+  if (success) {
+    return navigate('/verify');
+  }
   console.log(formData);
   console.log(data);
   return (

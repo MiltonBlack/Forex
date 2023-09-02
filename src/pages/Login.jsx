@@ -13,11 +13,11 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { User  } = useSelector((state) => state.auth);
-  useEffect(()=>{
-    if(User) {
-      navigate('/dashboard')
-    }
-  },[User, navigate]);
+  // useEffect(()=>{
+  //   if(User) {
+  //     navigate('/dashboard')
+  //   }
+  // },[User, navigate]);
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -26,7 +26,7 @@ const Login = () => {
   }
   function  handleSubmit(e) {
     e.preventDefault();
-    if (formData.email === "" && password === "") {
+    if (email === "" && password === "") {
       console.log('fields cant be empty');
     } else {
       const userData = {
@@ -37,6 +37,9 @@ const Login = () => {
       // send userData to LoginUser function in authSlice for Login Request. 
       dispatch(LoginUser(userData));
     }
+  }
+  if(User) {
+    return navigate('/dashboard')
   }
   return (
     <div className=' bg-sky-500 flex items-center justify-center w-screen h-screen relative'>

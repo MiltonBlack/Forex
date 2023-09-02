@@ -21,6 +21,7 @@ import Security from './components/Security';
 import Account from './components/Account';
 import Notifications from './components/Notifications';
 import PrivateRoute from './utils/ProtectedRoute';
+import VerifyEmail from './pages/VerifyEmail'
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
         <Route index element={<Landing />} />
         <Route path='login' element={<Login />} />
         <Route path='signup' element={<SignUp />} />
+        <Route path='verify' element={<VerifyEmail />} />
       </Routes>
     </div>
   );

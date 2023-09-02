@@ -7,7 +7,7 @@ import Modal from '../components/Modal'
 import Footer from '../components/Footer'
 import { plans } from '../data/plans'
 import { FaBitcoin, FaCopy, FaTimes } from 'react-icons/fa'
-import ProgressBar from '../components/ProgressBar'
+import Uploader from '../components/Uploader'
 
 const Invest = () => {
   const { log } = console;
@@ -181,6 +181,7 @@ const Invest = () => {
                   </div>
                   <span className='text-base my-1'>Upload Proof Of Payment</span>
                   <input type="file" name="" id="" className='border p-2 my-1' />
+                  {/* <Uploader/> */}
                   <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={handleDeposit}>
                     Complete Subscription
                   </button>
