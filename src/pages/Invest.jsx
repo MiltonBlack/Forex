@@ -7,23 +7,52 @@ import Modal from '../components/Modal'
 import Footer from '../components/Footer'
 import { plans } from '../data/plans'
 import { FaBitcoin, FaCopy, FaTimes } from 'react-icons/fa'
-import Uploader from '../components/Uploader'
+import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
+import { projectStorage } from '../firebase/config';
 
 const Invest = () => {
   const { log } = console;
   const { user } = useSelector((state) => state.auth);
   const { accessToken, _id, balance, walletAddress } = user;
+  const [urlProof, setUrlProof] = useState(null);
+  const [proofImg, setProofImg] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState(null);
+  const types = ['image/png', 'image/jpg'];
   const [copySuccess, setCopySuccess] = useState('');
   const copyRef = useRef(null);
   const [info, setInfo] = useState(user);
+ 
+  async function handleProofImg(e) {
+    const chooseImg = e.target.files[0]
+    if (chooseImg && types.includes(chooseImg.type)) {
+      setProofImg(chooseImg)
+      setError("")
+    } else {
+      setProofImg(null)
+      setError("please select an image file (.jpg/.png)")
+    }
+    await uploadProof(chooseImg);
+  }
+  async function uploadProof(chooseImg) {
+    if (!chooseImg) return;
+    const storageRef = ref(projectStorage, `/deposits/${chooseImg.name}`);
+    const uploadSequence = await uploadBytesResumable(storageRef, chooseImg);
+    uploadSequence.on("state_changed", (snapshot) => {
+      const uploadProgress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+      setProgress(uploadProgress);
+    }, (error) => console.log(error),
+      () => {
+        getDownloadURL(uploadSequence.snapshot.ref).then(url => setUrlProof(url))
+      })
+  }
   const [plan1, setPlan] = useState({
-    // id:_id,
     plan: "none",
     balance: "",
-    amount: ""
+    amount: "",
+    proofUrl: urlProof
   });
   const [plan2, setPlan2] = useState({
-    // id:_id,
     plan: "none",
   });
   const [subscribe, setSubscribe] = useState(false);
@@ -62,7 +91,7 @@ const Invest = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    if (balance < plan1.amount) {
+    if (balance < plan1.amount && progress === '100') {
       await axios
         .put(
           `http://localhost:3005/api/auth/plan/${_id}`,
@@ -180,8 +209,10 @@ const Invest = () => {
                     </button>
                   </div>
                   <span className='text-base my-1'>Upload Proof Of Payment</span>
-                  <input type="file" name="" id="" className='border p-2 my-1' />
-                  {/* <Uploader/> */}
+                  <input type="file" name="" className='border p-2 my-1' id="fileUpload"             
+                  onChange={handleProofImg}
+                  accept='image/*' />
+                  <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium text-base rounded-md mb-1">{progress}%</div>
                   <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={handleDeposit}>
                     Complete Subscription
                   </button>

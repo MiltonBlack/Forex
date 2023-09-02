@@ -38,7 +38,7 @@ const Login = () => {
       dispatch(LoginUser(userData));
     }
   }
-  if(User) {
+  if(User.emailVerified === true) {
     return navigate('/dashboard')
   }
   return (

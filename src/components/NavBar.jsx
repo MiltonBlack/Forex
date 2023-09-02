@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { logout } from '../services/authSlice'
-import { FaArrowCircleDown, FaBarcode, FaBars, FaBell, FaCog, FaDoorOpen, FaQuestionCircle, FaTimes } from 'react-icons/fa'
+import { FaArrowCircleDown, FaBarcode, FaBars, FaBell, FaCog, FaDoorOpen, FaPowerOff, FaQuestionCircle, FaTimes } from 'react-icons/fa'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -42,10 +42,13 @@ const NavBar = () => {
                 <NavLink to='swap' className='flex items-center hover:border border-black px-1 cursor-pointer'>Swap</NavLink>
                 <NavLink to='plans' className='flex items-center hover:border border-black px-1 cursor-pointer'> Trading Plans</NavLink>
                 <NavLink to='ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>ROI</NavLink>
+                <NavLink to='/dashboard/profile' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Profile</NavLink>
+                <NavLink to='/dashboard/settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Settings</NavLink>
                 <NavLink to='help' className='flex items-center hover:border border-black px-1 cursor-pointer'>
                   <FaQuestionCircle />
                   <h1 className='ml-2'>Help</h1>
                 </NavLink>
+                <button className='flex items-center border rounded bg-slate-500 p-1 text-white'>Logout <FaPowerOff className='ml-2'/></button>
               </div>
             </div>
           </div>)}
@@ -57,6 +60,7 @@ const NavBar = () => {
           <NavLink to='ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>ROI</NavLink>
           <NavLink to='plans' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'> Trading Plans</NavLink>
           <NavLink to='help' className='flex items-center hover:border border-black px-1 cursor-pointer'><FaQuestionCircle /><h1>Help</h1></NavLink>
+          <Link to='/dashboard/settings' className='flex border-black items-center justify-center border w-full'>Settings <FaCog className='mx-2' /></Link>
         </div>
         <div className='flex items-center justify-center relative'>
           <FaBell className='hidden md:flex' />
