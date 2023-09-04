@@ -6,13 +6,14 @@ import { useSelector } from 'react-redux'
 import { projectStorage } from '../firebase/config';
 import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
 import axios from 'axios';
+import { Audio, BallTriangle, Circles } from 'react-loader-spinner'
 
 const Fund = () => {
   const { user } = useSelector((state) => state.auth);
   const { accessToken, _id, balance, walletAddress } = user;
 
   // Proof of Payment URL state
-  const [urlProof, setUrlProof] = useState(null);
+  const [urlProof, setUrlProof] = useState('image');
   const [open, setOPen] = useState(false);
   const [withdraw, setWithdraw] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -21,9 +22,34 @@ const Fund = () => {
   const types = ['image/png', 'image/jpg'];
   // set balance field in model for the backend to reflect here
   const [deposit, setDeposit] = useState({
+    user_id: _id,
+    amount: "",
+    status: "pending",
     proofUrl: urlProof,
-    balance: ""
+    pending: true,
   });
+  const [withdrawFund, setWithdrawFund] = useState({
+    user_id: _id,
+    amount: "",
+    walletAddress:"",
+    status: "pending",
+    pending: true
+  })
+  const withdrawOnChange = (e) => {
+    setWithdrawFund((prev) => (
+      {
+        ...prev,
+        [e.target.name]: e.target.value,
+      }
+    ))
+  }
+  const onChange = (e) => {
+    setDeposit((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
+  const { proofUrl, amount } = deposit;
 
   async function handleProofImg(e) {
     const chooseImg = e.target.files[0]
@@ -56,17 +82,31 @@ const Fund = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    // await axios
-    //   .put(
-    //     `http://localhost:3005/api/auth/plan/${_id}`,
-    //     deposit,
-    //     config
-    //   )
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     localStorage.setItem("user", JSON.stringify(res?.data));
-    //   })
-    //   .catch((err) => console.log(err));
+    await axios
+      .post(
+        `http://localhost:3005/api/auth/deposit`,
+        deposit,
+        config
+      ).then((res) =>
+        console.log(res.data)
+        // localStorage.setItem("user", JSON.stringify(res?.data));
+      ).catch((err) => console.log(err));
+  }
+  async function handleWithdrawalRequest() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    await axios
+      .post(
+        `http://localhost:3005/api/auth/withdraw`,
+        deposit,
+        config
+      ).then((res) =>
+        console.log(res.data)
+        // localStorage.setItem("user", JSON.stringify(res?.data));
+      ).catch((err) => console.log(err));
   }
   function toggleWallet() {
     setOPen(!open)
@@ -74,6 +114,13 @@ const Fund = () => {
   function toggleWithdraw() {
     setWithdraw(!withdraw);
   }
+  // if (user) {
+  //   return (
+  //     <div className='flex w-full h-screen items-center justify-center bg-black/50'>
+  //       <Circles height="120" width="120" radius="9" color="blue" ariaLabel="loading"  />
+  //     </div>
+  //   );
+  // }
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh] relative z-0'>
@@ -143,17 +190,18 @@ const Fund = () => {
                 onClick={toggleWallet}>
                 <FaTimes color='red' />
               </div>
-              <div className='flex flex-col p-2'>
+              <div className='flex flex-col p-2 max-w-lg md:w-fit'>
                 <div className='flex items-center my-1'>
                   <FaBitcoin />
                   <span className='ml-2'>Bitcoin Address</span>
                 </div>
                 <div className='flex w-full my-2 bg-stone-300 rounded pl-1'>
-                  <input type="text" className='p-1 bg-stone-300 flex w-full outline-none' />
+                  <input type="text" className='p-1 bg-stone-300 flex w-full outline-none' value={walletAddress} readOnly />
                   <button className='p-1'>
                     <FaCopy />
                   </button>
                 </div>
+                <input type="text" className='p-1 bg-stone-300 flex w-full outline-none rounded my-2' placeholder='Enter Deposit Amount' name='amount' value={amount} onChange={onChange} />
                 <span className='text-base my-1'>Upload Proof Of Payment</span>
                 <input
                   type="file"
@@ -162,7 +210,7 @@ const Fund = () => {
                   className='border p-2 my-1'
                   onChange={handleProofImg}
                   accept='image/*' />
-                <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium text-base rounded-md">{progress}%</div>
+                <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium mb-4 text-base rounded-md">{progress}%</div>
                 <button
                   className='border my-2 bg-black/50 text-white p-1 rounded'
                   onClick={handleDepositRequest}>
@@ -186,8 +234,8 @@ const Fund = () => {
                 <input type="text" className='p-1 bg-stone-300 flex w-full outline-none' />
               </div>
               <span className='text-base my-1'>Enter Wallet Address</span>
-              <input type="text" name="" id="" className='border p-2 my-1' />
-              <button className='border my-2 bg-black/50 text-white p-1 rounded'>Complete Request</button>
+              <input type="text" name="walletAddress" id="" className='border p-2 my-1' onChange={withdrawOnChange} />
+              <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={handleWithdrawalRequest}>Complete Request</button>
             </div>
           </Modal>
         )}

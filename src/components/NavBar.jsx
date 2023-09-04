@@ -48,7 +48,7 @@ const NavBar = () => {
                   <FaQuestionCircle />
                   <h1 className='ml-2'>Help</h1>
                 </NavLink>
-                <button className='flex items-center border rounded bg-slate-500 p-1 text-white'>Logout <FaPowerOff className='ml-2'/></button>
+                <button className='flex items-center border rounded bg-slate-500 p-1 text-white' onClick={Logout}>Logout <FaPowerOff className='ml-2'/></button>
               </div>
             </div>
           </div>)}
@@ -60,7 +60,7 @@ const NavBar = () => {
           <NavLink to='ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>ROI</NavLink>
           <NavLink to='plans' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'> Trading Plans</NavLink>
           <NavLink to='help' className='flex items-center hover:border border-black px-1 cursor-pointer'><FaQuestionCircle /><h1>Help</h1></NavLink>
-          <Link to='/dashboard/settings' className='flex border-black items-center justify-center border w-full'>Settings <FaCog className='mx-2' /></Link>
+          {/* <Link to='/dashboard/settings' className='flex border-black items-center justify-center border w-full'>Settings <FaCog className='mx-2' /></Link> */}
         </div>
         <div className='flex items-center justify-center relative'>
           <FaBell className='hidden md:flex' />

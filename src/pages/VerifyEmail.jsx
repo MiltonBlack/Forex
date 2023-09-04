@@ -1,15 +1,20 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import mail from '../assets/mailsent.svg'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 
 const VerifyEmail = () => {
   const navigate = useNavigate()
-  const { user } = useSelector((state) => state.auth);
-  const { emailVerified, email } = user;
-  if (emailVerified) {
-    return navigate('/dashboard');
-  }
+  const { emailVerified, email } = useSelector((state) => state.auth);
+console.log(email, emailVerified);
+useEffect(() => {
+    if (emailVerified === true) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
+    // if (emailVerified) {
+    //   return navigate('/dashboard');  
+    // }
   return (
     <div className='w-screen h-screen bg-slate-700 flex items-center justify-center font-light'>
       <div className='border bg-white rounded-md p-4 flex items-center justify-center flex-col max-w-lg px-6'>

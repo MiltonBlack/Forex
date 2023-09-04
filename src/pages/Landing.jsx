@@ -21,24 +21,24 @@ const Landing = () => {
         <h1>Bitcoin Exchange</h1>
         <span>Largest and Most Advanced Digital Currency</span>
       </nav>
-      <section className='h-screen relative w-full  bg-sky-500 flex items-center justify-center text-white '>
-        <img src={solana} alt="" className='h-screen w-screen' />
+      <section className='md:h-screen h-full relative w-full  bg-sky-500 flex items-center justify-center text-white '>
+        <img src={solana} alt="" className='md:h-screen h-[70vh] w-screen object-cover' />
         <div className='absolute w-full h-full items-center justify-center px-10 md:px-36 pt-6 md:pt-16 bg-black/75'>
           <div className='flex flex-col items-center justify-center h-full w-full'>
             <h1 className='text-5xl text-center leading-[60px]'>Trade Securely on the <br /> World's Most active Digital Asset Exchange</h1>
             <p className='text-lg text-center my-2'>We are a US Based Digital Asset Exchange offering Maximum Security and Advanced Trading Features</p>
-            <div className='my-3'>
+            <div className='text-base md:text-lg my-3'>
               <Link to='signup'>
-                <button className='border border-lime-500 mx-3 p-2 uppercase bg-lime-700 rounded-sm hover:scale-125 transition'>Open Account</button>
+                <button className='border border-lime-500 mx-2 md:mx-3 p-1 md:p-2 uppercase bg-lime-700 rounded-sm hover:scale-125 transition'>Open Account</button>
               </Link>
               <Link to='login'>
-                <button className='border border-sky-900 mx-3 p-2 uppercase bg-sky-900 rounded-sm hover:scale-125 transition'>Login Account</button>
+                <button className='border border-sky-900 mx-2 md:mx-3 p-1 md:p-2 uppercase bg-sky-900 rounded-sm hover:scale-125 transition'>Login Account</button>
               </Link>
             </div>
           </div>
         </div>
       </section>
-      <section className='flex bg-slate-800 px-10 md:px-36 py-5 md:py-10 text-white'>
+      <section className='flex bg-gradient-to-b from-slate-800 px-10 md:px-36 py-5 md:py-10 text-white'>
         <div className='grid grid-cols-2 gap-2'>
           <div className='h-full flex items-center'>
             <img src={device} alt="" className='' />
@@ -52,7 +52,7 @@ const Landing = () => {
           </div>
         </div>
       </section>
-      <section className='flex bg-stone-300 px-10 md:px-36 py-5 md:py-10 text-black'>
+      <section className='flex bg-gradient-to-t from-stone-300 px-10 md:px-36 py-5 md:py-10 text-black'>
         <div className='grid grid-cols-2'>
           <div>
             <h1 className='text-base md:text-3xl font-thin'>Trade on MT4, MT5 and cTrader Everywhere and Anytime</h1>
@@ -72,13 +72,13 @@ const Landing = () => {
         <div className='grid grid-cols-1 md:grid-cols-3 md:gap-3 font-normal'>
           <div className='flex flex-col items-center justify-center p-2 md:p-6'>
             <FaChartLine size={45} />
-            <h1 className='text-xl my-1 md:my-2'>Setting Standards</h1>
+            <h1 className='text-xl my-1 md:my-2 text-center'>Setting Standards</h1>
             <p className='text-justify text-xs md:text-sm'>In the ever-evolving landscape of cryptocurrency, Bitcoin stands as the beacon of unwavering standards. We're not just shaping the future; we're setting the benchmark for innovation, security, and transparency. Join us in redefining what's possible in the world of digital finance.
             </p>
           </div>
           <div className='flex flex-col items-center justify-center p-2 md:p-6'>
             <FaSearchPlus size={45} />
-            <h1 className='text-xl my-1 md:my-2'>No Hidden Fees</h1>
+            <h1 className='text-xl my-1 md:my-2 text-center'>No Hidden Fees</h1>
             <p className='text-justify text-xs md:text-sm'>With Bitcoin, what you see is truly what you get. Say goodbye to hidden fees and unexpected charges. We're committed to complete transparency, ensuring that your crypto journey is as straightforward as it should be. Embrace a new era of financial honesty with Bitcoin.</p>
           </div>
           <div className='flex flex-col items-center justify-center p-2 md:p-6'>
@@ -132,7 +132,7 @@ const Landing = () => {
           </div>
         </div>
       </section>
-      <section className='bg-black/75 px-10 md:px-36'>
+      <section className=' bg-gradient-to-b from-black/50 to-black px-10 md:px-36'>
         <div className='py-5 md:py-10 flex flex-col items-center justify-center text-white'>
           <h1 className='uppercase text-lg md:text-2xl'>Start Trading Within Minutes</h1>
           <span className='font-thin text-lg md:text-2xl text-center'>We are a US Based Digital Asset Exchange offering maximum security and advanced trading features</span>
@@ -155,9 +155,9 @@ const Landing = () => {
               </div>
             </div>
           </div>
-          <div className='my-3 text-lg'>
-            <button className='border border-lime-500 mx-3 p-2 uppercase bg-lime-700 rounded-sm hover:scale-125 transition'>OPen Account</button>
-            <button className='border border-sky-900 mx-3 p-2 uppercase bg-sky-900 rounded-sm hover:scale-125 transition'>Login Account</button>
+          <div className='my-3 text-base md:text-lg flex'>
+            <button className='border border-lime-500 mx-2 md:mx-3 p-1 md:p-2 uppercase bg-lime-700 rounded-sm hover:scale-125 transition'>OPen Account</button>
+            <button className='border border-sky-900 mx-2 md:mx-3 p-1 md:p-2 uppercase bg-sky-900 rounded-sm hover:scale-125 transition'>Login Account</button>
           </div>
         </div>
       </section>

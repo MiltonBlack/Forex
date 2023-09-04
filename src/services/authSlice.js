@@ -2,14 +2,22 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 
 const user = JSON.parse(localStorage.getItem("user"));
-export const Register = createAsyncThunk("auth/Register", ({ userData }) => {
-    return fetch('http://localhost:3005/api/auth/register', {
-        method: "POST",
-        body: JSON.stringify(userData),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
+export const Register = createAsyncThunk("auth/Register", async (userData, thunkAPI) => {
+    try {
+        const response = await axios.post(`http://localhost:3005/api/auth/register`, userData);
+        if (response?.data) {
+            console.log(response.data);
         }
-    }).then(response => response.json()).then(json => console.log(json)).catch(err => console.log(err));
+        return response?.data;
+    } catch (error) {
+        const message =
+            (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+            error.message ||
+            error.toString();
+        return thunkAPI.rejectWithValue(message);
+    }
 });
 
 export const LoginUser = createAsyncThunk("auth/Login", async (userData, thunkAPI) => {
@@ -37,9 +45,13 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 
 const initialState = {
     User: [],
+    register: [],
     user: user ? user : null,
+    email: '',
+    emailVerified: '',
     isLoading: false,
     success: false,
+    loggedIn: false,
     error: ""
 }
 
@@ -62,6 +74,8 @@ const authSlice = createSlice({
         [Register.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.success = true;
+            state.register = action.payload;
+            // state.emailVerified = action.payload.emailVerified;
         },
         [Register.rejected]: (state, action) => {
             state.isLoading = false;
@@ -74,6 +88,7 @@ const authSlice = createSlice({
         [LoginUser.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.User = action.payload;
+            state.loggedIn = true;
         },
         [LoginUser.rejected]: (state, action) => {
             state.isLoading = false;

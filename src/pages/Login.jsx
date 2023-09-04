@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoginUser } from '../services/authSlice'
 import img from '../assets/solana.jpg'
+import { Audio } from 'react-loader-spinner';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -12,12 +13,12 @@ const Login = () => {
   const { email, password } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { User  } = useSelector((state) => state.auth);
-  // useEffect(()=>{
-  //   if(User) {
-  //     navigate('/dashboard')
-  //   }
-  // },[User, navigate]);
+  const { isLoading, User, register  } = useSelector((state) => state.auth);
+  useEffect(()=>{
+    if(User && !isLoading) {
+      navigate('/dashboard')
+    } 
+  },[User, isLoading]);
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -38,8 +39,9 @@ const Login = () => {
       dispatch(LoginUser(userData));
     }
   }
-  if(User.emailVerified === true) {
-    return navigate('/dashboard')
+  console.log(User)
+    if (isLoading) {
+    return <Audio height="100vh" width="100vw" radius="9" color="white" ariaLabel="loading" wrapperStyle wrapperClass/>;
   }
   return (
     <div className=' bg-sky-500 flex items-center justify-center w-screen h-screen relative'>

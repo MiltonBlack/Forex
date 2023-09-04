@@ -4,11 +4,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { Register } from '../services/authSlice';
 import img from '../assets/broker.jpg'
+import { BallTriangle } from 'react-loader-spinner';
 
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { success } = useSelector((state) => state.auth)
+  const { success, isLoading, register } = useSelector((state) => state.auth)
 
   const [data, setData] = useState([])
   const [formData, setFormData] = useState({
@@ -19,11 +20,11 @@ const SignUp = () => {
     password2: '',
   })
   const { firstName, lastName, email, password, password2 } = formData;
-  // useEffect(() => {
-  //   if (success) {
-  //     navigate('/dashboard');
-  //   }
-  // }, [data, navigate, success]);
+  useEffect(() => {
+    if (success === true && register) {
+      navigate('/login');
+    }
+  }, [success]);
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -42,26 +43,25 @@ const SignUp = () => {
         email,
         password,
       };
-      fetch('http://localhost:3005/api/auth/register', {
-        method: "POST",
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then((response) => response.json())
-        .then((info) => {
-          setData(info)
-        }).catch(err => console.log(err));
+      // fetch('http://localhost:3005/api/auth/register', {
+      //   method: "POST",
+      //   body: JSON.stringify(userData),
+      //   headers: {
+      //     "Content-type": "application/json; charset=UTF-8"
+      //   }
+      // }).then((response) => response.json())
+      //   .then((info) => {
+      //     setData(info)
+      //   }).catch(err => console.log(err));
 
       dispatch(Register(userData));
       // 
     }
   };
-  if (success) {
-    return navigate('/verify');
+  if (isLoading) {
+    return <BallTriangle height="100vh" width="100vw" radius="9" color="white" ariaLabel="loading" wrapperStyle wrapperClass/>;
   }
   console.log(formData);
-  console.log(data);
   return (
     <div className='bg-sky-500 w-screen h-screen relative'>
       <img src={img} alt="" className='h-screen w-screen' />
