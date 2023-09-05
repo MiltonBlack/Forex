@@ -30,18 +30,16 @@ const Fund = () => {
   });
   const [withdrawFund, setWithdrawFund] = useState({
     user_id: _id,
-    amount: "",
-    walletAddress:"",
+    withdrawAmount: "",
+    walletAddress: "",
     status: "pending",
     pending: true
   })
   const withdrawOnChange = (e) => {
-    setWithdrawFund((prev) => (
-      {
+    setWithdrawFund((prev) => ({
         ...prev,
         [e.target.name]: e.target.value,
-      }
-    ))
+      }))
   }
   const onChange = (e) => {
     setDeposit((prevState) => ({
@@ -101,7 +99,7 @@ const Fund = () => {
     await axios
       .post(
         `http://localhost:3005/api/auth/withdraw`,
-        deposit,
+        withdrawFund,
         config
       ).then((res) =>
         console.log(res.data)
@@ -121,6 +119,7 @@ const Fund = () => {
   //     </div>
   //   );
   // }
+  console.log(withdrawFund)
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh] relative z-0'>
@@ -186,7 +185,7 @@ const Fund = () => {
           (
             <Modal>
               <div
-                className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer'
+                className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer hover:rotate-180 transition'
                 onClick={toggleWallet}>
                 <FaTimes color='red' />
               </div>
@@ -196,12 +195,21 @@ const Fund = () => {
                   <span className='ml-2'>Bitcoin Address</span>
                 </div>
                 <div className='flex w-full my-2 bg-stone-300 rounded pl-1'>
-                  <input type="text" className='p-1 bg-stone-300 flex w-full outline-none' value={walletAddress} readOnly />
+                  <input
+                    type="text"
+                    className='p-1 bg-stone-300 flex w-full outline-none'
+                    value={walletAddress}
+                    readOnly />
                   <button className='p-1'>
                     <FaCopy />
                   </button>
                 </div>
-                <input type="text" className='p-1 bg-stone-300 flex w-full outline-none rounded my-2' placeholder='Enter Deposit Amount' name='amount' value={amount} onChange={onChange} />
+                <input
+                  type="text"
+                  className='p-1 bg-stone-300 flex w-full outline-none rounded my-2'
+                  placeholder='Enter Deposit Amount' name='amount'
+                  value={amount}
+                  onChange={onChange} />
                 <span className='text-base my-1'>Upload Proof Of Payment</span>
                 <input
                   type="file"
@@ -221,21 +229,36 @@ const Fund = () => {
           )}
         {withdraw && (
           <Modal>
-            <div className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer' onClick={toggleWithdraw}>
+            <div className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer hover:rotate-180 transition' onClick={toggleWithdraw}>
               <FaTimes color='red' />
             </div>
             <div className='flex flex-col p-2'>
               <div className='flex items-center my-1'>
                 <FaBitcoin />
-                <span className='ml-2'>Bitcoin Address</span>
+                <span className='ml-2'>Bitcoin</span>
               </div>
               <span>Enter Amount to Withdraw</span>
               <div className='flex w-full my-2 bg-stone-300 rounded pl-1'>
-                <input type="text" className='p-1 bg-stone-300 flex w-full outline-none' />
+                <input
+                  type="text"
+                  className='p-1 bg-stone-300 flex w-full outline-none'
+                  name='withdrawAmount'
+                  value={withdrawFund.withdrawAmount}
+                  onChange={withdrawOnChange} />
               </div>
-              <span className='text-base my-1'>Enter Wallet Address</span>
-              <input type="text" name="walletAddress" id="" className='border p-2 my-1' onChange={withdrawOnChange} />
-              <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={handleWithdrawalRequest}>Complete Request</button>
+              <span className='text-base my-1'>Enter Bitcoin Wallet Address</span>
+              <input
+                type="text"
+                name="walletAddress"
+                id=""
+                className='border p-2 my-1'
+                value={withdrawFund.walletAddress}
+                onChange={withdrawOnChange} />
+              <button
+                className='border my-2 bg-black/50 text-white p-1 rounded'
+                onClick={handleWithdrawalRequest}>
+                Complete Request
+              </button>
             </div>
           </Modal>
         )}
