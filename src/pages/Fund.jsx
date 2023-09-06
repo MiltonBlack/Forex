@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Footer from '../components/Footer'
 import { FaAngleLeft, FaAngleRight, FaMinusSquare, FaPlus, FaCopy, FaRecycle, FaRegFutbol, FaBitcoin, FaTimes } from 'react-icons/fa'
 import Modal from '../components/Modal';
@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux'
 import { projectStorage } from '../firebase/config';
 import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
 import axios from 'axios';
-import { Audio, BallTriangle, Circles } from 'react-loader-spinner'
 
 const Fund = () => {
   const { user } = useSelector((state) => state.auth);
@@ -28,13 +27,22 @@ const Fund = () => {
     proofUrl: urlProof,
     pending: true,
   });
+ 
   const [withdrawFund, setWithdrawFund] = useState({
     user_id: _id,
     withdrawAmount: "",
     walletAddress: "",
     status: "pending",
     pending: true
-  })
+  });
+
+  useEffect(()=> {
+    fetchWithdrawalTransaction();
+    fetchDepositTransaction();
+  },[]);
+
+  const [depositData, setDepositData] = useState([]);
+  const [withdrawData, setWithdrawData] = useState([]);
   const withdrawOnChange = (e) => {
     setWithdrawFund((prev) => ({
         ...prev,
@@ -47,7 +55,32 @@ const Fund = () => {
       [e.target.name]: e.target.value,
     }))
   }
-  const { proofUrl, amount } = deposit;
+
+  async function fetchWithdrawalTransaction(){
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+    await axios.get(`http://localhost:3005/api/auth/withdraw/single/${_id}`, config).then((res) =>
+   (setWithdrawData(res.data))
+    // localStorage.setItem("user", JSON.stringify(res?.data));
+  ).catch((err) => console.log(err));
+  };
+
+  async function fetchDepositTransaction(){
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+    await axios.get(`http://localhost:3005/api/auth/deposit/single/${_id}`, config).then((res) =>
+   (setDepositData(()=> res.data))
+    // localStorage.setItem("user", JSON.stringify(res?.data));
+  ).catch((err) => console.log(err))
+  }
+
+  const { amount } = deposit;
 
   async function handleProofImg(e) {
     const chooseImg = e.target.files[0]
@@ -89,7 +122,9 @@ const Fund = () => {
         console.log(res.data)
         // localStorage.setItem("user", JSON.stringify(res?.data));
       ).catch((err) => console.log(err));
+      fetchWithdrawalTransaction();
   }
+
   async function handleWithdrawalRequest() {
     const config = {
       headers: {
@@ -106,12 +141,15 @@ const Fund = () => {
         // localStorage.setItem("user", JSON.stringify(res?.data));
       ).catch((err) => console.log(err));
   }
+
   function toggleWallet() {
     setOPen(!open)
   }
+
   function toggleWithdraw() {
     setWithdraw(!withdraw);
   }
+
   // if (user) {
   //   return (
   //     <div className='flex w-full h-screen items-center justify-center bg-black/50'>
@@ -119,10 +157,11 @@ const Fund = () => {
   //     </div>
   //   );
   // }
-  console.log(withdrawFund)
+  console.log(depositData);
+  console.log(withdrawData);
   return (
     <>
-      <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh] relative z-0'>
+      <div className='pt-16 bg-stone-100 px-5 md:px-10 h-fit relative z-0'>
         <div className='my-4'>
           <h1 className='text-2xl font-extrabold'>Fund Your Wallet</h1>
           <span className='font-light text-sm text-slate-600'>Track all your financial assets and earnings in one place</span>
@@ -163,12 +202,12 @@ const Fund = () => {
               </tr>
             </thead>
             <tbody className='font-light text-center'>
-              <tr>
-                <td>10,000</td>
-                <td className='p-1 bg-red-400 rounded-sm text-white'>Pending</td>
+             {depositData.map((item, idx) => ( <tr key={idx} className='pb-1'>
+                <td>${item.amount}</td>
+                <td className='p-1 bg-red-400 rounded-sm text-white mb-1'>{item.status}</td>
                 <td>Bitcoin</td>
-                <td>5 Days Ago</td>
-              </tr>
+                <td>{`5 Days Ago`}</td>
+              </tr>))}
             </tbody>
           </table>
           <div className='w-[80%] border mt-4'></div>

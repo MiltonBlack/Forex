@@ -54,8 +54,8 @@ const NavBar = () => {
           </div>)}
         <div className='hidden md:flex'>
           <NavLink to='/dashboard' className='flex items-center mr-1 md:mr-3 text-base md:text-xl md:font-bold border-b-2 border-black cursor-pointer'>Overview</NavLink>
-          <NavLink to='transactionHistory' className='flex items-center mr-1 md:mr-3 text-base md:text-xl hover:border border-black px-1 cursor-pointer'>History</NavLink>
-          <NavLink to='wallet' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Wallet</NavLink>
+          <NavLink to='transactionHistory/deposits' className='flex items-center mr-1 md:mr-3 text-base md:text-xl hover:border border-black px-1 cursor-pointer'>History</NavLink>
+          <NavLink to='wallet' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Wallet</NavLink> 
           <NavLink to='swap' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Swap</NavLink>
           <NavLink to='ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>ROI</NavLink>
           <NavLink to='plans' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'> Trading Plans</NavLink>

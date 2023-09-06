@@ -49,6 +49,7 @@ function App() {
             </Route>
           </Route>
         </Route>
+        
         <Route index element={<Landing />} />
         <Route path='login' element={<Login />} />
         <Route path='signup' element={<SignUp />} />
