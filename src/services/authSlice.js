@@ -37,7 +37,11 @@ export const LoginUser = createAsyncThunk("auth/Login", async (userData, thunkAP
             error.toString();
         return thunkAPI.rejectWithValue(message);
     }
-})
+});
+
+export const LoginAdmin = createAsyncThunk("auth/Admin", async ({ adminData }) => {
+    return await axios.post('http://localhost:3005/api/admin/signin', adminData).then(res => (localStorage.setItem("btcadmin", JSON.stringify(res?.data)))).catch(err => console.log(err));
+});
 
 export const logout = createAsyncThunk("auth/logout", async () => {
     await localStorage.removeItem("user");
@@ -46,6 +50,8 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 const initialState = {
     User: [],
     register: [],
+    admin: [],
+    adminToken:'',
     user: user ? user : null,
     email: '',
     emailVerified: '',
@@ -93,6 +99,14 @@ const authSlice = createSlice({
         [LoginUser.rejected]: (state, action) => {
             state.isLoading = false;
             state.error = action.error.message;
+        },
+        [LoginAdmin.pending]: (state) => {
+            state.isLoading = true;            
+        },
+        [LoginAdmin.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.admin = action.payload;
+            state.adminToken = action.payload.accessToken;
         },
         [logout.pending]: (state) => {
             state.isLoading = true;
