@@ -47,6 +47,10 @@ export const logout = createAsyncThunk("auth/logout", async () => {
     await localStorage.removeItem("user");
 });
 
+export const logoutAdmin = createAsyncThunk("admin/logout", async () => {
+    await localStorage.removeItem("btcadmin");
+});
+
 const initialState = {
     User: [],
     register: [],
@@ -67,8 +71,6 @@ const authSlice = createSlice({
     reducers: {
         reset: (state) => {
             state.isLoading = false;
-            state.isSuccess = false;
-            state.isError = false;
             state.message = ''
         },
     },
@@ -108,6 +110,10 @@ const authSlice = createSlice({
             state.admin = action.payload;
             state.adminToken = action.payload.accessToken;
         },
+        [LoginAdmin.rejected]: (state, action)=> {
+            state.isLoading = false;
+            state.error = action.error.message;
+        },
         [logout.pending]: (state) => {
             state.isLoading = true;
         },
@@ -117,6 +123,16 @@ const authSlice = createSlice({
         [logout.rejected]: (state, action) => {
             state.isLoading = false;
             state.error = action.error.message
+        },
+        [logoutAdmin.pending]: (state, action)=>{
+            state.isLoading = true;
+        },
+        [logoutAdmin.fulfilled]: (state, action)=>{
+            state.isLoading = false;
+        },
+        [logoutAdmin.rejected]: (state, action)=>{
+            state.isLoading = false;
+            state.error = action.error.message;
         }
     }
 })
