@@ -13,19 +13,19 @@ const Login = () => {
   const { email, password } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, User, register  } = useSelector((state) => state.auth);
-  useEffect(()=>{
-    if(User && !isLoading) {
+  const { isLoading, User, register } = useSelector((state) => state.auth);
+  useEffect(() => {
+    if (User && !isLoading) {
       navigate('/dashboard')
-    } 
-  },[User, isLoading]);
+    }
+  }, [User, isLoading]);
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }))
   }
-  function  handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     if (email === "" && password === "") {
       console.log('fields cant be empty');
@@ -34,14 +34,14 @@ const Login = () => {
         email,
         password
       };
-      
+
       // send userData to LoginUser function in authSlice for Login Request. 
       dispatch(LoginUser(userData));
     }
   }
   console.log(User)
-    if (isLoading) {
-    return <Audio height="100vh" width="100vw" radius="9" color="white" ariaLabel="loading" wrapperStyle wrapperClass/>;
+  if (isLoading) {
+    return <Audio height="100vh" width="100vw" radius="9" color="white" ariaLabel="loading" wrapperStyle wrapperClass />;
   }
   return (
     <div className=' bg-sky-500 flex items-center justify-center w-screen h-screen relative'>

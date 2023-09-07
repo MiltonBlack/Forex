@@ -22,6 +22,15 @@ import Account from './components/Account';
 import Notifications from './components/Notifications';
 import PrivateRoute from './utils/ProtectedRoute';
 import VerifyEmail from './pages/VerifyEmail'
+import AdminNavBar from './components/AdminNavBar';
+import AdminDashHome from './pages/admin/AdminDashHome';
+import AdminDeposit from './pages/admin/AdminDeposit';
+import AdminWithdrawals from './pages/admin/AdminWithdrawals';
+import AdminPendingTransactions from './pages/admin/AdminPendingTransactions';
+import AdminPendingWithdrawals from './pages/admin/AdminPendingWithdrawals';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminSettings from './pages/admin/AdminSettings';
 
 function App() {
   return (
@@ -49,7 +58,16 @@ function App() {
             </Route>
           </Route>
         </Route>
-        
+        <Route path='auth/admin' element={<AdminNavBar/>}>
+          <Route index element={<AdminDashHome/>}/>
+          <Route path='deposits' element={<AdminDeposit/>}/>
+          <Route path='withdrawals' element={<AdminWithdrawals/>}/>
+          <Route path='pending' element={<AdminPendingTransactions/>}/>
+          {/* <Route path='pendingwithdraw' element={<AdminPendingWithdrawals/>}/> */}
+          <Route path='allusers' element={<AdminUsers/>}/>
+          <Route path='settings' element={<AdminSettings/>}/>
+        </Route>
+        <Route path='auth/admin/login' element={<AdminLogin/>}/>
         <Route index element={<Landing />} />
         <Route path='login' element={<Login />} />
         <Route path='signup' element={<SignUp />} />
