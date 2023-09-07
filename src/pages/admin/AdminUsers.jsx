@@ -4,7 +4,7 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 const AdminUsers = () => {
   return (
     <>
-      <div className='pt-16 bg-stone-100 px-5 md:px-10 h-full'>
+      <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
         <div className='my-4'>
           <h1 className='text-2xl font-extrabold'>All Users</h1>
           <span className='font-light text-sm text-slate-600'>Track all your user Records in one place</span>
@@ -13,18 +13,24 @@ const AdminUsers = () => {
           <table className='w-full'>
             <thead>
               <tr className='bg-black/75 text-white md:text-lg text-sm'>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Plan</th>
                 <th>Amount</th>
+                <th>Plan Start</th>
                 <th>Status</th>
-                <th>Payment Type</th>
-                <th>Date Started</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
               <tr>
-                <td>10,000</td>
-                <td className='p-1 bg-red-400 rounded-sm text-white'>Pending</td>
-                <td>USDT</td>
+                <td>Milton Azibapu</td>
+                <td>arzidrey@gmail.com</td>
+                <td>Basic Plus</td>
+                <td>$5,000</td>
                 <td>5 Days Ago</td>
+                <td className='p-1 bg-red-400 rounded-sm text-white'>Pending</td>
+                <td>25-10-23</td>
               </tr>
             </tbody>
           </table>

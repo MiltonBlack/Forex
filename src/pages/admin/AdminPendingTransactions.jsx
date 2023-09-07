@@ -4,10 +4,17 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 const AdminPendingTransactions = () => {
   return (
     <>
-    <div className='pt-16 bg-stone-100 px-5 md:px-10 h-full'>
+    <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
       <div className='my-4'>
-        <h1 className='text-2xl font-extrabold'>Pending Deposit Transactions</h1>
-        <span className='font-light text-sm text-slate-600'>Track all your financial data in one place</span>
+        <h1 className='text-2xl font-extrabold'>Pending Transactions History</h1>
+        <span className='font-light text-sm text-slate-600'>Track and Approve all your Customer's Pending Transactions financial data in one place</span>
+      </div>
+      <div className='flex items-end justify-between my-4'>
+        <span>Deposit Transaction History</span>
+        <select name="" id="" className='border p-1 text-lg font-normal'>
+          <option value="">Deposits</option>
+          <option value="">Withdrawals</option>
+        </select>
       </div>
       <div className='border my-4 rounded bg-white shadow-md flex flex-col items-center'>
         <table className='w-full'>

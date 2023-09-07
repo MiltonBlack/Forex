@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { FaArrowAltCircleDown, FaArrowAltCircleUp, FaBitcoin, FaChartLine, FaDollarSign, FaEthereum, FaPlus } from 'react-icons/fa'
+import { FaArrowAltCircleDown, FaArrowAltCircleUp, FaBitcoin, FaChartLine, FaDollarSign, FaEthereum, FaPlus, FaUser } from 'react-icons/fa'
 import Card from '../../components/Card'
 
 let tvScriptLoadingPromise;
@@ -64,39 +64,40 @@ const AdminDashHome = () => {
       </div>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 sm:gap-[5%]'>
         <Card>
-          <div className='flex w-full justify-between'>
+          <div className='flex flex-col h-full w-full justify-between'>
             <div className='flex w-full justify-between items-center'>
-              <FaBitcoin size={30} />
+              <FaUser size={30} />
               <span>All Users:</span>
               <span>26</span>
-              <span className='font-light text-sm text-slate-600'>25% This week</span>
             </div>
+              <span className='font-light text-sm text-slate-600 mt-4'>25% This week</span>
           </div>
         </Card>
         <Card>
-          <div className='flex w-full justify-between'>
-            <div className='flex flex-col h-full justify-between'>
-              <FaDollarSign size={40} className='my-2' />
-              <span>0 USDT</span>
-              <span className='font-light text-sm text-slate-600'>+2% This week</span>
+        <div className='flex flex-col h-full w-full justify-between'>
+            <div className='flex w-full justify-between items-center'>
+              <span>Pending Deposits:</span>
+              <span>$2,000</span>
             </div>
-            <div className='flex flex-col h-full justify-between'>
-              <FaChartLine size={28} />
-              <FaArrowAltCircleUp size={35} color='green' />
-            </div>
+              <span className='font-light text-sm text-slate-600 mt-4'>25% This week</span>
           </div>
         </Card>
         <Card>
-          <div className='flex w-full justify-between'>
-            <div className='flex flex-col h-full justify-between'>
-              <FaEthereum size={40} />
-              <span>0 ETH</span>
-              <span className='font-light text-sm text-slate-600'>+2% This week</span>
+        <div className='flex flex-col h-full w-full justify-between'>
+            <div className='flex w-full justify-between items-center'>
+              <span>Total Deposits:</span>
+              <span>$45,000</span>
             </div>
-            <div className='flex flex-col h-full justify-between'>
-              <FaChartLine size={28} />
-              <FaArrowAltCircleDown size={35} color='red' />
+              <span className='font-light text-sm text-slate-600 mt-4'>25% This week</span>
+          </div>
+        </Card>
+        <Card>
+        <div className='flex flex-col h-full w-full justify-between'>
+            <div className='flex w-full justify-between items-center'>
+              <span>Pending Withdrawals:</span>
+              <span>$149,000</span>
             </div>
+              <span className='font-light text-sm text-slate-600 mt-4'>25% This week</span>
           </div>
         </Card>
       </div>

@@ -4,10 +4,10 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 const AdminDeposit = () => {
   return (
     <>
-      <div className='pt-16 bg-stone-100 px-5 md:px-10 h-full'>
+      <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
         <div className='my-4'>
-          <h1 className='text-2xl font-extrabold'>Deposit Transaction History</h1>
-          <span className='font-light text-sm text-slate-600'>Track all your financial data in one place</span>
+          <h1 className='text-2xl font-extrabold'>Deposits Transaction History</h1>
+          <span className='font-light text-sm text-slate-600'>Track all your Customer's Deposit financial data in one place</span>
         </div>
         <div className='border my-4 rounded bg-white shadow-md flex flex-col items-center'>
           <table className='w-full'>
@@ -16,7 +16,7 @@ const AdminDeposit = () => {
                 <th>Amount</th>
                 <th>Status</th>
                 <th>Payment Type</th>
-                <th>Date Started</th>
+                <th>Date Deposited</th>
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>

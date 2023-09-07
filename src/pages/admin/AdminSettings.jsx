@@ -9,7 +9,7 @@ const AdminSettings = () => {
                     <span className='font-light text-sm text-slate-600'>Modify and customize the app to your Taste</span>
                 </div>
                 <div className='my-4 font-normal grid grid-cols-1 md:grid-cols-2 md:gap-4'>
-                    <div className='p-4 w-full md:w-[40%]'>
+                    <div className='p-4 md:w-full w-[80%]'>
                         <div className='my-4'>
                             <h1>Old Password</h1>
                             <input
@@ -37,7 +37,7 @@ const AdminSettings = () => {
                         </div>
                         <button className='border p-2 w-full bg-black/75 text-white rounded' >Save</button>
                     </div>
-                    <div className='p-4 w-full md:w-[40%]'>
+                    <div className='p-4 md:w-full w-[80%]'>
                         <div className='my-4'>
                             <h1>Network Type</h1>
                             <input type="text" className='border rounded px-2 my-1 w-full border-black' name='walletType' readOnly />
