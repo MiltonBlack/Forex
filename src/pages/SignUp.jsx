@@ -4,14 +4,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { Register } from '../services/authSlice';
 import img from '../assets/broker.jpg'
-import { BallTriangle } from 'react-loader-spinner';
+import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material';
 
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { success, isLoading, register } = useSelector((state) => state.auth)
-
-  const [data, setData] = useState([])
+  const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -30,41 +29,37 @@ const SignUp = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }))
-  }
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (password !== password2) {
-      console.log('passwords dont match');
-    } else {
+      setOpen(true);
+    } else  {
       const userData = {
         firstName,
         lastName,
         email,
         password,
       };
-      // fetch('http://localhost:3005/api/auth/register', {
-      //   method: "POST",
-      //   body: JSON.stringify(userData),
-      //   headers: {
-      //     "Content-type": "application/json; charset=UTF-8"
-      //   }
-      // }).then((response) => response.json())
-      //   .then((info) => {
-      //     setData(info)
-      //   }).catch(err => console.log(err));
 
       dispatch(Register(userData));
-      // 
     }
   };
-  if (isLoading) {
-    return <BallTriangle height="100vh" width="100vw" radius="9" color="white" ariaLabel="loading" wrapperStyle wrapperClass/>;
-  }
-  console.log(formData);
   return (
     <div className='bg-sky-500 w-screen h-screen relative'>
       <img src={img} alt="" className='h-screen w-screen' />
+      <Snackbar autoHideDuration={4000} open={open} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='warning' >
+          Input Fields cannot be Empty!!
+        </Alert>
+      </Snackbar>
       <div className='fixed top-0 right-0 left-0 bottom-0 w-full h-full flex items-center justify-center bg-black/50'>
         <div className='w-[370px] md:w-[512px] border-2 border-black shadow-lg p-2 bg-black/75'>
           <h1 className='text-white text-2xl my-2 uppercase w-full text-center'>Create Your Account</h1>
@@ -116,7 +111,7 @@ const SignUp = () => {
           <button
             className='uppercase border-2 p-2 my-4 w-[70%] hover:bg-white text-white transition'
             onClick={handleSubmit}>
-            Sign Up
+            {isLoading ? <CircularProgress /> : "Sign Up"}
           </button>
           <div className='flex justify-center items-center'>
             <h1 className='mr-4 text-sm text-white'>Already Have An Account?</h1>

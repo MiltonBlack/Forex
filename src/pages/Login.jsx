@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoginUser } from '../services/authSlice'
 import img from '../assets/solana.jpg'
-import { Audio } from 'react-loader-spinner';
+import { CircularProgress } from '@mui/material'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -40,9 +40,9 @@ const Login = () => {
     }
   }
   console.log(User)
-  if (isLoading) {
-    return <Audio height="100vh" width="100vw" radius="9" color="white" ariaLabel="loading" wrapperStyle wrapperClass />;
-  }
+  // if (isLoading) {
+  //   return <Audio height="100vh" width="100vw" radius="9" color="white" ariaLabel="loading" wrapperStyle wrapperClass />;
+  // }
   return (
     <div className=' bg-sky-500 flex items-center justify-center w-screen h-screen relative'>
       <img src={img} alt="" className='h-screen w-screen' />
@@ -66,7 +66,7 @@ const Login = () => {
           <button
             className='border-2 uppercase p-2 w-[70%] flex items-center justify-center hover:text-black my-2 hover:bg-white text-white'
             onClick={handleSubmit}>
-            Login
+            {isLoading ? <CircularProgress /> : "Login"}
           </button>
           <div className='flex flex-col text-base w-full justify-center'>
             <h1 className='text-center text-blue-900 hover:underline cursor-pointer'>

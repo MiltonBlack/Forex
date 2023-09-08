@@ -1,15 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { LoginUser } from '../../services/authSlice'
+import { LoginAdmin } from '../../services/adminSlice'
 import img from '../../assets/solana.jpg'
+import { Alert, Snackbar, CircularProgress, Slide } from '@mui/material'
 
 const AdminLogin = () => {
+  const { isLoading, admin, accessToken, error } = useSelector((state) => state.admin);
+  const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  })
+  });
   const { email, password } = formData;
+  useEffect(() => {
+    if (accessToken && !isLoading) {
+      navigate('/auth/admin')
+    }
+  }, [accessToken, isLoading]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onChange = (e) => {
@@ -17,22 +25,30 @@ const AdminLogin = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }))
-  }
+  };
 
-  function handleSubmit(e) {
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  async function handleSubmit(e) {
     e.preventDefault();
     if (email === "" && password === "") {
-      console.log('fields cant be empty');
+      await setOpen(true);
+      // <Snackbar message='Input Fields Cannot be blank!!'/>
     } else {
-      const userData = {
+      const adminData = {
         email,
         password
       };
-
       // Send userData to LoginUser function in authSlice for Login Request. 
-      dispatch(LoginUser(userData));
+      await dispatch(LoginAdmin(adminData));
     }
-  }
+  };
+
   return (
     <div className=' bg-sky-500 flex items-center justify-center w-screen h-screen relative'>
       <img src={img} alt="" className='h-screen w-screen' />
@@ -56,8 +72,13 @@ const AdminLogin = () => {
           <button
             className='border-2 uppercase p-2 w-[70%] flex items-center justify-center hover:text-black my-2 hover:bg-white text-white'
             onClick={handleSubmit}>
-            Login
+            {isLoading ? <CircularProgress /> : 'Login'}
           </button>
+          <Snackbar autoHideDuration={4000} open={open} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+            <Alert sx={{ width: '100%' }} severity='warning' >
+              Input Fields cannot be Empty!!
+            </Alert>
+          </Snackbar>
           <div className='flex flex-col text-base w-full justify-center'>
             <h1 className='text-center text-blue-900 hover:underline cursor-pointer'>
               Forgot Password
