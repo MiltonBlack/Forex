@@ -1,7 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { getAllWithdrawalsAdmin } from '../../services/adminSlice';
+import Loader from '../../components/Loader';
 
 const AdminWithdrawals = () => {
+  const dispatch = useDispatch();
+  const { withdrawals, isLoading } = useSelector((state) => state.admin);
+  useEffect(()=> {
+    dispatch(getAllWithdrawalsAdmin());
+  },[dispatch])
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
         <div className='my-4'>

@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { getAllDepositsAdmin } from '../../services/adminSlice';
+import Loader from '../../components/Loader';
 
 const AdminDeposit = () => {
+  const dispatch = useDispatch();
+  const { deposits, isLoading } = useSelector((state) => state.admin);
+  useEffect(()=> {
+    dispatch(getAllDepositsAdmin());
+  },[dispatch]);
+  if (isLoading) {
+    return <Loader />;
+  }
+  console.log(deposits);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>

@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { getAllUsersAdmin } from '../../services/adminSlice';
+import moment from 'moment';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import Loader from '../../components/Loader';
 
 const AdminUsers = () => {
+  const dispatch = useDispatch();
+  const { allUsers, isLoading } = useSelector((state) => state.admin);
+  useEffect(() => {
+    dispatch(getAllUsersAdmin());
+  }, [dispatch]);
+  if (isLoading) {
+    return <Loader />;
+  }
+  console.log(allUsers);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
@@ -23,15 +36,17 @@ const AdminUsers = () => {
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
-              <tr>
-                <td>Milton Azibapu</td>
-                <td>arzidrey@gmail.com</td>
-                <td>Basic Plus</td>
-                <td>$5,000</td>
+              {allUsers.map((item, idx) => {
+                <tr key={idx}>
+                <td>{item.firstName} {item.lastName}</td>
+                <td>{item.email}</td>
+                <td>{item.investment}</td>
+                <td>${item.amount}</td>
                 <td>5 Days Ago</td>
-                <td className='p-1 bg-red-400 rounded-sm text-white'>Pending</td>
+                <td className='p-1 bg-red-400 rounded-sm text-white'>{item.emailVerified}</td>
                 <td>25-10-23</td>
               </tr>
+              })}
             </tbody>
           </table>
           <div className='w-[80%] border mt-4'></div>
