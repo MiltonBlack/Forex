@@ -36,7 +36,7 @@ const AdminUsers = () => {
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
-              {allUsers.map((item, idx) => {
+              {allUsers.map((item, idx) => 
                 <tr key={idx}>
                 <td>{item.firstName} {item.lastName}</td>
                 <td>{item.email}</td>
@@ -44,9 +44,9 @@ const AdminUsers = () => {
                 <td>${item.amount}</td>
                 <td>5 Days Ago</td>
                 <td className='p-1 bg-red-400 rounded-sm text-white'>{item.emailVerified}</td>
-                <td>25-10-23</td>
+                <td>{moment(item.createdAt).fromNow}</td>
               </tr>
-              })}
+              )}
             </tbody>
           </table>
           <div className='w-[80%] border mt-4'></div>

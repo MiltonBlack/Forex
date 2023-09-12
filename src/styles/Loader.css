@@ -12,7 +12,7 @@
   perspective: 700px;
 }
 .loader-bg .loader > span {
-  font-size: 130px;
+  font-size: 100px;
   font-family: "franklin gothic medium", sans-serif;
   display: inline-block;
   -webkit-animation: flip 2.6s infinite linear;

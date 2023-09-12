@@ -2,14 +2,15 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { getAllDepositsAdmin } from '../../services/adminSlice';
+import moment from 'moment';
 import Loader from '../../components/Loader';
 
 const AdminDeposit = () => {
   const dispatch = useDispatch();
-  const { deposits, isLoading } = useSelector((state) => state.admin);
   useEffect(()=> {
     dispatch(getAllDepositsAdmin());
   },[dispatch]);
+  const { deposits, isLoading } = useSelector((state) => state.admin);
   if (isLoading) {
     return <Loader />;
   }
@@ -32,12 +33,13 @@ const AdminDeposit = () => {
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
-              <tr>
-                <td>10,000</td>
-                <td className='p-1 bg-red-400 rounded-sm text-white'>Pending</td>
+              {deposits?.map((item, idx) => 
+               <tr key={idx}>
+                <td>{item.amount}</td>
+                <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
                 <td>USDT</td>
-                <td>5 Days Ago</td>
-              </tr>
+                <td>{moment(item.createdAt).fromNow}</td>
+              </tr>)}
             </tbody>
           </table>
           <div className='w-[80%] border mt-4'></div>

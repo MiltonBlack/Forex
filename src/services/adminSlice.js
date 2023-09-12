@@ -10,9 +10,8 @@ export const LoginAdmin = createAsyncThunk("admin/Login", async (adminData, thun
     try {
         const response = await axios.post(`http://localhost:3005/api/admin/signin`, adminData);
         if (response?.data) {
-            console.log(response.data);
             localStorage.setItem("btctoken", JSON.stringify(response?.data.accessToken));
-            sessionStorage.setItem("btcadmin", JSON.stringify(response?.data));
+            // sessionStorage.setItem("btcadmin", JSON.stringify(response?.data));
         }
         return response?.data;
     } catch (error) {

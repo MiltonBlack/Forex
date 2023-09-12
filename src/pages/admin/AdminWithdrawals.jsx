@@ -6,10 +6,10 @@ import Loader from '../../components/Loader';
 
 const AdminWithdrawals = () => {
   const dispatch = useDispatch();
-  const { withdrawals, isLoading } = useSelector((state) => state.admin);
   useEffect(()=> {
     dispatch(getAllWithdrawalsAdmin());
   },[dispatch])
+  const { withdrawals, isLoading } = useSelector((state) => state.admin);
   if (isLoading) {
     return <Loader />;
   }
@@ -30,12 +30,13 @@ const AdminWithdrawals = () => {
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
-              <tr>
-                <td>10,000</td>
-                <td className='p-1 bg-red-400 rounded-sm text-white'>Pending</td>
+              {withdrawals?.map((itm, idx) => 
+              <tr key={idx}>
+                <td>{itm.withdrawAmount}</td>
+                <td className={`p-1 ${itm.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{itm.status}</td>
                 <td>USDT</td>
                 <td>5 Days Ago</td>
-              </tr>
+              </tr>)}
             </tbody>
           </table>
           <div className='w-[80%] border mt-4'></div>
