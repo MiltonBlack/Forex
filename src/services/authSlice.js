@@ -41,8 +41,10 @@ export const LoginUser = createAsyncThunk("auth/Login", async (userData, thunkAP
 });
 
 export const allDeposits = createAsyncThunk("auth/Deposits", async (id, thunkAPI) => {
-    const token = thunkAPI.getState().adminAuth.user.token;
+    // Get Token from Redux Store using the thunkAPI
+    const token = thunkAPI.getState().auth.user.accessToken;
     console.log(token);
+    // Authorization configuration headers for request
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
@@ -64,7 +66,7 @@ export const allDeposits = createAsyncThunk("auth/Deposits", async (id, thunkAPI
 });
 
 export const allWithdrawals = createAsyncThunk("auth/Withdrawals", async (id, thunkAPI) => {
-    const token = thunkAPI.getState().adminAuth.user.token;
+    const token = thunkAPI.getState().auth.user.accessToken;
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
