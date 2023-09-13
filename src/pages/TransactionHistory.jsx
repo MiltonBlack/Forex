@@ -1,8 +1,14 @@
 import React from 'react'
 import Footer from '../components/Footer'
 import { Link, Outlet } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import Loader from '../components/Loader'
 
 const TransactionHistory = () => {
+  const { isLoading } = useSelector((state) => state.auth);
+  if (isLoading) {
+    return <Loader />
+  }
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh]'>

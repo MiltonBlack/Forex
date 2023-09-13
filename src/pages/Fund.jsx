@@ -6,9 +6,10 @@ import { useSelector } from 'react-redux'
 import { projectStorage } from '../firebase/config';
 import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
 import axios from 'axios';
+import Loader from '../components/Loader';
 
 const Fund = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, isLoading } = useSelector((state) => state.auth);
   const { accessToken, _id, balance, walletAddress } = user;
 
   // Proof of Payment URL state
@@ -150,13 +151,11 @@ const Fund = () => {
     setWithdraw(!withdraw);
   }
 
-  // if (user) {
-  //   return (
-  //     <div className='flex w-full h-screen items-center justify-center bg-black/50'>
-  //       <Circles height="120" width="120" radius="9" color="blue" ariaLabel="loading"  />
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <Loader/>
+    );
+  }
   console.log(depositData);
   console.log(withdrawData);
   return (

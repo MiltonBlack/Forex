@@ -1,7 +1,17 @@
-import React from 'react'
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
+import React, { useEffect } from 'react';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { allDeposits } from '../services/authSlice';
 
 const DepositsHistory = () => {
+    const dispatch = useDispatch();
+    const { deposits, user } = useSelector((state) => state.auth);
+    const { _id } = user;
+    useEffect(() => {
+        dispatch(allDeposits(_id));
+    }, [])
+    console.log(deposits);
     return (
         <div className='border my-4 rounded bg-white shadow-md flex flex-col items-center'>
             <table className='w-full'>
@@ -14,12 +24,13 @@ const DepositsHistory = () => {
                     </tr>
                 </thead>
                 <tbody className='font-light text-center md:text-lg text-base'>
-                    <tr>
-                        <td>10,000</td>
-                        <td className='p-1 bg-red-400 rounded-sm text-white'>Pending</td>
-                        <td>USDT</td>
-                        <td>5 Days Ago</td>
-                    </tr>
+                    {deposits?.map((item, idx) =>
+                        <tr key={idx}>
+                            <td>{item.amount}</td>
+                            <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
+                            <td>USDT</td>
+                            <td>{moment(item.createdAt).fromNow}</td>
+                        </tr>)}
                 </tbody>
             </table>
             <div className='w-[80%] border mt-4'></div>
