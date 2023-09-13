@@ -1,20 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllUsersAdmin } from '../../services/adminSlice';
+import { deleteUserAdmin, getAllUsersAdmin } from '../../services/adminSlice';
 import moment from 'moment';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { MdDelete } from 'react-icons/md'
 import Loader from '../../components/Loader';
+import Modal from '../../components/Modal'
 
 const AdminUsers = () => {
   const dispatch = useDispatch();
   const { allUsers, isLoading } = useSelector((state) => state.admin);
+  const [deleteData, setDeleteData] = useState(false);
+  const [userData, setUserData] = useState([]);
   useEffect(() => {
     dispatch(getAllUsersAdmin());
   }, [dispatch]);
+  function DeleteUser(){
+    // Send a delete request to the server
+    // for now log to the console 'deleted'
+    const id = userData?._id;
+    console.log('deleted');
+    dispatch(deleteUserAdmin(id));
+  }
   if (isLoading) {
     return <Loader />;
-  }
-  console.log(allUsers);
+  };
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
@@ -30,22 +40,22 @@ const AdminUsers = () => {
                 <th>Email</th>
                 <th>Plan</th>
                 <th>Amount</th>
-                <th>Plan Start</th>
                 <th>Status</th>
                 <th>Date</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
-              {allUsers.map((item, idx) => 
+              {allUsers.map((item, idx) =>
                 <tr key={idx}>
-                <td>{item.firstName} {item.lastName}</td>
-                <td>{item.email}</td>
-                <td>{item.investment}</td>
-                <td>${item.amount}</td>
-                <td>5 Days Ago</td>
-                <td className='p-1 bg-red-400 rounded-sm text-white'>{item.emailVerified}</td>
-                <td>{moment(item.createdAt).fromNow}</td>
-              </tr>
+                  <td>{item.firstName} {item.lastName}</td>
+                  <td>{item.email}</td>
+                  <td>{item.investment}</td>
+                  <td>${item.amount}</td>
+                  <td className='p-1 bg-red-400 rounded-sm text-white'>{item.emailVerified}</td>
+                  <td>{moment(item.createdAt).fromNow}</td>
+                  <td className=' bg-red-300'><MdDelete color='red' onClick={()=> {setDeleteData(true); setUserData(item);}} /></td>
+                </tr>
               )}
             </tbody>
           </table>
@@ -60,6 +70,14 @@ const AdminUsers = () => {
           </div>
         </div>
       </div>
+      {deleteData && (
+        <Modal>
+          <h1>Delete User with the following id: {userData._id}</h1>
+          <span>{userData.firstName} {userData.lastName}</span>
+          <button className='my-2 bg-red-500 text-white rounded-sm' onClick={DeleteUser}>Confirm User Delete!</button>
+        </Modal>
+        )
+      }
     </>
   )
 }
