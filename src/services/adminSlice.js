@@ -2,10 +2,12 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 
 const token = JSON.parse(localStorage.getItem("accessToken"));
+const BASE_URL = `http://localhost:3005`
+const PROD_URL = `https://broker-backend.onrender.com`
 
 export const LoginAdmin = createAsyncThunk("admin/Login", async (adminData, thunkAPI) => {
     try {
-        const response = await axios.post(`http://localhost:3005/api/admin/signin`, adminData);
+        const response = await axios.post(`${PROD_URL}/api/admin/signin`, adminData);
         if (response?.data) {
             localStorage.setItem("btctoken", JSON.stringify(response?.data.accessToken));
             // sessionStorage.setItem("btcadmin", JSON.stringify(response?.data));
@@ -28,7 +30,7 @@ export const getAllUsersAdmin = createAsyncThunk("admin/AllUsers", async (thunkA
         headers: { Authorization: `Bearer ${accessToken}` }
     };
     try {
-        const response = await axios.get(`http://localhost:3005/api/admin/all`, config);
+        const response = await axios.get(`${PROD_URL}/api/admin/all`, config);
         if (response?.data) {
             console.log(response.data);
         }
@@ -50,7 +52,7 @@ export const getProfileAdmin = createAsyncThunk("admin/Profile", async (thunkAPI
         headers: { Authorization: `Bearer ${accessToken}` }
     };
     try {
-        const response = await axios.get(`http://localhost:3005/api/admin/profile`, config);
+        const response = await axios.get(`${PROD_URL}/api/admin/profile`, config);
         if (response?.data) {
             console.log(response.data);
         }
@@ -71,27 +73,27 @@ export const deleteUserAdmin = createAsyncThunk('admin/deleteUser', async (id, t
     const config = {
         headers: { Authorization: `Bearer ${accessToken}` }
     };
-    return await axios.delete(`http://localhost:3005/api/admin/user/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
+    return await axios.delete(`${PROD_URL}/api/admin/user/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 })
 
 export const getAllDepositsAdmin = createAsyncThunk('admin/allDeposits', async () => {
-    return await axios.get(`http://localhost:3005/api/admin/all/deposits`, config).then(res => (res.data)).catch(err => console.log(err))
+    return await axios.get(`${PROD_URL}/api/admin/all/deposits`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
 export const getSingleDepositAdmin = createAsyncThunk('admin/singleDeposit', async (id) => {
-    return await axios.get(`http://localhost:3005/api/admin/single/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
+    return await axios.get(`${PROD_URL}/api/admin/single/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
 export const getAllWithdrawalsAdmin = createAsyncThunk('admin/allWithdrawals', async () => {
-    return await axios.get(`http://localhost:3005/api/admin/withdraw/all`, config).then(res => (res.data)).catch(err => console.log(err))
+    return await axios.get(`${PROD_URL}/api/admin/withdraw/all`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
 export const updateAccountAdmin = createAsyncThunk('admin/updateAccount', async (id) => {
-    return await axios.get(`http://localhost:3005/api/admin/settings/account/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
+    return await axios.get(`${PROD_URL}/api/admin/settings/account/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
 export const updateSecurityAdmin = createAsyncThunk('admin/updateSecurity', async (id) => {
-    return await axios.get(`http://localhost:3005/api/admin/settings/security/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
+    return await axios.get(`${PROD_URL}/api/admin/settings/security/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
 export const logoutAdmin = createAsyncThunk("admin/logout", async () => {
