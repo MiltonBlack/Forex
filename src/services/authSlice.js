@@ -5,10 +5,10 @@ const user = JSON.parse(localStorage.getItem("user"));
 // const token = user.accessToken;
 
 const BASE_URL = `http://localhost:3005`
-const PROD_URL = `http`
+const PROD_URL = `https://broker-backend.onrender.com`
 export const Register = createAsyncThunk("auth/Register", async (userData, thunkAPI) => {
     try {
-        const response = await axios.post(`${BASE_URL}/api/auth/register`, userData);
+        const response = await axios.post(`${PROD_URL}/api/auth/register`, userData);
         if (response?.data) {
             console.log(response.data);
         }
@@ -26,7 +26,7 @@ export const Register = createAsyncThunk("auth/Register", async (userData, thunk
 
 export const LoginUser = createAsyncThunk("auth/Login", async (userData, thunkAPI) => {
     try {
-        const response = await axios.post(`http://localhost:3005/api/auth/signin`, userData);
+        const response = await axios.post(`${PROD_URL}/api/auth/signin`, userData);
         if (response?.data) {
             console.log(response.data);
             localStorage.setItem("user", JSON.stringify(response?.data));
@@ -52,7 +52,7 @@ export const allDeposits = createAsyncThunk("auth/Deposits", async (id, thunkAPI
         headers: { Authorization: `Bearer ${token}` }
     };
     try {
-        const response = await axios.get(`http://localhost:3005/api/auth/deposit/single/${id}` ,config);
+        const response = await axios.get(`${PROD_URL}/api/auth/deposit/single/${id}` ,config);
         if (response?.data) {
             console.log(response.data);
         }
@@ -74,7 +74,7 @@ export const allWithdrawals = createAsyncThunk("auth/Withdrawals", async (id, th
         headers: { Authorization: `Bearer ${token}` }
     };
     try {
-        const response = await axios.get(`http://localhost:3005/api/auth/withdraw/single/${id}` ,config);
+        const response = await axios.get(`${PROD_URL}/api/auth/withdraw/single/${id}` ,config);
         if (response?.data) {
             console.log(response.data);
         }
