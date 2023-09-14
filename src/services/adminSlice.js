@@ -45,6 +45,27 @@ export const getAllUsersAdmin = createAsyncThunk("admin/AllUsers", async (thunkA
         return thunkAPI.rejectWithValue(message);
     }
 });
+// export const getSingleDepositAdmin = createAsyncThunk("admin/AllUsers", async (thunkAPI) => {
+//     const accessToken = thunkAPI.getState().admin.admin.accessToken;
+//     const config = {
+//         headers: { Authorization: `Bearer ${accessToken}` }
+//     };
+//     try {
+//         const response = await axios.get(`${PROD_URL}/api/admin/all`, config);
+//         if (response?.data) {
+//             console.log(response.data);
+//         }
+//         return response?.data;
+//     } catch (error) {
+//         const message =
+//             (error.response &&
+//                 error.response.data &&
+//                 error.response.data.message) ||
+//             error.message ||
+//             error.toString();
+//         return thunkAPI.rejectWithValue(message);
+//     }
+// });
 
 export const getProfileAdmin = createAsyncThunk("admin/Profile", async (thunkAPI) => {
     const accessToken = thunkAPI.getState().admin.admin.accessToken;

@@ -4,17 +4,17 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { getAllDepositsAdmin } from '../../services/adminSlice';
 import moment from 'moment';
 import Loader from '../../components/Loader';
+import { Link } from 'react-router-dom';
 
 const AdminDeposit = () => {
   const dispatch = useDispatch();
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(getAllDepositsAdmin());
-  },[dispatch]);
+  }, [dispatch]);
   const { deposits, isLoading } = useSelector((state) => state.admin);
   if (isLoading) {
     return <Loader />;
   }
-  console.log(deposits);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
@@ -33,13 +33,15 @@ const AdminDeposit = () => {
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
-              {deposits?.map((item, idx) => 
-               <tr key={idx}>
-                <td>{item.amount}</td>
-                <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
-                <td>USDT</td>
-                <td>{moment(item.createdAt).fromNow}</td>
-              </tr>)}
+              {deposits?.map((item, idx) =>
+                <Link to={item.user_id}>
+                  <tr key={idx}>
+                    <td>{item.amount}</td>
+                    <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
+                    <td>USDT</td>
+                    <td>{moment(item.createdAt).fromNow}</td>
+                  </tr>
+                </Link>)}
             </tbody>
           </table>
           <div className='w-[80%] border mt-4'></div>

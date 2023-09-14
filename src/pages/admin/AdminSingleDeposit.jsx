@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getSingleDepositAdmin } from '../../services/adminSlice';
+import moment from 'moment';
 
 const AdminSingleDeposit = () => {
   const { id } = useParams();
-  const { deposits } = useSelector((state) => state.admin);
-  const deposit = deposits.find((item)=> item._id === id);
-  console.log(deposit);
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(getSingleDepositAdmin(id));
+  },[dispatch]);
+  const { oneDeposit, allUsers } = useSelector((state) => state.admin);
+  const single = allUsers.find((item)=> item._id === id);
   return (
     <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
       <div className='my-4'>
@@ -17,13 +22,13 @@ const AdminSingleDeposit = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 md:gap-4'>
           <img src="" alt="" className=' rounded-md h-[200px] w-full' />
           <div>
-            <span>Azibapu Milton</span>
-            <span>$10,000</span>
-            <span>5 Days Ago</span>
-            <span>Approved</span>
+            <span>{single.firstName} {single.lastName}</span>
+            <span>${oneDeposit.amount}</span>
+            <span>{moment(oneDeposit.createdAt).fromNow}</span>
+            <span>{oneDeposit.status}</span>
           </div>
         </div>
-        <button className='border flex w-full p-2 bg-neutral-600 text-white font-normal'>Approve Deposit</button>
+        {oneDeposit.status === "pending" && <button className='border flex w-full p-2 bg-neutral-600 text-white font-normal'>Approve Deposit</button>}
       </div>
     </div>
   )

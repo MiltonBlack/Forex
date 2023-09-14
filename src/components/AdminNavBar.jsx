@@ -41,11 +41,11 @@ const AdminNavBar = () => {
           </div>)}
         <div className='hidden md:flex'>
           <NavLink to='/auth/admin' className='flex items-center mr-1 md:mr-3 text-base md:text-xl md:font-bold cursor-pointer'>Overview</NavLink>
-          <NavLink to='allusers' className='flex items-center mr-1 md:mr-3 text-base md:text-xl hover:border border-black px-1 cursor-pointer active:border-b-2'>Users</NavLink>
-          <NavLink to='/auth/admin/deposits' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer active:border-b-2'>Deposits</NavLink> 
-          <NavLink to='withdrawals' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer active:border-b-2'>Withdrawals</NavLink>
-          <NavLink to='pending' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer active:border-b-2'>Pending</NavLink>
-          <NavLink to='settings' className='flex items-center hover:border border-black px-1 cursor-pointer active:border-b-2'>Settings</NavLink>
+          <NavLink to='allusers' className='flex items-center mr-1 md:mr-3 text-base md:text-xl hover:border border-black px-1 cursor-pointer '>Users</NavLink>
+          <NavLink to='/auth/admin/deposits' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Deposits</NavLink> 
+          <NavLink to='withdrawals' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Withdrawals</NavLink>
+          <NavLink to='pending' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Pending</NavLink>
+          <NavLink to='settings' className='flex items-center hover:border border-black px-1 cursor-pointer '>Settings</NavLink>
         </div>
         <div className='flex items-center justify-center relative'>
           <FaBell className='hidden md:flex' />

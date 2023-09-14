@@ -37,12 +37,12 @@ const NavBar = () => {
                 <FaTimes color='red' size={26} />
               </div>
               <div className='flex flex-col items-start justify-between h-full py-20 pl-20 font-normal'>
-                <NavLink to='/dashboard' className='flex items-center text-xl font-bold border-black cursor-pointer active:border-b-2 active:rounded'>Overview</NavLink>
-                <NavLink to='transactionHistory' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer active:border-b-2'>History</NavLink>
-                <NavLink to='wallet' className='flex items-center hover:border border-black px-1 cursor-pointer active:border-b-2'>Wallet</NavLink>
-                <NavLink to='swap' className='flex items-center hover:border border-black px-1 cursor-pointer active:border-b-2'>Swap</NavLink>
-                <NavLink to='plans' className='flex items-center hover:border border-black px-1 cursor-pointer active:border-b-2'> Trading Plans</NavLink>
-                <NavLink to='ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer active:border-b-2'>ROI</NavLink>
+                <NavLink to='/dashboard' className='flex items-center text-xl font-bold border-black cursor-pointer  active:rounded'>Overview</NavLink>
+                <NavLink to='transactionHistory' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer '>History</NavLink>
+                <NavLink to='wallet' className='flex items-center hover:border border-black px-1 cursor-pointer '>Wallet</NavLink>
+                <NavLink to='swap' className='flex items-center hover:border border-black px-1 cursor-pointer '>Swap</NavLink>
+                <NavLink to='plans' className='flex items-center hover:border border-black px-1 cursor-pointer '> Trading Plans</NavLink>
+                <NavLink to='ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>ROI</NavLink>
                 <NavLink to='/dashboard/profile' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Profile</NavLink>
                 <NavLink to='/dashboard/settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Settings</NavLink>
                 <NavLink to='help' className='flex items-center hover:border border-black px-1 cursor-pointer'>
@@ -55,12 +55,12 @@ const NavBar = () => {
           </div>)}
         <div className='hidden md:flex'>
           <NavLink to='/dashboard' className='flex items-center mr-1 md:mr-3 text-base md:text-xl md:font-bold cursor-pointer'>Overview</NavLink>
-          <NavLink to='transactionHistory/deposits' className='flex items-center mr-1 md:mr-3 text-base md:text-xl border-black px-1 cursor-pointer active:border-b-2'>History</NavLink>
-          <NavLink to='wallet' className='flex items-center mr-3 border-black px-1 cursor-pointer active:border-b-2'>Wallet</NavLink>
-          <NavLink to='swap' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer active:border-b-2'>Swap</NavLink>
-          <NavLink to='ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer active:border-b-2'>ROI</NavLink>
-          <NavLink to='plans' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer active:border-b-2'> Trading Plans</NavLink>
-          <NavLink to='help' className='flex items-center hover:border border-black px-1 cursor-pointer active:border-b-2'><FaQuestionCircle /><h1>Help</h1></NavLink>
+          <NavLink to='transactionHistory/deposits' className='flex items-center mr-1 md:mr-3 text-base md:text-xl border-black px-1 cursor-pointer '>History</NavLink>
+          <NavLink to='wallet' className='flex items-center mr-3 border-black px-1 cursor-pointer '>Wallet</NavLink>
+          <NavLink to='swap' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Swap</NavLink>
+          <NavLink to='ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>ROI</NavLink>
+          <NavLink to='plans' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '> Trading Plans</NavLink>
+          <NavLink to='help' className='flex items-center hover:border border-black px-1 cursor-pointer '><FaQuestionCircle /><h1>Help</h1></NavLink>
         </div>
         <div className='flex items-center justify-center relative'>
           <FaBell className='hidden md:flex' />

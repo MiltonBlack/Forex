@@ -1,8 +1,13 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 const AdminSettings = () => {
-    const {} = useSelector((state)=> state.admin);
+    const dispatch = useDispatch();
+    const { admin, accessToken } = useSelector((state) => state.admin);
+    // const {} = admin;
+    function updatePassword(){
+
+    }
     return (
         <>
             <div className='pt-16 bg-stone-100 px-10 h-[100vh] relative'>
@@ -18,7 +23,7 @@ const AdminSettings = () => {
                                 type="text"
                                 className='border px-2 rounded my-1 w-full border-black'
                                 name='password'
-                                 />
+                            />
                         </div>
                         <div className='my-4'>
                             <h1>New Password</h1>
@@ -26,7 +31,7 @@ const AdminSettings = () => {
                                 type="text"
                                 className='border px-2 rounded my-1 w-full border-black'
                                 name='newPassword'
-                             />
+                            />
                         </div>
                         <div className='my-4'>
                             <h1>Confirm New Password</h1>
