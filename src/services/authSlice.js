@@ -3,9 +3,12 @@ import axios from 'axios';
 
 const user = JSON.parse(localStorage.getItem("user"));
 // const token = user.accessToken;
+
+const BASE_URL = `http://localhost:3005`
+const PROD_URL = `http`
 export const Register = createAsyncThunk("auth/Register", async (userData, thunkAPI) => {
     try {
-        const response = await axios.post(`http://localhost:3005/api/auth/register`, userData);
+        const response = await axios.post(`${BASE_URL}/api/auth/register`, userData);
         if (response?.data) {
             console.log(response.data);
         }
