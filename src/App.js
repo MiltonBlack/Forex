@@ -27,7 +27,7 @@ import AdminDashHome from './pages/admin/AdminDashHome';
 import AdminDeposit from './pages/admin/AdminDeposit';
 import AdminWithdrawals from './pages/admin/AdminWithdrawals';
 import AdminPendingTransactions from './pages/admin/AdminPendingTransactions';
-// import AdminPendingWithdrawals from './pages/admin/AdminPendingWithdrawals';
+import AdminSingleDeposit from './pages/admin/AdminSingleDeposit';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminSettings from './pages/admin/AdminSettings';
@@ -66,7 +66,7 @@ function App() {
             <Route path='deposits' element={<AdminDeposit />} />
             <Route path='withdrawals' element={<AdminWithdrawals />} />
             <Route path='pending' element={<AdminPendingTransactions />} />
-            {/* <Route path='pendingwithdraw' element={<AdminPendingWithdrawals/>}/> */}
+            <Route path='deposits/:id' element={<AdminSingleDeposit/>}/>
             <Route path='allusers' element={<AdminUsers />} />
             <Route path='settings' element={<AdminSettings />} />
           </Route>

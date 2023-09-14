@@ -1,6 +1,8 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 const AdminSettings = () => {
+    const {} = useSelector((state)=> state.admin);
     return (
         <>
             <div className='pt-16 bg-stone-100 px-10 h-[100vh] relative'>
@@ -32,7 +34,6 @@ const AdminSettings = () => {
                                 type="text"
                                 className='border px-2 rounded my-1 w-full border-black'
                                 name='confirmPassword'
-                                
                             />
                         </div>
                         <button className='border p-2 w-full bg-black/75 text-white rounded' >Save</button>

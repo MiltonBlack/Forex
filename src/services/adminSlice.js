@@ -2,9 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 
 const token = JSON.parse(localStorage.getItem("accessToken"));
-const config = {
-    headers: { Authorization: `Bearer ${token}` }
-};
 
 export const LoginAdmin = createAsyncThunk("admin/Login", async (adminData, thunkAPI) => {
     try {
@@ -26,6 +23,10 @@ export const LoginAdmin = createAsyncThunk("admin/Login", async (adminData, thun
 });
 
 export const getAllUsersAdmin = createAsyncThunk("admin/AllUsers", async (thunkAPI) => {
+    const accessToken = thunkAPI.getState().admin.admin.accessToken;
+    const config = {
+        headers: { Authorization: `Bearer ${accessToken}` }
+    };
     try {
         const response = await axios.get(`http://localhost:3005/api/admin/all`, config);
         if (response?.data) {
@@ -44,6 +45,10 @@ export const getAllUsersAdmin = createAsyncThunk("admin/AllUsers", async (thunkA
 });
 
 export const getProfileAdmin = createAsyncThunk("admin/Profile", async (thunkAPI) => {
+    const accessToken = thunkAPI.getState().admin.admin.accessToken;
+    const config = {
+        headers: { Authorization: `Bearer ${accessToken}` }
+    };
     try {
         const response = await axios.get(`http://localhost:3005/api/admin/profile`, config);
         if (response?.data) {
@@ -61,7 +66,11 @@ export const getProfileAdmin = createAsyncThunk("admin/Profile", async (thunkAPI
     }
 });
 
-export const deleteUserAdmin = createAsyncThunk('admin/deleteUser', async ({ id }) => {
+export const deleteUserAdmin = createAsyncThunk('admin/deleteUser', async (id, thunkAPI) => {
+    const accessToken = thunkAPI.getState().admin.admin.accessToken;
+    const config = {
+        headers: { Authorization: `Bearer ${accessToken}` }
+    };
     return await axios.delete(`http://localhost:3005/api/admin/user/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 })
 
