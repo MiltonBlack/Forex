@@ -15,9 +15,10 @@ const AdminPendingTransactions = () => {
     dispatch(getAllWithdrawalsAdmin());
   }, [dispatch]);
 
+  const deposit = deposits.find((item) => item.status === "pending");
   const filtered = React.useMemo(() => {
-    return filter === 'deposits' ? deposits : withdrawals;
-  }, [deposits, withdrawals, filter]);
+    return filter === 'deposits' ? deposit : withdrawals;
+  }, [deposits, deposit, withdrawals, filter]);
 
   const handleFilter = (e) => {
     setFilter(e.target.value)
@@ -54,12 +55,12 @@ const AdminPendingTransactions = () => {
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
               {filtered.map((item, idx) =>
-              <tr key={idx}>
-                <td>{item.amount  || item.withdrawAmount}</td>
-                <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
-                <td>USDT</td>
-                <td>{moment(item.createdAt).fromNow}</td>
-              </tr>)}
+                <tr key={idx}>
+                  <td>{item.amount || item.withdrawAmount}</td>
+                  <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
+                  <td>USDT</td>
+                  <td>{moment(item.createdAt).fromNow}</td>
+                </tr>)}
             </tbody>
           </table>
           <div className='w-[80%] border mt-4'></div>

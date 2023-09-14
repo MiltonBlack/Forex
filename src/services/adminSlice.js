@@ -74,7 +74,7 @@ export const deleteUserAdmin = createAsyncThunk('admin/deleteUser', async (id, t
         headers: { Authorization: `Bearer ${accessToken}` }
     };
     return await axios.delete(`${PROD_URL}/api/admin/user/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
-})
+});
 
 export const getAllDepositsAdmin = createAsyncThunk('admin/allDeposits', async () => {
     const config = {
