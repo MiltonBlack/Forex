@@ -7,6 +7,7 @@ import { projectStorage } from '../firebase/config';
 import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
 import axios from 'axios';
 import Loader from '../components/Loader';
+import moment from 'moment'
 
 const Fund = () => {
   const { user, isLoading } = useSelector((state) => state.auth);
@@ -28,7 +29,7 @@ const Fund = () => {
     proofUrl: urlProof,
     pending: true,
   });
- 
+
   const [withdrawFund, setWithdrawFund] = useState({
     user_id: _id,
     withdrawAmount: "",
@@ -37,18 +38,18 @@ const Fund = () => {
     pending: true
   });
 
-  useEffect(()=> {
+  useEffect(() => {
     fetchWithdrawalTransaction();
     fetchDepositTransaction();
-  },[]);
+  }, []);
 
   const [depositData, setDepositData] = useState([]);
   const [withdrawData, setWithdrawData] = useState([]);
   const withdrawOnChange = (e) => {
     setWithdrawFund((prev) => ({
-        ...prev,
-        [e.target.name]: e.target.value,
-      }))
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
   }
   const onChange = (e) => {
     setDeposit((prevState) => ({
@@ -57,28 +58,28 @@ const Fund = () => {
     }))
   }
 
-  async function fetchWithdrawalTransaction(){
+  async function fetchWithdrawalTransaction() {
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     }
     await axios.get(`http://localhost:3005/api/auth/withdraw/single/${_id}`, config).then((res) =>
-   (setWithdrawData(res.data))
-    // localStorage.setItem("user", JSON.stringify(res?.data));
-  ).catch((err) => console.log(err));
+      (setWithdrawData(res.data))
+      // localStorage.setItem("user", JSON.stringify(res?.data));
+    ).catch((err) => console.log(err));
   };
 
-  async function fetchDepositTransaction(){
+  async function fetchDepositTransaction() {
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     }
     await axios.get(`http://localhost:3005/api/auth/deposit/single/${_id}`, config).then((res) =>
-   (setDepositData(()=> res.data))
-    // localStorage.setItem("user", JSON.stringify(res?.data));
-  ).catch((err) => console.log(err))
+      (setDepositData(() => res.data))
+      // localStorage.setItem("user", JSON.stringify(res?.data));
+    ).catch((err) => console.log(err))
   }
 
   const { amount } = deposit;
@@ -123,7 +124,7 @@ const Fund = () => {
         console.log(res.data)
         // localStorage.setItem("user", JSON.stringify(res?.data));
       ).catch((err) => console.log(err));
-      fetchWithdrawalTransaction();
+    fetchWithdrawalTransaction();
   }
 
   async function handleWithdrawalRequest() {
@@ -153,7 +154,7 @@ const Fund = () => {
 
   if (isLoading) {
     return (
-      <Loader/>
+      <Loader />
     );
   }
   console.log(depositData);
@@ -201,12 +202,13 @@ const Fund = () => {
               </tr>
             </thead>
             <tbody className='font-light text-center'>
-             {depositData.map((item, idx) => ( <tr key={idx} className='pb-1'>
-                <td>${item.amount}</td>
-                <td className='p-1 bg-red-400 rounded-sm text-white mb-1'>{item.status}</td>
-                <td>Bitcoin</td>
-                <td>{`5 Days Ago`}</td>
-              </tr>))}
+              {depositData?.map((item, idx) =>
+                <tr key={idx} className='pb-1'>
+                  <td>${item.amount}</td>
+                  <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
+                  <td>Bitcoin</td>
+                  <td>{moment(item.createdAt).fromNow}</td>
+                </tr>)}
             </tbody>
           </table>
           <div className='w-[80%] border mt-4'></div>

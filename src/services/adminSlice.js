@@ -77,22 +77,37 @@ export const deleteUserAdmin = createAsyncThunk('admin/deleteUser', async (id, t
 })
 
 export const getAllDepositsAdmin = createAsyncThunk('admin/allDeposits', async () => {
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
     return await axios.get(`${PROD_URL}/api/admin/all/deposits`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
 export const getSingleDepositAdmin = createAsyncThunk('admin/singleDeposit', async (id) => {
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
     return await axios.get(`${PROD_URL}/api/admin/single/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
 export const getAllWithdrawalsAdmin = createAsyncThunk('admin/allWithdrawals', async () => {
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
     return await axios.get(`${PROD_URL}/api/admin/withdraw/all`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
 export const updateAccountAdmin = createAsyncThunk('admin/updateAccount', async (id) => {
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
     return await axios.get(`${PROD_URL}/api/admin/settings/account/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
 export const updateSecurityAdmin = createAsyncThunk('admin/updateSecurity', async (id) => {
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
     return await axios.get(`${PROD_URL}/api/admin/settings/security/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
