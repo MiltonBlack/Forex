@@ -76,7 +76,7 @@ const AdminDashHome = () => {
         <div className='flex w-full justify-between items-center my-8'>
           <div>
             <h1 className=' font-black text-2xl'>Hello, Admin! {admin.fullName}</h1>
-            <span className='font-light text-sm text-slate-600'>Take full control of your Users, their Deposits and Withdrawals</span>
+            <span className='font-light text-sm text-slate-600'>Take full control of your Broker Users, their Deposits and Withdrawals</span>
           </div>
           <div className='border border-black p-1 bg-rose-500'>
             <FaPlus color='white' />
@@ -165,7 +165,9 @@ const AdminDashHome = () => {
         </div>
         <Card>
           <div className='flex justify-center items-center w-full font-light'>
-            "You are on the Premium Plan":"Not Subscribed to any Packages"
+            <marquee behavior="" direction="">
+              Contact Us to Build Your Website, Broker, E-Commerce, NFT, Mobile Applications (Andriod and IOS), PortFolios, Courrier Services, Logistics.  WhatApp Line: +2349037289192 
+            </marquee>
           </div>
         </Card>
         <div className='py-8'></div>
