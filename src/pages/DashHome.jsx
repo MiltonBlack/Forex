@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux'
 import Card from '../components/Card'
 import { FaArrowAltCircleDown, FaArrowAltCircleUp, FaBitcoin, FaChartLine, FaDollarSign, FaEthereum, FaPlus } from 'react-icons/fa'
 import Footer from '../components/Footer'
+import Loader from '../components/Loader'
 
 let tvScriptLoadingPromise;
 const DashHome = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, isLoading } = useSelector((state) => state.auth);
   const { plan } = user;
   const onLoadScriptRef = useRef();
 
@@ -51,6 +52,9 @@ const DashHome = () => {
     },
     []
   );
+  if(isLoading){
+    return <Loader/>
+  }
   return (
     <>
       {/* <NavBar /> */}

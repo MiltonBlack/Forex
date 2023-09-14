@@ -10,6 +10,9 @@ import Loader from '../components/Loader';
 import moment from 'moment'
 
 const Fund = () => {
+  const BASE_URL = `http://localhost:3005`
+  const PROD_URL = `https://broker-backend.onrender.com`
+
   const { user, isLoading } = useSelector((state) => state.auth);
   const { accessToken, _id, balance, walletAddress } = user;
 
@@ -64,7 +67,7 @@ const Fund = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     }
-    await axios.get(`http://localhost:3005/api/auth/withdraw/single/${_id}`, config).then((res) =>
+    await axios.get(`${PROD_URL}/api/auth/withdraw/single/${_id}`, config).then((res) =>
       (setWithdrawData(res.data))
       // localStorage.setItem("user", JSON.stringify(res?.data));
     ).catch((err) => console.log(err));
@@ -76,7 +79,7 @@ const Fund = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     }
-    await axios.get(`http://localhost:3005/api/auth/deposit/single/${_id}`, config).then((res) =>
+    await axios.get(`${PROD_URL}/api/auth/deposit/single/${_id}`, config).then((res) =>
       (setDepositData(() => res.data))
       // localStorage.setItem("user", JSON.stringify(res?.data));
     ).catch((err) => console.log(err))
@@ -117,7 +120,7 @@ const Fund = () => {
     };
     await axios
       .post(
-        `http://localhost:3005/api/auth/deposit`,
+        `${PROD_URL}/api/auth/deposit`,
         deposit,
         config
       ).then((res) =>
@@ -135,7 +138,7 @@ const Fund = () => {
     };
     await axios
       .post(
-        `http://localhost:3005/api/auth/withdraw`,
+        `${PROD_URL}/api/auth/withdraw`,
         withdrawFund,
         config
       ).then((res) =>
@@ -157,8 +160,6 @@ const Fund = () => {
       <Loader />
     );
   }
-  console.log(depositData);
-  console.log(withdrawData);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 h-fit relative z-0'>

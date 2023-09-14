@@ -3,10 +3,9 @@ import { useSelector, useDispatch } from 'react-redux'
 
 const AdminSettings = () => {
     const dispatch = useDispatch();
-    const { admin, accessToken } = useSelector((state) => state.admin);
-    // const {} = admin;
+    const { admin, } = useSelector((state) => state.admin);
     function updatePassword(){
-
+        dispatch(updatePassword());
     }
     return (
         <>

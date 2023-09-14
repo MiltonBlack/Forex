@@ -9,9 +9,12 @@ import { plans } from '../data/plans'
 import { FaBitcoin, FaCopy, FaTimes } from 'react-icons/fa'
 import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
 import { projectStorage } from '../firebase/config';
+// import Loader from '../components/Loader'
 
 const Invest = () => {
   const { log } = console;
+  const BASE_URL = `http://localhost:3005`
+  const PROD_URL = `https://broker-backend.onrender.com`
   const { user } = useSelector((state) => state.auth);
   const { accessToken, _id, balance, walletAddress } = user;
   const [urlProof, setUrlProof] = useState(null);
@@ -71,7 +74,7 @@ const Invest = () => {
     };
     await axios
       .put(
-        `http://localhost:3005/api/auth/plan/${_id}`,
+        `${PROD_URL}/api/auth/plan/${_id}`,
         plan2,
         config
       )
@@ -81,7 +84,7 @@ const Invest = () => {
           ...prev,
           plan: res.data.plan
         }))
-        localStorage.setItem("user", JSON.stringify(info));
+        // localStorage.setItem("user", JSON.stringify(info));
       })
       .catch((err) => log(err));
   }
@@ -94,15 +97,18 @@ const Invest = () => {
     if (balance < plan1.amount && progress === '100') {
       await axios
         .put(
-          `http://localhost:3005/api/auth/plan/${_id}`,
+          `${PROD_URL}/api/auth/plan/${_id}`,
           plan1,
           config
         )
-        .then((res) => { log(res.data); localStorage.setItem("user", JSON.stringify(res?.data)); })
+        .then((res) => { 
+          log(res.data); 
+          // localStorage.setItem("user", JSON.stringify(res?.data)); 
+        })
         .catch((err) => console.log(err));
     }
   };
-  log(plan1)
+  log(plan1);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-10 relative'>

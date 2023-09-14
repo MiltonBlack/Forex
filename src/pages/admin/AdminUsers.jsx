@@ -27,7 +27,7 @@ const AdminUsers = () => {
   };
   return (
     <>
-      <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
+      <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full relative'>
         <div className='my-4'>
           <h1 className='text-2xl font-extrabold'>All Users</h1>
           <span className='font-light text-sm text-slate-600'>Track all your user Records in one place</span>
