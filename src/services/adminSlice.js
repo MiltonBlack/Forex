@@ -45,27 +45,6 @@ export const getAllUsersAdmin = createAsyncThunk("admin/AllUsers", async (thunkA
         return thunkAPI.rejectWithValue(message);
     }
 });
-// export const getSingleDepositAdmin = createAsyncThunk("admin/AllUsers", async (thunkAPI) => {
-//     const accessToken = thunkAPI.getState().admin.admin.accessToken;
-//     const config = {
-//         headers: { Authorization: `Bearer ${accessToken}` }
-//     };
-//     try {
-//         const response = await axios.get(`${PROD_URL}/api/admin/all`, config);
-//         if (response?.data) {
-//             console.log(response.data);
-//         }
-//         return response?.data;
-//     } catch (error) {
-//         const message =
-//             (error.response &&
-//                 error.response.data &&
-//                 error.response.data.message) ||
-//             error.message ||
-//             error.toString();
-//         return thunkAPI.rejectWithValue(message);
-//     }
-// });
 
 export const getProfileAdmin = createAsyncThunk("admin/Profile", async (thunkAPI) => {
     const accessToken = thunkAPI.getState().admin.admin.accessToken;
@@ -130,6 +109,13 @@ export const updateSecurityAdmin = createAsyncThunk('admin/updateSecurity', asyn
         headers: { Authorization: `Bearer ${token}` }
     };
     return await axios.get(`${PROD_URL}/api/admin/settings/security/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
+});
+
+export const approveDnSAdmin = createAsyncThunk('admin/approveDnS', async (id) => {
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+    return await axios.get(`${PROD_URL}/api/admin/approve/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
 export const logoutAdmin = createAsyncThunk("admin/logout", async () => {
@@ -225,6 +211,17 @@ const adminSlice = createSlice({
             state.withdrawals = action.payload;
         },
         [getAllWithdrawalsAdmin.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.error = action.error.message;
+        },
+        [approveDnSAdmin.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [approveDnSAdmin.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            // state. = action.payload;
+        },
+        [approveDnSAdmin.rejected]: (state, action) => {
             state.isLoading = false;
             state.error = action.error.message;
         },

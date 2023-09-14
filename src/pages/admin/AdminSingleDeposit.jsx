@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-import { getSingleDepositAdmin } from '../../services/adminSlice';
+import { approveDnSAdmin, getSingleDepositAdmin } from '../../services/adminSlice';
 import moment from 'moment';
+import { CircularProgress } from '@mui/material';
 
 const AdminSingleDeposit = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getSingleDepositAdmin(id));
-  },[dispatch]);
-  const { oneDeposit, allUsers } = useSelector((state) => state.admin);
-  const single = allUsers.find((item)=> item._id === id);
+  }, [dispatch]);
+  const { oneDeposit, allUsers, isLoading } = useSelector((state) => state.admin);
+  const single = allUsers.find((item) => item._id === id);
+  const { _id } = oneDeposit;
+  function approveDeposit() {
+    dispatch(approveDnSAdmin(_id));
+  }
   return (
     <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
       <div className='my-4'>
@@ -28,7 +33,7 @@ const AdminSingleDeposit = () => {
             <span>{oneDeposit.status}</span>
           </div>
         </div>
-        {oneDeposit.status === "pending" && <button className='border flex w-full p-2 bg-neutral-600 text-white font-normal'>Approve Deposit</button>}
+        {oneDeposit.status === "pending" && <button className='border flex w-full p-2 bg-neutral-600 text-white font-normal' onClick={approveDeposit}>{isLoading ? <CircularProgress/> :"Approve Deposit"}</button>}
       </div>
     </div>
   )
