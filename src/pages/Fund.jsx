@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Footer from '../components/Footer'
 import { FaAngleLeft, FaAngleRight, FaMinusSquare, FaPlus, FaCopy, FaRecycle, FaRegFutbol, FaBitcoin, FaTimes } from 'react-icons/fa'
 import Modal from '../components/Modal';
@@ -15,6 +15,10 @@ const Fund = () => {
 
   const { user, isLoading } = useSelector((state) => state.auth);
   const { accessToken, _id, balance, walletAddress } = user;
+
+  // Copy to Clipboard State and useRef Initilization.
+  const [copySuccess, setCopySuccess] = useState('');
+  const copyRef = useRef(null);
 
   // Proof of Payment URL state
   const [urlProof, setUrlProof] = useState('image');
@@ -59,6 +63,13 @@ const Fund = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }))
+  }
+
+  function copyAddress(e) {
+    copyRef.current.select();
+    document.execCommand('copy');
+    e.target.focus();
+    setCopySuccess('copied')
   }
 
   async function fetchWithdrawalTransaction() {
@@ -241,8 +252,8 @@ const Fund = () => {
                     className='p-1 bg-stone-300 flex w-full outline-none'
                     value={walletAddress}
                     readOnly />
-                  <button className='p-1'>
-                    <FaCopy />
+                  <button className='p-1 font-light text-xs' onClick={copyAddress} >
+                  {copySuccess === "copied" ? copySuccess : <FaCopy />}
                   </button>
                 </div>
                 <input

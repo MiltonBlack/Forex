@@ -10,7 +10,8 @@ import { FaBitcoin, FaCopy, FaTimes } from 'react-icons/fa'
 import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
 import { projectStorage } from '../firebase/config';
 // import Loader from '../components/Loader'
-import { Snackbar, Slide } from '@mui/material'
+import { Snackbar, Slide } from '@mui/material';
+import numberSeparator from 'number-separator';
 
 const Invest = () => {
   const { log } = console;
@@ -134,10 +135,6 @@ const Invest = () => {
         console.log(res.data)
       ).catch((err) => console.log(err));
   }
-  log(invDeposit);
-  log(plan1);
-  log(plan2);
-  log(plans);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-10 relative'>
@@ -159,7 +156,7 @@ const Invest = () => {
               }}>
               <h1 className='text-2xl'>{plan.plan}</h1>
               <div className='flex items-center'>
-                <span className='text-4xl mr-1 my-2'>${plan.amount}</span>
+                <span className='text-4xl mr-1 my-2'>${numberSeparator(plan.amount, ",")}</span>
                 <div className='flex flex-col'>
                   <span className='text-sm font-light'>{plan.duration} Days</span>
                 </div>
@@ -203,8 +200,8 @@ const Invest = () => {
                   <span className='mr-2'>Wallet Balance</span>
                   <span className='p-1 bg-slate-100 rounded'>${balance}</span>
                 </div>
-                <h1 className='text-xl my-2 text-center'>You have selected the basic plan worth ${invDeposit.amount}</h1>
-                <span className='mb-3 text-sm'>you will be debited ${invDeposit.amount} from your wallet or deposit directly to have access to all the features of this plan</span>
+                <h1 className='text-xl my-2 text-center'>You have selected the basic plan worth ${numberSeparator(invDeposit.amount, ",")}</h1>
+                <span className='mb-3 text-sm'>you will be debited ${numberSeparator(invDeposit.amount, ",")} from your wallet or deposit directly to have access to all the features of this plan</span>
                 <span></span>
                 <div className='py-2 flex items-center justify-between font-normal'>
                   <button className='border p-1 bg-lime-500 rounded px-2' onClick={handleRequest} disabled={balance < plan1.amount}>{balance < plan1.amount ? "Subscribe from Wallet" : "Insufficient Funds"}</button>
@@ -228,7 +225,7 @@ const Invest = () => {
                     <div className='flec flex-col'>
                       <div className='flex items-center my-2'>
                         <span>Amount</span>
-                        <span className='p-1 bg-slate-400 rounded'>{plan1.amount}</span>
+                        <span className='p-1 bg-slate-400 rounded'>{numberSeparator(invDeposit.amount, ",")}</span>
                       </div>
                       <div className='flex items-center'>
                         <FaBitcoin />
