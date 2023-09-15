@@ -20,6 +20,9 @@ const Fund = () => {
   const [copySuccess, setCopySuccess] = useState('');
   const copyRef = useRef(null);
 
+  // Loading State on request
+  const [loading, setLoading] = useState(false);
+
   // Proof of Payment URL state
   const [urlProof, setUrlProof] = useState('image');
   const [open, setOPen] = useState(false);
@@ -251,9 +254,10 @@ const Fund = () => {
                     type="text"
                     className='p-1 bg-stone-300 flex w-full outline-none'
                     value={walletAddress}
+                    ref={copyRef}
                     readOnly />
                   <button className='p-1 font-light text-xs' onClick={copyAddress} >
-                  {copySuccess === "copied" ? copySuccess : <FaCopy />}
+                    {copySuccess === "copied" ? copySuccess : <FaCopy />}
                   </button>
                 </div>
                 <input
