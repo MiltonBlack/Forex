@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import Check from '../components/Check'
 import Plan from '../components/Plan'
@@ -10,11 +10,13 @@ import { FaBitcoin, FaCopy, FaTimes } from 'react-icons/fa'
 import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
 import { projectStorage } from '../firebase/config';
 // import Loader from '../components/Loader'
+import { Snackbar, Slide } from '@mui/material'
 
 const Invest = () => {
   const { log } = console;
   const BASE_URL = `http://localhost:3005`
   const PROD_URL = `https://broker-backend.onrender.com`
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { accessToken, _id, balance, walletAddress } = user;
   const [urlProof, setUrlProof] = useState(null);
@@ -25,7 +27,7 @@ const Invest = () => {
   const [copySuccess, setCopySuccess] = useState('');
   const copyRef = useRef(null);
   const [info, setInfo] = useState(user);
- 
+
   async function handleProofImg(e) {
     const chooseImg = e.target.files[0]
     if (chooseImg && types.includes(chooseImg.type)) {
@@ -52,9 +54,14 @@ const Invest = () => {
   const [plan1, setPlan] = useState({
     plan: "none",
     balance: "",
-    amount: "",
-    proofUrl: urlProof
   });
+  const [invDeposit, setInvDeposit] = useState({
+    user_id: _id,
+    amount: "",
+    status: "pending",
+    proofUrl: urlProof,
+    pending: true,
+  })
   const [plan2, setPlan2] = useState({
     plan: "none",
   });
@@ -66,7 +73,7 @@ const Invest = () => {
     e.target.focus();
     setCopySuccess('copied')
   }
-  const handleDeposit = async () => {
+  const handleInvest = async () => {
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -87,7 +94,10 @@ const Invest = () => {
         // localStorage.setItem("user", JSON.stringify(info));
       })
       .catch((err) => log(err));
+      // Call Deposit Function after Updating User Plan and ProofImageURL
+      await handleDepositRequest();
   }
+
   const handleRequest = async () => {
     const config = {
       headers: {
@@ -101,14 +111,33 @@ const Invest = () => {
           plan1,
           config
         )
-        .then((res) => { 
-          log(res.data); 
+        .then((res) => {
+          log(res.data);
           // localStorage.setItem("user", JSON.stringify(res?.data)); 
         })
         .catch((err) => console.log(err));
     }
   };
+
+  async function handleDepositRequest() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    await axios
+      .post(
+        `${PROD_URL}/api/auth/deposit`,
+        invDeposit,
+        config
+      ).then((res) =>
+        console.log(res.data)
+      ).catch((err) => console.log(err));
+  }
+  log(invDeposit);
   log(plan1);
+  log(plan2);
+  log(plans);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-10 relative'>
@@ -124,9 +153,9 @@ const Invest = () => {
               className='flex flex-col w-full h-full'
               onClick={() => {
                 setPlan({
-                  plan: plan.plan, amount: "$" + plan.amount, balance: parseInt(balance) < parseInt(plan.amount) ? balance : parseInt(balance) -
+                  plan: plan.plan, balance: parseInt(balance) < parseInt(plan.amount) ? balance : parseInt(balance) -
                     parseInt(plan.amount)
-                }); setPlan2({ plan: plan.plan }); setSubscribe(true);
+                }); setPlan2({ plan: plan.plan }); setInvDeposit({ ...invDeposit, amount: plan.amount }); setSubscribe(true);
               }}>
               <h1 className='text-2xl'>{plan.plan}</h1>
               <div className='flex items-center'>
@@ -161,6 +190,8 @@ const Invest = () => {
           </Plan>))}
         </div>
         <div className='py-10'></div>
+
+        {/* Invest using the Available Balance from deposits */}
         {subscribe && (
           <Modal>
             <div>
@@ -172,8 +203,8 @@ const Invest = () => {
                   <span className='mr-2'>Wallet Balance</span>
                   <span className='p-1 bg-slate-100 rounded'>${balance}</span>
                 </div>
-                <h1 className='text-xl my-2 text-center'>You have selected the basic plan worth ${plans.amount}</h1>
-                <span className='mb-3 text-sm'>you will be debited $350 from your wallet or deposit directly to have access to all the features of this plan</span>
+                <h1 className='text-xl my-2 text-center'>You have selected the basic plan worth ${invDeposit.amount}</h1>
+                <span className='mb-3 text-sm'>you will be debited ${invDeposit.amount} from your wallet or deposit directly to have access to all the features of this plan</span>
                 <span></span>
                 <div className='py-2 flex items-center justify-between font-normal'>
                   <button className='border p-1 bg-lime-500 rounded px-2' onClick={handleRequest} disabled={balance < plan1.amount}>{balance < plan1.amount ? "Subscribe from Wallet" : "Insufficient Funds"}</button>
@@ -183,6 +214,8 @@ const Invest = () => {
             </div>
           </Modal>
         )}
+
+        {/* Invest By Depositing Directly With the Plan Amount */}
         {deposit && (
           <Modal>
             <div>
@@ -215,11 +248,11 @@ const Invest = () => {
                     </button>
                   </div>
                   <span className='text-base my-1'>Upload Proof Of Payment</span>
-                  <input type="file" name="" className='border p-2 my-1' id="fileUpload"             
-                  onChange={handleProofImg}
-                  accept='image/*' />
+                  <input type="file" name="" className='border p-2 my-1' id="fileUpload"
+                    onChange={handleProofImg}
+                    accept='image/*' />
                   <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium text-base rounded-md mb-1">{progress}%</div>
-                  <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={handleDeposit}>
+                  <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={handleInvest}>
                     Complete Subscription
                   </button>
                 </div>
