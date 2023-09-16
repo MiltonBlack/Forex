@@ -12,6 +12,7 @@ const SignUp = () => {
   const { success, isLoading, register } = useSelector((state) => state.auth)
   const [open, setOpen] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -55,6 +56,12 @@ const SignUp = () => {
     }
     setSignUpOpen(false);
   };
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSignUpSuccess(false);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (firstName === "" || lastName === "" || email === "" ) {
@@ -84,6 +91,11 @@ const SignUp = () => {
       <Snackbar autoHideDuration={4500} open={signUpOpen} onClose={handleEmptyClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
         <Alert sx={{ width: '100%' }} severity='warning' >
           Input Fields Cannot be empty!!!
+        </Alert>
+      </Snackbar>
+      <Snackbar autoHideDuration={4500} open={signUpSuccess} onClose={handleSuccessClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='success' >
+          Account Created Successfully
         </Alert>
       </Snackbar>
       <div className='fixed top-0 right-0 left-0 bottom-0 w-full h-full flex items-center justify-center bg-black/50'>
