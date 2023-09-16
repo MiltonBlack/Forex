@@ -35,7 +35,10 @@ const SignUp = () => {
       });
 
     if (success === true && register) {
-      navigate('/login');
+      setSignUpSuccess(true);
+      setTimeout(()=>{
+        navigate('/login');
+      },2000);
     }
   }, [success]);
   const onChange = (e) => {
@@ -159,7 +162,7 @@ const SignUp = () => {
             </div>
           </div>
           <button
-            className='uppercase border-2 p-2 my-4 w-[70%] hover:bg-white text-white transition'
+            className='uppercase border p-2 my-5 w-[70%] hover:bg-white hover:text-black text-white transition rounded-sm'
             onClick={handleSubmit}>
             {isLoading ? <CircularProgress /> : "Sign Up"}
           </button>

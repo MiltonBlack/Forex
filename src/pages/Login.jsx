@@ -3,20 +3,24 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoginUser } from '../services/authSlice'
 import img from '../assets/solana.jpg'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material'
 
 const Login = () => {
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  })
+  });
   const { email, password } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, User, register } = useSelector((state) => state.auth);
   useEffect(() => {
     if (User && !isLoading) {
-      navigate('/dashboard')
+      setLoginSuccess(true);
+      setTimeout(()=>{
+        navigate('/dashboard')
+      },2000)
     }
   }, [User, isLoading]);
   const onChange = (e) => {
@@ -24,7 +28,13 @@ const Login = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }))
-  }
+  };
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   function handleSubmit(e) {
     e.preventDefault();
     if (email === "" && password === "") {
@@ -34,18 +44,18 @@ const Login = () => {
         email,
         password
       };
-
       // send userData to LoginUser function in authSlice for Login Request. 
       dispatch(LoginUser(userData));
     }
   }
-  console.log(User)
-  // if (isLoading) {
-  //   return <Audio height="100vh" width="100vw" radius="9" color="white" ariaLabel="loading" wrapperStyle wrapperClass />;
-  // }
   return (
     <div className=' bg-sky-500 flex items-center justify-center w-screen h-screen relative'>
       <img src={img} alt="" className='h-screen w-screen' />
+      <Snackbar autoHideDuration={4000} open={loginSuccess} onClose={handleSuccessClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='success' >
+          SignIn Successfull
+        </Alert>
+      </Snackbar>
       <div className='fixed top-0 right-0 left-0 bottom-0 w-full h-full flex items-center justify-center bg-black/75'>
         <div className='border-2 border-black shadow-xl p-2 flex flex-col w-[380px] md:w-[512px] items-start justify-center bg-slate-500'>
           <h1 className='text-white my-2 text-center w-full uppercase'>Sign IN to your Account</h1>
