@@ -1,4 +1,3 @@
-import * as firebase from 'firebase/app';
 import { getStorage } from 'firebase/storage';
 // storage of images
 import { getFirestore } from 'firebase/firestore';

@@ -4,10 +4,11 @@ import { FaAngleLeft, FaAngleRight, FaMinusSquare, FaPlus, FaCopy, FaRecycle, Fa
 import Modal from '../components/Modal';
 import { useSelector } from 'react-redux'
 import { projectStorage } from '../firebase/config';
-import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import axios from 'axios';
 import Loader from '../components/Loader';
 import moment from 'moment'
+import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material';
 
 const Fund = () => {
   const BASE_URL = `http://localhost:3005`
@@ -24,8 +25,10 @@ const Fund = () => {
   const [loading, setLoading] = useState(false);
 
   // Proof of Payment URL state
-  const [urlProof, setUrlProof] = useState('image');
+  const [urlProof, setUrlProof] = useState(null);
   const [open, setOPen] = useState(false);
+  const [depositLoading, setDepositLoading] = useState(false);
+  const [withdrawLoading, setWithdrawLoading] = useState(false);
   const [withdraw, setWithdraw] = useState(false);
   const [progress, setProgress] = useState(0);
   const [proofImg, setProofImg] = useState(null)
@@ -124,7 +127,7 @@ const Fund = () => {
       () => {
         getDownloadURL(uploadSequence.snapshot.ref).then(url => setUrlProof(url))
       })
-  }
+  };
 
   async function handleDepositRequest() {
     const config = {
@@ -132,17 +135,27 @@ const Fund = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
+    setDepositLoading(true);
     await axios
       .post(
         `${PROD_URL}/api/auth/deposit`,
         deposit,
         config
-      ).then((res) =>
-        console.log(res.data)
+      ).then((res) => {
+        setDepositLoading(false);
+      }
         // localStorage.setItem("user", JSON.stringify(res?.data));
       ).catch((err) => console.log(err));
     fetchWithdrawalTransaction();
   }
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setDepositLoading(false);
+    setWithdrawLoading(false);
+  };
 
   async function handleWithdrawalRequest() {
     const config = {
@@ -150,13 +163,16 @@ const Fund = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
+    setWithdrawLoading(true);
     await axios
       .post(
         `${PROD_URL}/api/auth/withdraw`,
         withdrawFund,
         config
-      ).then((res) =>
+      ).then((res) => {
+        setWithdrawLoading(false);
         console.log(res.data)
+      }
         // localStorage.setItem("user", JSON.stringify(res?.data));
       ).catch((err) => console.log(err));
   }
@@ -177,6 +193,16 @@ const Fund = () => {
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 h-fit relative z-0'>
+        <Snackbar autoHideDuration={4000} open={depositLoading} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+          <Alert sx={{ width: '100%' }} severity='success' >
+            Deposit Request Sent Successfully
+          </Alert>
+        </Snackbar>
+        <Snackbar autoHideDuration={4000} open={withdrawLoading} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+          <Alert sx={{ width: '100%' }} severity='success' >
+            Withdrawal Request Sent Successfully
+          </Alert>
+        </Snackbar>
         <div className='my-4'>
           <h1 className='text-2xl font-extrabold'>Fund Your Wallet</h1>
           <span className='font-light text-sm text-slate-600'>Track all your financial assets and earnings in one place</span>
@@ -278,7 +304,7 @@ const Fund = () => {
                 <button
                   className='border my-2 bg-black/50 text-white p-1 rounded'
                   onClick={handleDepositRequest}>
-                  Complete Payment
+                  {depositLoading ? <CircularProgress /> : "Complete Payment"}
                 </button>
               </div>
             </Modal>
