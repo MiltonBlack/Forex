@@ -7,6 +7,7 @@ import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material'
 
 const Login = () => {
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [loginField, setLoginField] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -33,12 +34,18 @@ const Login = () => {
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false);
+    setLoginSuccess(false);
+  };
+  const handleEmptyClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setLoginField(false);
   };
   function handleSubmit(e) {
     e.preventDefault();
     if (email === "" && password === "") {
-      console.log('fields cant be empty');
+      setLoginField(true);
     } else {
       const userData = {
         email,
@@ -54,6 +61,11 @@ const Login = () => {
       <Snackbar autoHideDuration={4000} open={loginSuccess} onClose={handleSuccessClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
         <Alert sx={{ width: '100%' }} severity='success' >
           SignIn Successfull
+        </Alert>
+      </Snackbar>
+      <Snackbar autoHideDuration={5000} open={loginField} onClose={handleEmptyClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='warning' >
+          Email and Passwords Fields Cannot be Left Blank...
         </Alert>
       </Snackbar>
       <div className='fixed top-0 right-0 left-0 bottom-0 w-full h-full flex items-center justify-center bg-black/75'>
