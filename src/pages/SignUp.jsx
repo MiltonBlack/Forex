@@ -15,12 +15,24 @@ const SignUp = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
+    country:'',
     email: '',
     password: '',
     password2: '',
   })
-  const { firstName, lastName, email, password, password2 } = formData;
+  const { firstName, lastName, country, email, password, password2 } = formData;
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState([]);
   useEffect(() => {
+    fetch(
+      "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setCountries(data.countries);
+        setSelectedCountry(countries[0].value);
+      });
+
     if (success === true && register) {
       navigate('/login');
     }
@@ -55,6 +67,7 @@ const SignUp = () => {
         firstName,
         lastName,
         email,
+        country,
         password,
       }
       dispatch(Register(userData));
@@ -99,6 +112,18 @@ const SignUp = () => {
             name='email'
             value={email}
             onChange={onChange} />
+          <select
+            placeholder='Country...'
+            className='my-2 p-1 w-full border rounded'
+            name='country'
+            value={country}
+            onChange={onChange} >
+              {countries.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+            </select>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
             <div className='flex bg-white pr-1'>
               <input
