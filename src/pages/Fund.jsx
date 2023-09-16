@@ -339,7 +339,7 @@ const Fund = () => {
               <button
                 className='border my-2 bg-black/50 text-white p-1 rounded'
                 onClick={handleWithdrawalRequest}>
-                Complete Request
+                {withdrawLoading ? <CircularProgress /> : "Complete Request"}
               </button>
             </div>
           </Modal>
