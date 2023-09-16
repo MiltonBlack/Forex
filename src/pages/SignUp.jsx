@@ -11,6 +11,7 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const { success, isLoading, register } = useSelector((state) => state.auth)
   const [open, setOpen] = useState(false);
+  const [signUpOpen, setSignUpOpen] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -36,10 +37,18 @@ const SignUp = () => {
     }
     setOpen(false);
   };
+  const handleEmptyClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSignUpOpen(false);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (password !== password2) {
+    if (firstName === "" || lastName === "" || email === "" ) {
+      setSignUpOpen(true);
+    }
+    else if (password !== password2) {
       setOpen(true);
     } else  {
       const userData = {
@@ -47,8 +56,7 @@ const SignUp = () => {
         lastName,
         email,
         password,
-      };
-
+      }
       dispatch(Register(userData));
     }
   };
@@ -57,7 +65,12 @@ const SignUp = () => {
       <img src={img} alt="" className='h-screen w-screen' />
       <Snackbar autoHideDuration={4000} open={open} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
         <Alert sx={{ width: '100%' }} severity='warning' >
-          Input Fields cannot be Empty!!
+          Passwords Don Not Match!!!
+        </Alert>
+      </Snackbar>
+      <Snackbar autoHideDuration={4500} open={signUpOpen} onClose={handleEmptyClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='warning' >
+          Input Fields Cannot be empty!!!
         </Alert>
       </Snackbar>
       <div className='fixed top-0 right-0 left-0 bottom-0 w-full h-full flex items-center justify-center bg-black/50'>
