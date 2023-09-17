@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { logout } from '../services/authSlice'
-import { FaArrowCircleDown, FaBarcode, FaBars, FaBell, FaCog, FaDoorOpen, FaPowerOff, FaQuestionCircle, FaTimes } from 'react-icons/fa'
+import { FaArrowCircleDown, FaBarcode, FaBars, FaBell, FaCog, FaDoorOpen, FaHistory, FaPowerOff, FaQuestionCircle, FaTimes, FaUpload } from 'react-icons/fa'
+import { GrOverview } from 'react-icons/gr'
+import { GiSettingsKnobs, GiTrade, GiWallet } from 'react-icons/gi'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import '../styles/Navbar.css'
+import { BiUserCircle } from 'react-icons/bi'
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -37,16 +40,16 @@ const NavBar = () => {
                 <FaTimes color='red' size={26} />
               </div>
               <div className='flex flex-col items-start justify-between h-full py-20 pl-20 font-normal'>
-                <NavLink to='/dashboard' className='flex items-center text-xl font-bold border-black cursor-pointer  active:rounded'>Overview</NavLink>
-                <NavLink to='transactionHistory' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer '>History</NavLink>
-                <NavLink to='wallet' className='flex items-center hover:border border-black px-1 cursor-pointer '>Wallet</NavLink>
-                <NavLink to='swap' className='flex items-center hover:border border-black px-1 cursor-pointer '>Swap</NavLink>
-                <NavLink to='plans' className='flex items-center hover:border border-black px-1 cursor-pointer '> Trading Plans</NavLink>
-                <NavLink to='ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>ROI</NavLink>
-                <NavLink to='/dashboard/profile' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Profile</NavLink>
-                <NavLink to='/dashboard/settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Settings</NavLink>
-                <NavLink to='help' className='flex items-center hover:border border-black px-1 cursor-pointer'>
-                  <FaQuestionCircle />
+                <NavLink to='/dashboard' className='flex items-center text-xl font-bold border-black cursor-pointer  active:rounded'><GrOverview className='mr-3'/> Overview</NavLink>
+                <NavLink to='/dashboard/transactionHistory' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer '><FaHistory className='mr-3'/> History</NavLink>
+                <NavLink to='/dashboard/wallet' className='flex items-center hover:border border-black px-1 cursor-pointer '><GiWallet className='mr-3'/> Wallet</NavLink>
+                <NavLink to='/dashboard/swap' className='flex items-center hover:border border-black px-1 cursor-pointer '><GrSend className='mr-3'/> Swap</NavLink>
+                <NavLink to='/dashboard/plans' className='flex items-center hover:border border-black px-1 cursor-pointer '><GiTrade className='mr-3'/> Trading Plans</NavLink>
+                <NavLink to='/dashboard/ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '><FaUpload className='mr-3'/> ROI</NavLink>
+                <NavLink to='/dashboard/profile' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><BiUserCircle className='mr-3'/> Profile</NavLink>
+                <NavLink to='/dashboard/settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><GiSettingsKnobs className='mr-3'/> Settings</NavLink>
+                <NavLink to='/dashboard/help' className='flex items-center hover:border border-black px-1 cursor-pointer'>
+                  <FaQuestionCircle className='mr-3'/>
                   <h1 className='ml-2'>Help</h1>
                 </NavLink>
                 <button className='flex items-center border rounded bg-slate-500 p-1 text-white' onClick={Logout}>Logout <FaPowerOff className='ml-2'/></button>
@@ -55,12 +58,12 @@ const NavBar = () => {
           </div>)}
         <div className='hidden md:flex'>
           <NavLink to='/dashboard' className='flex items-center mr-1 md:mr-3 text-base md:text-xl md:font-bold cursor-pointer'>Overview</NavLink>
-          <NavLink to='transactionHistory/deposits' className='flex items-center mr-1 md:mr-3 text-base md:text-xl border-black px-1 cursor-pointer '>History</NavLink>
-          <NavLink to='wallet' className='flex items-center mr-3 border-black px-1 cursor-pointer '>Wallet</NavLink>
-          <NavLink to='swap' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Swap</NavLink>
-          <NavLink to='ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>ROI</NavLink>
-          <NavLink to='plans' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '> Trading Plans</NavLink>
-          <NavLink to='help' className='flex items-center hover:border border-black px-1 cursor-pointer '><FaQuestionCircle /><h1>Help</h1></NavLink>
+          <NavLink to='/dashboard/transactionHistory/deposits' className='flex items-center mr-1 md:mr-3 text-base md:text-xl border-black px-1 cursor-pointer '>History</NavLink>
+          <NavLink to='/dashboard/wallet' className='flex items-center mr-3 border-black px-1 cursor-pointer '>Wallet</NavLink>
+          <NavLink to='/dashboard/swap' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Swap</NavLink>
+          <NavLink to='/dashboard/ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>ROI</NavLink>
+          <NavLink to='/dashboard/plans' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '> Trading Plans</NavLink>
+          <NavLink to='/dashboard/help' className='flex items-center hover:border border-black px-1 cursor-pointer '><FaQuestionCircle /><h1>Help</h1></NavLink>
         </div>
         <div className='flex items-center justify-center relative'>
           <FaBell className='hidden md:flex' />

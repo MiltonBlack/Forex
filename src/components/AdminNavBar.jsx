@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { FaArrowCircleDown, FaBarcode, FaBars, FaBell, FaCog, FaDoorOpen, FaPowerOff, FaTimes } from 'react-icons/fa';
+import { FaArrowCircleDown, FaBarcode, FaBars, FaBell, FaCog, FaDoorOpen, FaPowerOff, FaTimes, FaUserFriends } from 'react-icons/fa';
+import { GrHistory, GrOverview } from 'react-icons/gr'
+import { RiLuggageDepositFill } from 'react-icons/ri'
+import { BiMoney } from 'react-icons/bi'
+import { MdAdminPanelSettings } from 'react-icons/md'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutAdmin } from '../services/adminSlice';
 import '../styles/Navbar.css';
 
-const AdminNavBar = () => { 
+const AdminNavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [navBar, setNavBar] = useState(false);
@@ -13,7 +17,7 @@ const AdminNavBar = () => {
   function toggleMenu() {
     setOpen(!open);
   }
-  function Logout(){
+  function Logout() {
     dispatch(logoutAdmin());
     navigate('/auth/admin/login');
   }
@@ -29,23 +33,23 @@ const AdminNavBar = () => {
                 <FaTimes color='red' size={26} />
               </div>
               <div className='flex flex-col items-start justify-between h-full w-full py-20 pl-20 font-normal'>
-                <NavLink to='/auth/admin' className='flex items-center text-xl font-bold border-black cursor-pointer active:bg-slate-400 rounded'>Overview</NavLink>
-                <NavLink to='allusers' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer'>Users</NavLink>
-                <NavLink to='/auth/admin/deposits' className='flex items-center hover:border border-black px-1 cursor-pointer'>Deposits</NavLink>
-                <NavLink to='withdrawals' className='flex items-center hover:border border-black px-1 cursor-pointer'>Withdrawals</NavLink>
-                <NavLink to='pending' className='flex items-center hover:border border-black px-1 cursor-pointer'>Pending</NavLink>
-                <NavLink to='settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'>Settings</NavLink>
-                <button className='flex items-center border rounded bg-slate-500 p-1 text-white' onClick={Logout}>Logout <FaPowerOff className='ml-2'/></button>
+                <NavLink to='/auth/admin' className='flex items-center text-xl font-bold border-black cursor-pointer active:bg-slate-400 rounded'><GrOverview className='mr-3'/>Overview</NavLink>
+                <NavLink to='allusers' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer'><FaUserFriends className='mr-3'/>Users</NavLink>
+                <NavLink to='/auth/admin/deposits' className='flex items-center hover:border border-black px-1 cursor-pointer'><RiLuggageDepositFill className='mr-3'/> Deposits</NavLink>
+                <NavLink to='/auth/admin/withdrawals' className='flex items-center hover:border border-black px-1 cursor-pointer'><BiMoney className='mr-3'/>Withdrawals</NavLink>
+                <NavLink to='/auth/admin/pending' className='flex items-center hover:border border-black px-1 cursor-pointer'><GrHistory className='mr-3'/>Pending</NavLink>
+                <NavLink to='/auth/admin/settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><MdAdminPanelSettings className='mr-3'/> Settings</NavLink>
+                <button className='flex items-center border rounded bg-red-500 p-1 text-white' onClick={Logout}>Logout <FaPowerOff className='ml-2' /></button>
               </div>
             </div>
           </div>)}
         <div className='hidden md:flex'>
           <NavLink to='/auth/admin' className='flex items-center mr-1 md:mr-3 text-base md:text-xl md:font-bold cursor-pointer'>Overview</NavLink>
           <NavLink to='allusers' className='flex items-center mr-1 md:mr-3 text-base md:text-xl hover:border border-black px-1 cursor-pointer '>Users</NavLink>
-          <NavLink to='/auth/admin/deposits' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Deposits</NavLink> 
-          <NavLink to='withdrawals' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Withdrawals</NavLink>
-          <NavLink to='pending' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Pending</NavLink>
-          <NavLink to='settings' className='flex items-center hover:border border-black px-1 cursor-pointer '>Settings</NavLink>
+          <NavLink to='/auth/admin/deposits' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Deposits</NavLink>
+          <NavLink to='/auth/admin/withdrawals' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Withdrawals</NavLink>
+          <NavLink to='/auth/admin/pending' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '>Pending</NavLink>
+          <NavLink to='/auth/admin/settings' className='flex items-center hover:border border-black px-1 cursor-pointer '>Settings</NavLink>
         </div>
         <div className='flex items-center justify-center relative'>
           <FaBell className='hidden md:flex' />
@@ -59,9 +63,9 @@ const AdminNavBar = () => {
                 </span>
                 <span className='ml-1 text-sm flex'>Admin</span>
                 <Link to='/auth/admin/settings' className='flex border-black items-center justify-center border w-full'>Settings <FaCog className='mx-2' /></Link>
-                <div 
-                className='flex border-black items-center justify-center border w-full cursor-pointer' onClick={Logout} >
-                  Logout 
+                <div
+                  className='flex border-black items-center justify-center border w-full cursor-pointer' onClick={Logout} >
+                  Logout
                   <FaDoorOpen className='mx-2' />
                 </div>
               </div>
