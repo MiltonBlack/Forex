@@ -147,10 +147,15 @@ const Invest = () => {
         console.log(res.data)
       ).catch((err) => console.log(err));
   }
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+  };
   return (
     <>
       <div className='pt-16 bg-stone-100 px-10 relative'>
-      <Snackbar autoHideDuration={4000} open={balance < plan1.amount} onClose={handleSuccessClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+      <Snackbar autoHideDuration={5000} open={balance < plan1.amount} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
         <Alert sx={{ width: '100%' }} severity='warning' >
           Insufficient Wallet Balance for Plan!!!
         </Alert>
