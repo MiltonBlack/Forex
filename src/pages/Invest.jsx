@@ -10,7 +10,7 @@ import { FaBitcoin, FaCopy, FaTimes } from 'react-icons/fa'
 import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
 import { projectStorage } from '../firebase/config';
 // import Loader from '../components/Loader'
-import { Snackbar, Slide } from '@mui/material';
+import { Snackbar, Slide, Alert } from '@mui/material';
 import numberSeparator from 'number-separator';
 
 const Invest = () => {
@@ -150,6 +150,11 @@ const Invest = () => {
   return (
     <>
       <div className='pt-16 bg-stone-100 px-10 relative'>
+      <Snackbar autoHideDuration={4000} open={balance < plan1.amount} onClose={handleSuccessClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='warning' >
+          Insufficient Wallet Balance for Plan!!!
+        </Alert>
+      </Snackbar>
         <div className='flex my-4 flex-col'>
           <h1 className='text-3xl md:text-5xl font-bold md:font-extrabold'>We've got a Plan <br />that's Perfect for you</h1>
           <div className='p-1 border border-black rounded flex w-fit my-4'>

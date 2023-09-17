@@ -3,10 +3,10 @@ import { logout } from '../services/authSlice'
 import { FaArrowCircleDown, FaBarcode, FaBars, FaBell, FaCog, FaDoorOpen, FaHistory, FaPowerOff, FaQuestionCircle, FaTimes, FaUpload } from 'react-icons/fa'
 import { GrOverview } from 'react-icons/gr'
 import { GiSettingsKnobs, GiTrade, GiWallet } from 'react-icons/gi'
+import { BiUserCircle } from 'react-icons/bi'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import '../styles/Navbar.css'
-import { BiUserCircle } from 'react-icons/bi'
 
 const NavBar = () => {
   const dispatch = useDispatch();
