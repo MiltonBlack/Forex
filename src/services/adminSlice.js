@@ -133,6 +133,8 @@ const initialState = {
     isLoading: false,
     success: false,
     deleted:false,
+    updated:false,
+    updatedAcct:false,
     error: []
 };
 
@@ -227,6 +229,32 @@ const adminSlice = createSlice({
         [approveDnSAdmin.rejected]: (state, action) => {
             state.isLoading = false;
             state.error = action.error.message;
+        },
+        [updateAccountAdmin.pending]: (state) => {
+            state.isLoading = true;
+            state.updatedAcct = false;
+        },
+        [updateAccountAdmin.fulfilled]: (state) => {
+            state.isLoading = false;
+            state.updatedAcct = true;
+        },
+        [updateAccountAdmin.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.error = action.error.message;
+            state.updatedAcct = false;
+        },
+        [updateSecurityAdmin.pending]: (state) => {
+            state.isLoading = true;
+            state.updated = false;
+        },
+        [updateSecurityAdmin.fulfilled]: (state) => {
+            state.isLoading = false;
+            state.updated = true;
+        },
+        [updateSecurityAdmin.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            state.updated = false;
         },
         [logoutAdmin.pending]: (state, action)=>{
             state.isLoading = true;

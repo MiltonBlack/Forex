@@ -5,7 +5,6 @@ import axios from 'axios'
 const Personnal = () => {
   const { user } = useSelector((state) => state.auth);
   const [detail, setDetail] = useState({
-    // name: user.firstName + " " + user.lastName,
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
@@ -40,7 +39,7 @@ const Personnal = () => {
           email: res.data.email,
           address: res.data.address
         }));
-        localStorage.setItem("user", JSON.stringify(info));
+        // localStorage.setItem("user", JSON.stringify(info));
       })
       .catch((err) => console.log(err));
   }

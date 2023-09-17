@@ -1,15 +1,53 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { updateAccountAdmin, updateSecurityAdmin } from '../../services/adminSlice';
+import { Snackbar, Alert, Slide, CircularProgress } from '@mui/material';
 
 const AdminSettings = () => {
     const dispatch = useDispatch();
-    const { admin, } = useSelector((state) => state.admin);
-    function updatePassword(){
-        dispatch(updatePassword());
+    const { admin, updated, updatedAcct } = useSelector((state) => state.admin);
+    const [dataPass, setDataPass] = useState({
+        password: ''
+    });
+    const [dataAcct, setDataAcct] = useState({
+        walletAddress: admin.walletAddress
+    })
+    function updatePassword() {
+        dispatch(updateSecurityAdmin(dataPass));
     }
+    function updateAccount() {
+        dispatch(updateAccountAdmin(dataAcct));
+    }
+    function onChangePass(e) {
+        setDataPass((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }))
+    }
+    function onChangeAcct(e) {
+        setDataAcct((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }))
+    }
+    const handleClose = (event, reason) => {
+        if (reason === "clickaway") {
+          return;
+        }
+      };
     return (
         <>
             <div className='pt-16 bg-stone-100 px-10 h-[100vh] relative'>
+                <Snackbar autoHideDuration={4000} open={updated} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+                    <Alert sx={{ width: '100%' }} severity='success' >
+                        Password Updated Successfully!!
+                    </Alert>
+                </Snackbar>
+                <Snackbar autoHideDuration={4000} open={updatedAcct} onClose={handleClose}  TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+                    <Alert sx={{ width: '100%' }} severity='success' >
+                        Wallet Address Updated Successfully!!
+                    </Alert>
+                </Snackbar>
                 <div className='my-4 flex flex-col mb-4'>
                     <h1 className='text-2xl font-extrabold my-2'>Your Personnal Settings</h1>
                     <span className='font-light text-sm text-slate-600'>Modify and customize the app to your Taste</span>
@@ -21,7 +59,7 @@ const AdminSettings = () => {
                             <input
                                 type="text"
                                 className='border px-2 rounded my-1 w-full border-black'
-                                name='password'
+                                name='OldPassword'
                             />
                         </div>
                         <div className='my-4'>
@@ -29,7 +67,9 @@ const AdminSettings = () => {
                             <input
                                 type="text"
                                 className='border px-2 rounded my-1 w-full border-black'
-                                name='newPassword'
+                                name='password'
+                                onChange={onChangePass}
+                                value={dataPass.password}
                             />
                         </div>
                         <div className='my-4'>
@@ -40,7 +80,7 @@ const AdminSettings = () => {
                                 name='confirmPassword'
                             />
                         </div>
-                        <button className='border p-2 w-full bg-black/75 text-white rounded' >Save</button>
+                        <button className='border p-2 w-full bg-black/75 text-white rounded' onClick={updatePassword} >{updated? <CircularProgress/> : "Save"}</button>
                     </div>
                     <div className='p-4 md:w-full w-[80%]'>
                         <div className='my-4'>
@@ -49,9 +89,9 @@ const AdminSettings = () => {
                         </div>
                         <div className='my-4'>
                             <h1>Bitcoin Address</h1>
-                            <input type="text" className='border px-2 rounded my-1 w-full border-black' name='walletAddress' />
+                            <input type="text" className='border px-2 rounded my-1 w-full border-black' name='walletAddress' onChange={onChangeAcct} value={dataAcct.walletAddress} />
                         </div>
-                        <button className='border p-2 w-full bg-black/75 text-white rounded' >Save</button>
+                        <button className='border p-2 w-full bg-black/75 text-white rounded' onClick={updateAccount}>{updatedAcct? <CircularProgress/> : "Save"}</button>
                     </div>
                 </div>
             </div>

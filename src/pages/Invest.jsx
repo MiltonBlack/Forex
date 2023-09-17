@@ -28,7 +28,19 @@ const Invest = () => {
   const [copySuccess, setCopySuccess] = useState('');
   const copyRef = useRef(null);
   const [info, setInfo] = useState(user);
+  const [wallet, setWallet] = useState(null);
 
+  useEffect(()=>{
+    getWallet();
+  },[])
+  async function getWallet(){
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    await axios.get("http://localhost:3005/api/auth/settings/walletaddress", config).then((res)=> setWallet(res.data)).catch(err => console.log(err));
+  }
   async function handleProofImg(e) {
     const chooseImg = e.target.files[0]
     if (chooseImg && types.includes(chooseImg.type)) {
@@ -237,7 +249,7 @@ const Invest = () => {
                     <input
                       type="text"
                       className='p-1 bg-stone-300 flex w-full outline-none'
-                      value={walletAddress}
+                      value={wallet}
                       readOnly
                       ref={copyRef} />
                     <button className='p-1 text-sm font-bold' onClick={(e) => { copyAddress(e) }}>

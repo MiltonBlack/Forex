@@ -114,6 +114,7 @@ const initialState = {
     isLoading: false,
     success: false,
     loggedIn: false,
+    updated:false,
     error: ""
 }
 

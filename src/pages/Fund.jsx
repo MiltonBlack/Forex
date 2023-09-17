@@ -34,6 +34,19 @@ const Fund = () => {
   const [proofImg, setProofImg] = useState(null)
   const [error, setError] = useState(null)
   const types = ['image/png', 'image/jpg'];
+  const [wallet, setWallet] = useState(null);
+
+  useEffect(()=>{
+    getWallet();
+  },[])
+  async function getWallet(){
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    await axios.get("http://localhost:3005/api/auth/settings/walletaddress", config).then((res)=> setWallet(res.data)).catch(err => console.log(err));
+  }
   // set balance field in model for the backend to reflect here
   const [deposit, setDeposit] = useState({
     user_id: _id,
@@ -279,7 +292,7 @@ const Fund = () => {
                   <input
                     type="text"
                     className='p-1 bg-stone-300 flex w-full outline-none'
-                    value={walletAddress}
+                    value={wallet}
                     ref={copyRef}
                     readOnly />
                   <button className='p-1 font-light text-xs' onClick={copyAddress} >
