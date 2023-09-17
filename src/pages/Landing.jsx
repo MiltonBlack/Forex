@@ -7,6 +7,7 @@ import edu from '../assets/education.svg'
 import nama from '../assets/nama.svg'
 import Footer from '../components/Footer'
 import { Link } from 'react-router-dom'
+import { newspapers } from '../data/newspapers'
 
 const Landing = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -114,7 +115,12 @@ const Landing = () => {
         <div className='py-5 md:py-10'>
           <h1 className='uppercase text-center my-2'>As Seen On</h1>
           <div className='grid grid-cols-5 gap-1 md:gap-5'>
-            <div className='w-full h-24 bg-stone-100 flex items-center justify-center'>
+            {newspapers.map((item, idx) => (
+              <div className='w-full h-24 bg-stone-100 flex items-center justify-center' key={idx}>
+                <img src={item.image} alt="" />
+              </div>
+            ))}
+            {/* <div className='w-full h-24 bg-stone-100 flex items-center justify-center'>
               <FaGoogle size={50} />
             </div>
             <div className='w-full h-24 bg-stone-100 flex items-center justify-center'>
@@ -128,7 +134,7 @@ const Landing = () => {
             </div>
             <div className='w-full h-24 bg-stone-100 flex items-center justify-center'>
               <FaAmazon size={50} />
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
