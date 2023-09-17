@@ -29,6 +29,7 @@ const Invest = () => {
   const copyRef = useRef(null);
   const [info, setInfo] = useState(user);
   const [wallet, setWallet] = useState(null);
+  const [investSuccess, setInvestSuccess] = useState(false);
 
   useEffect(()=>{
     getWallet();
@@ -143,8 +144,9 @@ const Invest = () => {
         `${PROD_URL}/api/auth/deposit`,
         invDeposit,
         config
-      ).then((res) =>
-        console.log(res.data)
+      ).then((res) =>{
+        console.log(res.data); 
+        setInvestSuccess(true)}
       ).catch((err) => console.log(err));
   }
   const handleClose = (event, reason) => {
@@ -158,6 +160,11 @@ const Invest = () => {
       <Snackbar autoHideDuration={5000} open={balance < plan1.amount} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
         <Alert sx={{ width: '100%' }} severity='warning' >
           Insufficient Wallet Balance for Plan!!!
+        </Alert>
+      </Snackbar>
+      <Snackbar autoHideDuration={5000} open={investSuccess} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='success' >
+          Investment Successful
         </Alert>
       </Snackbar>
         <div className='flex my-4 flex-col'>
