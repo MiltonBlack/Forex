@@ -7,7 +7,7 @@ const Footer = () => {
     <div className='grid grid-cols-3 md:grid-cols-5 gap-5'>
       <div>
         <h1 className='font-normal text-md my-2'>Bitcoin Exchange Trading and Investment Platform</h1>
-        <p>cd s vosijcojs svsopjcvo s opsjcos vsov svsojvojo</p>
+        <p>Explore its Potential for Investments and its Impacts on the Global Economy. Whether you're a curious beginner or looking to deepen your understanding, This is your Gateway to all things Bitcoin.</p>
       </div>
       <div>
         <h1 className='font-normal text-md my-2'>Trading</h1>
