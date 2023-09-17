@@ -5,17 +5,18 @@ import moment from 'moment';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md'
 import Loader from '../../components/Loader';
-import Modal from '../../components/Modal'
+import Modal from '../../components/Modal';
+import { Snackbar, Alert, Slide, CircularProgress } from '@mui/material';
 
 const AdminUsers = () => {
   const dispatch = useDispatch();
-  const { allUsers, isLoading } = useSelector((state) => state.admin);
+  const { allUsers, isLoading, deleted } = useSelector((state) => state.admin);
   const [deleteData, setDeleteData] = useState(false);
   const [userData, setUserData] = useState([]);
   useEffect(() => {
     dispatch(getAllUsersAdmin());
   }, [dispatch]);
-  function DeleteUser(){
+  function DeleteUser() {
     // Send a delete request to the server
     // for now log to the console 'deleted'
     const id = userData?._id;
@@ -28,6 +29,11 @@ const AdminUsers = () => {
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full relative'>
+        <Snackbar autoHideDuration={5000} open={deleted} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+          <Alert sx={{ width: '100%' }} severity='success' >
+            User Deleted Successfully
+          </Alert>
+        </Snackbar>
         <div className='my-4'>
           <h1 className='text-2xl font-extrabold'>All Users</h1>
           <span className='font-light text-sm text-slate-600'>Track all your user Records in one place</span>
@@ -54,7 +60,7 @@ const AdminUsers = () => {
                   <td>${item.amount}</td>
                   <td className='p-1 bg-red-400 rounded-sm text-white'>{item.emailVerified}</td>
                   <td>{moment(item.createdAt).fromNow}</td>
-                  <td className=' bg-red-300'><MdDelete color='red' onClick={()=> {setDeleteData(true); setUserData(item);}} /></td>
+                  <td className=' bg-red-300'><MdDelete color='red' onClick={() => { setDeleteData(true); setUserData(item); }} /></td>
                 </tr>
               )}
             </tbody>
@@ -74,9 +80,9 @@ const AdminUsers = () => {
         <Modal>
           <h1>Delete User with the following id: {userData._id}</h1>
           <span>{userData.firstName} {userData.lastName}</span>
-          <button className='my-2 bg-red-500 text-white rounded-sm' onClick={DeleteUser}>Confirm User Delete!</button>
+          <button className='my-2 bg-red-500 text-white rounded-sm' onClick={DeleteUser}>{!deleted ? "Confirm User Delete!" : <CircularProgress />}</button>
         </Modal>
-        )
+      )
       }
     </>
   )

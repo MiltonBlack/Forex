@@ -132,6 +132,7 @@ const initialState = {
     accessToken: token ? token : null,
     isLoading: false,
     success: false,
+    deleted:false,
     error: []
 };
 
@@ -178,6 +179,7 @@ const adminSlice = createSlice({
         },
         [deleteUserAdmin.fulfilled]: (state) => {
             state.isLoading = false;
+            state.deleted = true;
         },
         [deleteUserAdmin.rejected]: (state) => {
             state.isLoading = false;
