@@ -131,6 +131,7 @@ const initialState = {
     withdrawals:[],
     accessToken: token ? token : null,
     isLoading: false,
+    success: false,
     error: []
 };
 
@@ -217,9 +218,9 @@ const adminSlice = createSlice({
         [approveDnSAdmin.pending]: (state) => {
             state.isLoading = true;
         },
-        [approveDnSAdmin.fulfilled]: (state, action) => {
+        [approveDnSAdmin.fulfilled]: (state) => {
             state.isLoading = false;
-            // state. = action.payload;
+            state.success = true;
         },
         [approveDnSAdmin.rejected]: (state, action) => {
             state.isLoading = false;

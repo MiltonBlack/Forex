@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { approveDnSAdmin, getSingleDepositAdmin } from '../../services/adminSlice';
 import moment from 'moment';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material';
 
 const AdminSingleDeposit = () => {
   const { id } = useParams();
@@ -11,14 +11,24 @@ const AdminSingleDeposit = () => {
   useEffect(() => {
     dispatch(getSingleDepositAdmin(id));
   }, [dispatch]);
-  const { oneDeposit, allUsers, isLoading } = useSelector((state) => state.admin);
+  const { oneDeposit, allUsers, isLoading, success } = useSelector((state) => state.admin);
   const single = allUsers.find((item) => item._id === id);
   const { _id } = oneDeposit;
   function approveDeposit() {
     dispatch(approveDnSAdmin(_id));
   }
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+  };
   return (
-    <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
+    <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full relative'>
+      <Snackbar autoHideDuration={5000} open={success} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='success' >
+          {single.email} Deposit Approved Successfully
+        </Alert>
+      </Snackbar>
       <div className='my-4'>
         <h1 className='text-2xl font-extrabold'>Deposits Transaction History</h1>
         <span className='font-light text-sm text-slate-600'>Track all your Customer's Deposit financial data in one place</span>
@@ -33,7 +43,7 @@ const AdminSingleDeposit = () => {
             <span>{oneDeposit.status}</span>
           </div>
         </div>
-        {oneDeposit.status === "pending" && <button className='border flex w-full p-2 bg-neutral-600 text-white font-normal' onClick={approveDeposit}>{isLoading ? <CircularProgress/> :"Approve Deposit"}</button>}
+        {oneDeposit.status === "pending" && <button className='border flex w-full p-2 bg-neutral-600 text-white font-normal' onClick={approveDeposit}>{isLoading ? <CircularProgress /> : "Approve Deposit"}</button>}
       </div>
     </div>
   )
