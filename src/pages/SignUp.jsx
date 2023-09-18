@@ -16,7 +16,7 @@ const SignUp = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    country:'',
+    country: '',
     email: '',
     password: '',
     password2: '',
@@ -36,9 +36,9 @@ const SignUp = () => {
 
     if (success === true && register) {
       setSignUpSuccess(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         navigate('/login');
-      },2000);
+      }, 2000);
     }
   }, [success]);
   const onChange = (e) => {
@@ -67,12 +67,12 @@ const SignUp = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (firstName === "" || lastName === "" || email === "" ) {
+    if (firstName === "" || lastName === "" || email === "") {
       setSignUpOpen(true);
     }
     else if (password !== password2) {
       setOpen(true);
-    } else  {
+    } else {
       const userData = {
         firstName,
         lastName,
@@ -133,12 +133,13 @@ const SignUp = () => {
             name='country'
             value={country}
             onChange={onChange} >
-              {countries.map((o) => (
-                    <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>
-                  ))}
-            </select>
+            <option value="Country">Country</option>
+            {countries.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
             <div className='flex bg-white pr-1'>
               <input

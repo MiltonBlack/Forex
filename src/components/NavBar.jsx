@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { logout } from '../services/authSlice'
 import { FaArrowCircleDown, FaBarcode, FaBars, FaBell, FaCog, FaDoorOpen, FaHistory, FaPowerOff, FaQuestionCircle, FaTimes, FaUpload } from 'react-icons/fa'
-import { GrOverview } from 'react-icons/gr'
+import { GrOverview, GrSend } from 'react-icons/gr'
 import { GiSettingsKnobs, GiTrade, GiWallet } from 'react-icons/gi'
 import { BiUserCircle } from 'react-icons/bi'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';

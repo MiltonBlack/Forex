@@ -4,8 +4,9 @@ import axios from 'axios';
 const user = JSON.parse(localStorage.getItem("user"));
 // const token = user.accessToken;
 
-const BASE_URL = `http://localhost:3005`
-const PROD_URL = `https://broker-backend.onrender.com`
+const PROD_URL = `http://localhost:3005`
+// const BASE_URL = `http://localhost:3005`
+// const PROD_URL = `https://broker-backend.onrender.com`
 export const Register = createAsyncThunk("auth/Register", async (userData, thunkAPI) => {
     try {
         const response = await axios.post(`${PROD_URL}/api/auth/register`, userData);

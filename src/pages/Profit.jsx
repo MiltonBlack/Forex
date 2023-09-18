@@ -1,11 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Footer from '../components/Footer'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
+import { plans } from '../data/plans'
+import moment from 'moment'
 
 const Profit = () => {
+  const { user } = useSelector((state) => state.auth);
+  const { plan, createdAt } = user;
+  let date = new Date(createdAt);
+  const day = date.getDate();
+  const currentPlan = plans.find((item) => item.plan === plan);
+  const { amount, duration } = currentPlan;
+  const ROI = amount * duration;
+  const currentDay = new Date();
+  const intervalString = moment(createdAt).fromNow;
+  const interval = intervalString.split[0];
+  let initialROI;
+  function calc() {
+    if (currentDay === day) {
+      initialROI = 1 * amount;
+    } else if (interval === duration) {
+      initialROI = ROI;
+    } else {
+      initialROI = interval * amount;
+    }
+  }
+  console.log(currentDay);
+  console.log(day);
+  console.log(ROI);
   return (
     <>
-      <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh]'> 
+      <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh]'>
         <div className='my-4'>
           <h1 className='text-2xl font-extrabold'>Your ROI History</h1>
           <span className='font-light text-sm text-slate-600'>Track all your Financial Profits in one place</span>

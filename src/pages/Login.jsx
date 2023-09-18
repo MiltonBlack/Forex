@@ -15,15 +15,16 @@ const Login = () => {
   const { email, password } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, User, register } = useSelector((state) => state.auth);
-  useEffect(() => {
-    if (User && !isLoading) {
+  const { isLoading, user } = useSelector((state) => state.auth);
+  useEffect(() => { 
+    if (user !== null) {
       setLoginSuccess(true);
+      navigate('/dashboard')
       setTimeout(()=>{
         navigate('/dashboard')
       },2000)
     }
-  }, [User, isLoading]);
+  }, [user, isLoading]);
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
