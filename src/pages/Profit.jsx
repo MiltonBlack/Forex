@@ -17,7 +17,9 @@ const Profit = () => {
   const intervalString = moment(createdAt).fromNow;
   const interval = intervalString.split[0];
   let initialROI;
+  let progress;
   function calc() {
+    progress = ((initialROI / ROI) * 100);
     if (currentDay === day) {
       initialROI = 1 * amount;
     } else if (interval === duration) {
@@ -25,7 +27,10 @@ const Profit = () => {
     } else {
       initialROI = interval * amount;
     }
-  }
+  };
+  useEffect(() => {
+    { plan !== "None" && calc() }
+  }, [plan])
   console.log(currentDay);
   console.log(day);
   console.log(ROI);
@@ -45,16 +50,22 @@ const Profit = () => {
               <tr className='bg-black/75 text-white uppercase md:text-lg text-sm'>
                 <th>Subscription Type</th>
                 <th>Amount</th>
-                <th>Payment Type</th>
+                <th>Progress</th>
+                <th>Profit</th>
+                <th>Duration</th>
+                <th>Total</th>
                 <th>Date Started</th>
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
               <tr>
-                <td>Premium Plan</td>
-                <td>$150,000</td>
-                <td>Bitcoin</td>
-                <td>5 Days Ago</td>
+                <td>{plan}</td>
+                <td>${amount}</td>
+                <td>{progress ?  progress : "0"}%</td>
+                <td>${initialROI}</td>
+                <td>{duration}</td>
+                <td>${ROI}</td>
+                <td>{intervalString}</td>
               </tr>
             </tbody>
           </table>

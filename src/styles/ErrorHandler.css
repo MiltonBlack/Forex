@@ -1,0 +1,13 @@
+.error_handler-container {
+    color: red;
+    width: 50vw;
+    margin: 40px auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.error_handler-container p {
+    font-size: 18px;
+}

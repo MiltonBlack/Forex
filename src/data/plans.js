@@ -51,7 +51,7 @@ export const plans = [
         id: 4,
         plan: "Premium",
         amount: "10500",
-        duration: 7,
+        duration: 5,
         feature: "Basic Trading Features up to a Month",
         features:[
             {
