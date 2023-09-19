@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { logout } from '../services/authSlice'
+import { logout, userProfile } from '../services/authSlice'
 import { FaArrowCircleDown, FaBarcode, FaBars, FaBell, FaCog, FaDoorOpen, FaHistory, FaPowerOff, FaQuestionCircle, FaTimes, FaUpload } from 'react-icons/fa'
 import { GrOverview, GrSend } from 'react-icons/gr'
-import { GiSettingsKnobs, GiTrade, GiWallet } from 'react-icons/gi'
+import { GiCycle, GiSettingsKnobs, GiTrade, GiWallet } from 'react-icons/gi'
 import { BiUserCircle } from 'react-icons/bi'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,10 +11,11 @@ import '../styles/Navbar.css'
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth);
   const [navBar, setNavBar] = useState(false);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState(user);
+  const { email } = data;
   function toggleMenu() {
     setOpen(!open);
   }
@@ -39,20 +40,20 @@ const NavBar = () => {
               <div className='absolute right-2 top-2 border border-black rounded-full p-1 hover:scale-125 cursor-pointer shadow-lg shadow-rose-700 transition' onClick={() => { setNavBar(false) }}>
                 <FaTimes color='red' size={26} />
               </div>
-              <div className='flex flex-col items-start justify-between h-full py-20 pl-20 font-normal'>
-                <NavLink to='/dashboard' className='flex items-center text-xl font-bold border-black cursor-pointer  active:rounded'><GrOverview className='mr-3'/> Overview</NavLink>
-                <NavLink to='/dashboard/transactionHistory' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer '><FaHistory className='mr-3'/> History</NavLink>
-                <NavLink to='/dashboard/wallet' className='flex items-center hover:border border-black px-1 cursor-pointer '><GiWallet className='mr-3'/> Wallet</NavLink>
-                <NavLink to='/dashboard/swap' className='flex items-center hover:border border-black px-1 cursor-pointer '><GrSend className='mr-3'/> Swap</NavLink>
-                <NavLink to='/dashboard/plans' className='flex items-center hover:border border-black px-1 cursor-pointer '><GiTrade className='mr-3'/> Trading Plans</NavLink>
-                <NavLink to='/dashboard/ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '><FaUpload className='mr-3'/> ROI</NavLink>
-                <NavLink to='/dashboard/profile' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><BiUserCircle className='mr-3'/> Profile</NavLink>
-                <NavLink to='/dashboard/settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><GiSettingsKnobs className='mr-3'/> Settings</NavLink>
+              <div className='flex flex-col items-start justify-between h-full py-15 pl-20 font-normal'>
+                <NavLink to='/dashboard' className='flex items-center text-xl font-bold border-black cursor-pointer  active:rounded'><GrOverview className='mr-3' /> Overview</NavLink>
+                <NavLink to='/dashboard/transactionHistory' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer '><FaHistory className='mr-3' /> History</NavLink>
+                <NavLink to='/dashboard/wallet' className='flex items-center hover:border border-black px-1 cursor-pointer '><GiWallet className='mr-3' /> Wallet</NavLink>
+                <NavLink to='/dashboard/swap' className='flex items-center hover:border border-black px-1 cursor-pointer '><GrSend className='mr-3' /> Swap</NavLink>
+                <NavLink to='/dashboard/plans' className='flex items-center hover:border border-black px-1 cursor-pointer '><GiTrade className='mr-3' /> Trading Plans</NavLink>
+                <NavLink to='/dashboard/ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '><FaUpload className='mr-3' /> ROI</NavLink>
+                <NavLink to='/dashboard/profile' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><BiUserCircle className='mr-3' /> Profile</NavLink>
+                <NavLink to='/dashboard/settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><GiSettingsKnobs className='mr-3' /> Settings</NavLink>
                 <NavLink to='/dashboard/help' className='flex items-center hover:border border-black px-1 cursor-pointer'>
-                  <FaQuestionCircle className='mr-3'/>
+                  <FaQuestionCircle className='mr-3' />
                   <h1 className='ml-2'>Help</h1>
                 </NavLink>
-                <button className='flex items-center border rounded bg-slate-500 p-1 text-white' onClick={Logout}>Logout <FaPowerOff className='ml-2'/></button>
+                <button className='flex items-center border rounded bg-red-600 p-1 text-white' onClick={Logout}>Logout <FaPowerOff className='ml-2' /></button>
               </div>
             </div>
           </div>)}
@@ -76,11 +77,12 @@ const NavBar = () => {
                   Logged in as:
                 </span>
                 <span className='ml-1 text-sm flex'>{user.firstName} {user.lastName}</span>
-                <Link to='/dashboard/profile' className='border border-black w-full flex my-1 items-center justify-center'>View Profile</Link>
-                <Link to='/dashboard/settings' className='flex border-black items-center justify-center border w-full'>Settings <FaCog className='mx-2' /></Link>
-                <div 
-                className='flex border-black items-center justify-center border w-full cursor-pointer' onClick={Logout}>
-                  Logout 
+                <Link to='/dashboard/profile' className='border border-black w-full flex my-1 items-center justify-center bg-white'>View Profile</Link>
+                <Link to='/dashboard/settings bg-white' className='flex border-black items-center justify-center border w-full my-1'>Settings <FaCog className='mx-2' /></Link>
+                <div className='flex border-black items-center justify-center border w-full cursor-pointer bg-slate-600 text-white' onClick={dispatch(userProfile(email))}>Refresh <GiCycle className='mx-2'/></div>
+                <div
+                  className='flex border-black items-center justify-center border w-full cursor-pointer bg-red-400 text-red-900' onClick={Logout}>
+                  Logout
                   <FaDoorOpen className='mx-2' />
                 </div>
               </div>
