@@ -4,9 +4,9 @@ import axios from 'axios';
 const user = JSON.parse(localStorage.getItem("user"));
 // const token = user.accessToken;
 
-const PROD_URL = `http://localhost:3005`
+// const PROD_URL = `http://localhost:3005`
 // const BASE_URL = `http://localhost:3005`
-// const PROD_URL = `https://broker-backend.onrender.com`
+const PROD_URL = `https://broker-backend.onrender.com`
 export const Register = createAsyncThunk("auth/Register", async (userData, thunkAPI) => {
     try {
         const response = await axios.post(`${PROD_URL}/api/auth/register`, userData);
@@ -91,8 +91,12 @@ export const allWithdrawals = createAsyncThunk("auth/Withdrawals", async (id, th
     }
 });
 
-export const LoginAdmin = createAsyncThunk("auth/Admin", async ({ adminData }) => {
-    return await axios.post('http://localhost:3005/api/admin/signin', adminData).then(res => (localStorage.setItem("btcadmin", JSON.stringify(res?.data)))).catch(err => console.log(err));
+export const userProfile = createAsyncThunk("auth/Profile", async (_, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.accessToken;
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+    return await axios.get('http://localhost:3005/api/auth/profile', config).then(res => (res?.data)).catch(err => console.log(err));
 });
 
 export const logout = createAsyncThunk("auth/logout", async () => {
@@ -111,6 +115,7 @@ const initialState = {
     withdrawals:[],
     user: user ? user : null,
     email: '',
+    login:false,
     emailVerified: '',
     isLoading: false,
     success: false,
@@ -156,18 +161,18 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.error = action.error.message;
         },
-        [LoginAdmin.pending]: (state) => {
-            state.isLoading = true;
-        },
-        [LoginAdmin.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.admin = action.payload;
-            state.accessToken = action.payload.accessToken;
-        },
-        [LoginAdmin.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.error = action.error.message;
-        },
+        // [LoginAdmin.pending]: (state) => {
+        //     state.isLoading = true;
+        // },
+        // [LoginAdmin.fulfilled]: (state, action) => {
+        //     state.isLoading = false;
+        //     state.admin = action.payload;
+        //     state.accessToken = action.payload.accessToken;
+        // },
+        // [LoginAdmin.rejected]: (state, action) => {
+        //     state.isLoading = false;
+        //     state.error = action.error.message;
+        // },
         [allDeposits.pending]: (state) => {
             state.isLoading = true;
         },

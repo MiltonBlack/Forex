@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
 import img from '../../assets/broker.jpg'
+import { Snackbar, Alert, Slide } from '@mui/material';
 
 const CreateAdmin = () => {
     const { id } = useParams()
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
+    const [alertPassword, setAlertPassword] = useState(false);
     const [formData, setFormData] = useState({
         fullName: '',
         email: id,
@@ -22,12 +24,18 @@ const CreateAdmin = () => {
             ...prevState,
             [e.target.name]: e.target.value,
         }))
-    }
+    };
+    const handlePassClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setAlertPassword(false);
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if (password !== password2) {
-            console.log('passwords dont match');
+            setAlertPassword(true);
         } else {
             const userData = {
                 fullName,
@@ -52,6 +60,11 @@ const CreateAdmin = () => {
     console.log(data);
     return (
         <div className='bg-sky-500 w-screen h-screen relative'>
+            <Snackbar autoHideDuration={5000} open={alertPassword} onClose={handlePassClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+                <Alert sx={{ width: '100%' }} severity='warning' >
+                    Passwords Do Not Match!!!
+                </Alert>
+            </Snackbar>
             <img src={img} alt="" className='h-screen w-screen' />
             <div className='fixed top-0 right-0 left-0 bottom-0 w-full h-full flex items-center justify-center bg-black/50'>
                 <div className='w-[370px] md:w-[512px] border-2 border-black shadow-lg p-2 bg-black/75'>
@@ -71,7 +84,7 @@ const CreateAdmin = () => {
                         className='my-2 p-1 w-full'
                         name='email'
                         value={id}
-                        onChange={onChange} 
+                        onChange={onChange}
                         readOnly />
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
                         <div className='flex bg-white pr-1'>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '../components/Footer'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
@@ -10,16 +10,29 @@ const Profit = () => {
   const { plan, createdAt } = user;
   let date = new Date(createdAt);
   const day = date.getDate();
-  const currentPlan = plans.find((item) => item.plan === plan);
+  const [currentPlan, setCurrentPlan] = useState([{
+    amount: 0,
+    duration: 0
+  }])
+  const cP = plans?.find((item) => item.plan === plan);
   const { amount, duration } = currentPlan;
   const ROI = amount * duration;
-  const currentDay = new Date();
-  const intervalString = moment(createdAt).fromNow;
-  const interval = intervalString.split[0];
+  var currentDay = moment().format();
+  let intervalString = moment([createdAt]).fromNow();
+  // let intervalString = moment(createdAt).fromNow();
+  var cString = moment().diff(moment([createdAt]), "days");
   let initialROI;
   let progress;
+  const interval = intervalString.split(" ")[0];
+  if(cString > duration) {
+    initialROI = ROI;
+    progress = 100;
+  } else {
+    initialROI = cString * amount
+  }
   function calc() {
     progress = ((initialROI / ROI) * 100);
+    setCurrentPlan(cP);
     if (currentDay === day) {
       initialROI = 1 * amount;
     } else if (interval === duration) {
@@ -30,10 +43,11 @@ const Profit = () => {
   };
   useEffect(() => {
     { plan !== "None" && calc() }
-  }, [plan])
+  }, [plan]);
+  console.log(intervalString);
+  console.log(interval);
   console.log(currentDay);
-  console.log(day);
-  console.log(ROI);
+  console.log(cString);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh]'>
@@ -60,11 +74,11 @@ const Profit = () => {
             <tbody className='font-light text-center md:text-lg text-base'>
               <tr>
                 <td>{plan}</td>
-                <td>${amount}</td>
-                <td>{progress ?  progress : "0"}%</td>
+                <td>${amount ? amount : "0"}</td>
+                <td>{progress ? progress : "0"}%</td>
                 <td>${initialROI}</td>
                 <td>{duration}</td>
-                <td>${ROI}</td>
+                <td>${ROI ? ROI : "0"}</td>
                 <td>{intervalString}</td>
               </tr>
             </tbody>

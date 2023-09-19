@@ -45,7 +45,7 @@ const Fund = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    await axios.get("http://localhost:3005/api/auth/settings/walletaddress", config).then((res)=> setWallet(res.data)).catch(err => console.log(err));
+    await axios.get(`${PROD_URL}/api/auth/settings/walletaddress`, config).then((res)=> setWallet(res.data)).catch(err => console.log(err));
   }
   // set balance field in model for the backend to reflect here
   const [deposit, setDeposit] = useState({
