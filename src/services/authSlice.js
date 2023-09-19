@@ -91,12 +91,12 @@ export const allWithdrawals = createAsyncThunk("auth/Withdrawals", async (id, th
     }
 });
 
-export const userProfile = createAsyncThunk("auth/Profile", async (_, thunkAPI) => {
+export const userProfile = createAsyncThunk("auth/Profile", async (email, thunkAPI) => {
     const token = thunkAPI.getState().auth.user.accessToken;
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
-    return await axios.get('http://localhost:3005/api/auth/profile', config).then(res => (res?.data)).catch(err => console.log(err));
+    return await axios.get(`${PROD_URL}/api/auth/profile/${email}`, config).then(res => (res?.data)).catch(err => console.log(err));
 });
 
 export const logout = createAsyncThunk("auth/logout", async () => {
@@ -161,18 +161,17 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.error = action.error.message;
         },
-        // [LoginAdmin.pending]: (state) => {
-        //     state.isLoading = true;
-        // },
-        // [LoginAdmin.fulfilled]: (state, action) => {
-        //     state.isLoading = false;
-        //     state.admin = action.payload;
-        //     state.accessToken = action.payload.accessToken;
-        // },
-        // [LoginAdmin.rejected]: (state, action) => {
-        //     state.isLoading = false;
-        //     state.error = action.error.message;
-        // },
+        [userProfile.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [userProfile.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.User = action.payload;
+        },
+        [userProfile.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.error = action.error.message;
+        },
         [allDeposits.pending]: (state) => {
             state.isLoading = true;
         },

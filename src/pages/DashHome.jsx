@@ -1,20 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Card from '../components/Card'
 import { FaArrowAltCircleDown, FaArrowAltCircleUp, FaBitcoin, FaChartLine, FaDollarSign, FaEthereum, FaPlus } from 'react-icons/fa'
 import Footer from '../components/Footer'
 import Loader from '../components/Loader'
+import { userProfile } from '../services/authSlice'
 
 let tvScriptLoadingPromise;
 const DashHome = () => {
+  const dispatch = useDispatch();
   const { user, isLoading, User } = useSelector((state) => state.auth);
-  const { plan } = user;
+  const { email } = user;
   const onLoadScriptRef = useRef();
   const [data, setData] = useState(User);
 
   useEffect(
     () => {
       setData(user);
+      dispatch(userProfile(email));
       onLoadScriptRef.current = createWidget;
 
       if (!tvScriptLoadingPromise) {
@@ -54,8 +57,8 @@ const DashHome = () => {
     },
     []
   );
-  if(isLoading){
-    return <Loader/>
+  if (isLoading) {
+    return <Loader />
   }
   return (
     <>
@@ -146,7 +149,7 @@ const DashHome = () => {
         </div>
         <Card>
           <div className='flex justify-center items-center w-full font-light'>
-            {data.plan ? "You are on the Premium Plan":"Not Subscribed to any Packages"}
+            {data.plan !== "None" ? `You are Currently Subscribed to the ${data.plan} Plan` : "Not Subscribed to any Packages"}
           </div>
         </Card>
         <div className='py-8'></div>
