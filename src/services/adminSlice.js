@@ -118,6 +118,13 @@ export const approveDnSAdmin = createAsyncThunk('admin/approveDnS', async (id) =
     return await axios.get(`${PROD_URL}/api/admin/approve/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
+export const approvePlan = createAsyncThunk("admin/approvePlan", async (id)=>{
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+    return await axios.get(`${PROD_URL}/api/admin/approve/plan/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
+})
+
 export const logoutAdmin = createAsyncThunk("admin/logout", async () => {
     await sessionStorage.removeItem("btcadmin");
     await localStorage.removeItem("btctoken");
@@ -252,6 +259,19 @@ const adminSlice = createSlice({
             state.updated = true;
         },
         [updateSecurityAdmin.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            state.updated = false;
+        },
+        [approvePlan.pending]: (state) => {
+            state.isLoading = true;
+            state.updated = false;
+        },
+        [approvePlan.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.admin = action.payload;
+        },
+        [approvePlan.rejected]: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
             state.updated = false;

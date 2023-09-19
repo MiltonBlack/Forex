@@ -11,11 +11,11 @@ import moment from 'moment'
 import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material';
 
 const Fund = () => {
-  const BASE_URL = `http://localhost:3005`
-  const PROD_URL = `https://broker-backend.onrender.com`
+  const PROD_URL = `http://localhost:3005`
+  // const PROD_URL = `https://broker-backend.onrender.com`
 
   const { user, isLoading } = useSelector((state) => state.auth);
-  const { accessToken, _id, balance, walletAddress } = user;
+  const { accessToken, _id, balance } = user;
 
   // Copy to Clipboard State and useRef Initilization.
   const [copySuccess, setCopySuccess] = useState('');
@@ -34,8 +34,6 @@ const Fund = () => {
   const [proofImg, setProofImg] = useState(null)
   const [error, setError] = useState(null)
   const types = ['image/png', 'image/jpg'];
-  const [wallet, setWallet] = useState(null);
-
   useEffect(()=>{
     getWallet();
   },[])
@@ -45,8 +43,9 @@ const Fund = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    await axios.get(`${PROD_URL}/api/auth/settings/walletaddress`, config).then((res)=> setWallet(res.data)).catch(err => console.log(err));
+    await axios.get(`${PROD_URL}/api/auth/settings/walletaddress`, config).then((res)=> setWallet( res.data)).catch(err => console.log(err));
   }
+  const [wallet, setWallet] = useState('No Wallet Address');
   // set balance field in model for the backend to reflect here
   const [deposit, setDeposit] = useState({
     user_id: _id,
@@ -103,7 +102,7 @@ const Fund = () => {
     ).catch((err) => console.log(err));
   };
 
-  async function fetchDepositTransaction() {
+  async function fetchDepositTransaction() { 
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -142,6 +141,7 @@ const Fund = () => {
       })
   };
 
+// console.log(error);
   async function handleDepositRequest() {
     const config = {
       headers: {

@@ -18,8 +18,8 @@ const Invest = () => {
   // const PROD_URL = `http://localhost:3005`
   const PROD_URL = `https://broker-backend.onrender.com`
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-  const { accessToken, _id, balance, walletAddress } = user;
+  const { user, deposits } = useSelector((state) => state.auth);
+  const { accessToken, _id } = user;
   const [urlProof, setUrlProof] = useState(null);
   const [proofImg, setProofImg] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -30,6 +30,11 @@ const Invest = () => {
   const [info, setInfo] = useState(user);
   const [wallet, setWallet] = useState(null);
   const [investSuccess, setInvestSuccess] = useState(false);
+  const approvedDeposits = deposits.find((item) => item.status !== "pending");
+  const totalDepositAmount = approvedDeposits.reduce((currentTotal, item) => {
+    return item.amount + currentTotal;
+  }, 0);
+  const balance = totalDepositAmount + 50;
 
   useEffect(()=>{
     getWallet();

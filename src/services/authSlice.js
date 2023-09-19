@@ -4,9 +4,9 @@ import axios from 'axios';
 const user = JSON.parse(localStorage.getItem("user"));
 // const token = user.accessToken;
 
-// const PROD_URL = `http://localhost:3005`
+const PROD_URL = `http://localhost:3005`
 // const BASE_URL = `http://localhost:3005`
-const PROD_URL = `https://broker-backend.onrender.com`
+// const PROD_URL = `https://broker-backend.onrender.com`
 export const Register = createAsyncThunk("auth/Register", async (userData, thunkAPI) => {
     try {
         const response = await axios.post(`${PROD_URL}/api/auth/register`, userData);
@@ -44,7 +44,7 @@ export const LoginUser = createAsyncThunk("auth/Login", async (userData, thunkAP
     }
 });
 
-export const allDeposits = createAsyncThunk("auth/Deposits", async (id, thunkAPI) => {
+export const allDeposits = createAsyncThunk("auth/Deposits", async (_id, thunkAPI) => {
     // Get Token from Redux Store using the thunkAPI
     const token = thunkAPI.getState().auth.user.accessToken;
     console.log(token);
@@ -53,7 +53,7 @@ export const allDeposits = createAsyncThunk("auth/Deposits", async (id, thunkAPI
         headers: { Authorization: `Bearer ${token}` }
     };
     try {
-        const response = await axios.get(`${PROD_URL}/api/auth/deposit/single/${id}` ,config);
+        const response = await axios.get(`${PROD_URL}/api/auth/deposit/single/${_id}` ,config);
         if (response?.data) {
             console.log(response.data);
         }

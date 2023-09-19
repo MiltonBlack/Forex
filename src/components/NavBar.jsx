@@ -11,23 +11,23 @@ import '../styles/Navbar.css'
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth)
   const [navBar, setNavBar] = useState(false);
   const [open, setOpen] = useState(false);
+  const [data, setData] = useState(user);
   function toggleMenu() {
     setOpen(!open);
   }
-  const User = localStorage.getItem("user");
+  // const User = localStorage.getItem("user");
   useEffect(() => {
-    if (!User) {
+    if (!user) {
       navigate('/')
     }
-  }, [User])
+  }, [user])
 
   function Logout() {
     dispatch(logout());
   };
-  console.log(User);
-  const { user } = useSelector((state) => state.auth)
   return (
     <>
       <div className='md:flex md:w-screen md:items-center md:justify-between md:px-4 md:py-2 md:font-thin fixed bg-white z-50 shadow-md'>

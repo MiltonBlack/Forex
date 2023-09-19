@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-import { approveDnSAdmin, getSingleDepositAdmin } from '../../services/adminSlice';
+import { approveDnSAdmin, approvePlan, getSingleDepositAdmin } from '../../services/adminSlice';
 import moment from 'moment';
 import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material';
 
@@ -14,8 +14,9 @@ const AdminSingleDeposit = () => {
   const { oneDeposit, allUsers, isLoading, success } = useSelector((state) => state.admin);
   const single = allUsers.find((item) => item._id === id);
   const { _id } = oneDeposit;
-  function approveDeposit() {
+  function approveDeposit() { 
     dispatch(approveDnSAdmin(_id));
+    dispatch(approvePlan(_id))
   }
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

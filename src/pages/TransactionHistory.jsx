@@ -5,10 +5,11 @@ import { useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 
 const TransactionHistory = () => {
-  const { isLoading } = useSelector((state) => state.auth);
-  if (isLoading) {
-    return <Loader />
-  }
+  const { isLoading, deposits } = useSelector((state) => state.auth);
+  // if (isLoading) {
+  //   return <Loader />
+  // }
+  console.log(deposits);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh]'>

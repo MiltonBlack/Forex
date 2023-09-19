@@ -6,7 +6,7 @@ import { plans } from '../data/plans'
 import moment from 'moment'
 
 const Profit = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, planStatus } = useSelector((state) => state.auth);
   const { plan, createdAt } = user;
   let date = new Date(createdAt);
   const day = date.getDate();
@@ -16,7 +16,7 @@ const Profit = () => {
   }])
   const cP = plans?.find((item) => item.plan === plan);
   const { amount, duration } = currentPlan;
-  const ROI = amount * duration;
+  const ROI = amount * duration * 0.45;
   var currentDay = moment().format();
   let intervalString = moment([createdAt]).fromNow();
   // let intervalString = moment(createdAt).fromNow();
@@ -24,11 +24,11 @@ const Profit = () => {
   let initialROI;
   let progress;
   const interval = intervalString.split(" ")[0];
-  if(cString > duration) {
+  if (cString > duration) {
     initialROI = ROI;
     progress = 100;
   } else {
-    initialROI = cString * amount
+    initialROI = cString * amount * 0.45;
   }
   function calc() {
     progress = ((initialROI / ROI) * 100);
@@ -72,15 +72,16 @@ const Profit = () => {
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
-              <tr>
-                <td>{plan}</td>
-                <td>${amount ? amount : "0"}</td>
-                <td>{progress ? progress : "0"}%</td>
-                <td>${initialROI}</td>
-                <td>{duration}</td>
-                <td>${ROI ? ROI : "0"}</td>
-                <td>{intervalString}</td>
-              </tr>
+              {planStatus ?
+                (<tr>
+                  <td>{plan}</td>
+                  <td>${amount ? amount : "0"}</td>
+                  <td>{progress ? progress : "0"}%</td>
+                  <td>${initialROI}</td>
+                  <td>{duration}</td>
+                  <td>${ROI ? ROI : "0"}</td>
+                  <td>{intervalString}</td>
+                </tr>) : "Your Plan Has Not Being Approved Yet"}
             </tbody>
           </table>
           <div className='w-[80%] border mt-4'></div>

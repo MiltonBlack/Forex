@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Card from '../components/Card'
 import { FaArrowAltCircleDown, FaArrowAltCircleUp, FaBitcoin, FaChartLine, FaDollarSign, FaEthereum, FaPlus } from 'react-icons/fa'
@@ -7,12 +7,14 @@ import Loader from '../components/Loader'
 
 let tvScriptLoadingPromise;
 const DashHome = () => {
-  const { user, isLoading } = useSelector((state) => state.auth);
+  const { user, isLoading, User } = useSelector((state) => state.auth);
   const { plan } = user;
   const onLoadScriptRef = useRef();
+  const [data, setData] = useState(User);
 
   useEffect(
     () => {
+      setData(user);
       onLoadScriptRef.current = createWidget;
 
       if (!tvScriptLoadingPromise) {
@@ -61,7 +63,7 @@ const DashHome = () => {
       <div className=' bg-stone-200 w-full h-full flex flex-col px-5 md:px-10 pt-16'>
         <div className='flex w-full justify-between items-center my-8'>
           <div>
-            <h1 className=' font-black text-2xl'>Hello, {user.firstName}!</h1>
+            <h1 className=' font-black text-2xl'>Hello, {data.firstName}!</h1>
             <span className='font-light text-sm text-slate-600'>We recommend you to select a subscription package for an investment plan today</span>
           </div>
           <div className='border border-black p-1 bg-rose-500'>
@@ -144,7 +146,7 @@ const DashHome = () => {
         </div>
         <Card>
           <div className='flex justify-center items-center w-full font-light'>
-            {plan ? "You are on the Premium Plan":"Not Subscribed to any Packages"}
+            {data.plan ? "You are on the Premium Plan":"Not Subscribed to any Packages"}
           </div>
         </Card>
         <div className='py-8'></div>
