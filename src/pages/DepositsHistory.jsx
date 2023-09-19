@@ -4,6 +4,7 @@ import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { allDeposits } from '../services/authSlice';
 import axios from 'axios';
+import numberSeparator from 'number-separator';
 
 const DepositsHistory = () => {
     const PROD_URL = `http://localhost:3005`
@@ -28,8 +29,6 @@ const DepositsHistory = () => {
             // localStorage.setItem("user", JSON.stringify(res?.data));
         ).catch((err) => console.log(err))
     }
-
-    console.log(deposits);
     return (
         <div className='border my-4 rounded bg-white shadow-md flex flex-col items-center'>
             <table className='w-full'>
@@ -44,10 +43,10 @@ const DepositsHistory = () => {
                 <tbody className='font-light text-center md:text-lg text-base'>
                     {depositData?.map((item, idx) =>
                         (<tr key={idx}>
-                            <td>{item.amount}</td>
+                            <td>{numberSeparator(item.amount, ",")}</td>
                             <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
                             <td>USDT</td>
-                            <td>{moment(item.createdAt).fromNow}</td>
+                            <td>{moment(item.createdAt).fromNow()}</td>
                         </tr>))}
                 </tbody>
             </table>

@@ -3,6 +3,7 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { allWithdrawals } from '../services/authSlice';
+import numberSeparator from 'number-separator'
 
 const WithdrawHistory = () => {
     const dispatch = useDispatch();
@@ -26,10 +27,10 @@ const WithdrawHistory = () => {
                 <tbody className='font-light text-center md:text-lg text-base'>
                    {withdrawals?.map((item, idx) => 
                     <tr key={idx}>
-                        <td>{item.withdrawAmount}</td>
+                        <td>{numberSeparator(item.withdrawAmount, ",")}</td>
                         <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
                         <td>Bitcoin</td>
-                        <td>{moment(item.createdAt).fromNow}</td>
+                        <td>{moment(item.createdAt).fromNow()}</td>
                     </tr>)}
                 </tbody>
             </table>

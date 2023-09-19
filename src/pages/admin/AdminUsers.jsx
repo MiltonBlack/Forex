@@ -45,7 +45,6 @@ const AdminUsers = () => {
                 <th>Full Name</th>
                 <th>Email</th>
                 <th>Plan</th>
-                <th>Amount</th>
                 <th>Status</th>
                 <th>Date</th>
                 <th>Delete</th>
@@ -57,9 +56,8 @@ const AdminUsers = () => {
                   <td>{item.firstName} {item.lastName}</td>
                   <td>{item.email}</td>
                   <td>{item.investment}</td>
-                  <td>${item.amount}</td>
                   <td className='p-1 bg-red-400 rounded-sm text-white'>{item.emailVerified}</td>
-                  <td>{moment(item.createdAt).fromNow}</td>
+                  <td>{moment(item.createdAt).fromNow()}</td>
                   <td className=' bg-red-300'><MdDelete color='red' onClick={() => { setDeleteData(true); setUserData(item); }} /></td>
                 </tr>
               )}

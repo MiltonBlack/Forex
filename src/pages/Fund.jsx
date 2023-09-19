@@ -8,6 +8,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import axios from 'axios';
 import Loader from '../components/Loader';
 import moment from 'moment'
+import numberSeparator from 'number-separator'
 import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material';
 
 const Fund = () => {
@@ -258,10 +259,10 @@ const Fund = () => {
             <tbody className='font-light text-center'>
               {depositData?.map((item, idx) =>
                 <tr key={idx} className='pb-1'>
-                  <td>${item.amount}</td>
+                  <td>${numberSeparator(item.amount, ",")}</td>
                   <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
                   <td>Bitcoin</td>
-                  <td>{moment(item.createdAt).fromNow}</td>
+                  <td>{moment(item.createdAt).fromNow()}</td>
                 </tr>)}
             </tbody>
           </table>

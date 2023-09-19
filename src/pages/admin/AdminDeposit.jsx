@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { getAllDepositsAdmin } from '../../services/adminSlice';
 import moment from 'moment';
+import numberSeparator from 'number-separator';
 import Loader from '../../components/Loader';
 import { Link } from 'react-router-dom';
 
@@ -36,10 +37,10 @@ const AdminDeposit = () => {
               {deposits?.map((item, idx) =>
                 <Link to={item.user_id}>
                   <tr key={idx}>
-                    <td>{item.amount}</td>
+                    <td>{numberSeparator(item.amount, ",")}</td>
                     <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
                     <td>USDT</td>
-                    <td>{moment(item.createdAt).fromNow}</td>
+                    <td>{moment(item.createdAt).fromNow()}</td>
                   </tr>
                 </Link>)}
             </tbody>

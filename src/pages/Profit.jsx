@@ -59,7 +59,7 @@ const Profit = () => {
           <span className='border text-center p-2 bg-black/75 text-white hover:bg-white hover:text-black uppercase'>Trading Profits</span>
         </div>
         <div className='border my-4 rounded bg-white shadow-md flex flex-col items-center'>
-          <table className='w-full'>
+          <table className='w-full overflow-x-scroll'>
             <thead>
               <tr className='bg-black/75 text-white uppercase md:text-lg text-sm'>
                 <th>Subscription Type</th>

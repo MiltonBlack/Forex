@@ -7,7 +7,7 @@ import Modal from '../components/Modal'
 import Footer from '../components/Footer'
 import { plans } from '../data/plans'
 import { FaBitcoin, FaCopy, FaTimes } from 'react-icons/fa'
-import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { projectStorage } from '../firebase/config';
 // import Loader from '../components/Loader'
 import { Snackbar, Slide, Alert } from '@mui/material';
@@ -153,6 +153,13 @@ const Invest = () => {
         console.log(res.data); 
         setInvestSuccess(true)}
       ).catch((err) => console.log(err));
+      
+      timeOut();
+  }
+  function timeOut(){
+    setTimeout(()=>{
+      setInvestSuccess(false);
+    },3000)
   }
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
