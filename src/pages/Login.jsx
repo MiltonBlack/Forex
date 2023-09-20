@@ -16,14 +16,14 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, user, User, loggedIn } = useSelector((state) => state.auth);
-  useEffect(() => { 
+  useEffect(() => {
     if (!loggedIn) {
       setLoginSuccess(false);
     } else {
       setLoginSuccess(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         navigate('/dashboard')
-      },5000);
+      }, 5000);
     }
   }, [user, loggedIn, isLoading]);
   const onChange = (e) => {
@@ -32,18 +32,21 @@ const Login = () => {
       [e.target.name]: e.target.value,
     }))
   };
+
   const handleSuccessClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setLoginSuccess(false);
   };
+
   const handleEmptyClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setLoginField(false);
   };
+
   function handleSubmit(e) {
     e.preventDefault();
     if (email === "" || password === "") {
@@ -57,8 +60,9 @@ const Login = () => {
       dispatch(LoginUser(userData));
     }
   }
+
   return (
-    <div className=' bg-sky-500 flex items-center justify-center w-screen h-screen relative'>
+    <div className=' bg-sky-500/50 flex items-center justify-center w-screen h-screen relative'>
       <img src={img} alt="" className='h-screen w-screen' />
       <Snackbar autoHideDuration={4000} open={loginSuccess} onClose={handleSuccessClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
         <Alert sx={{ width: '100%' }} severity='success' >
@@ -87,21 +91,21 @@ const Login = () => {
             name='password'
             value={password}
             onChange={onChange} />
-          <button
-            className='border-2 uppercase p-2 w-[70%] flex items-center justify-center hover:text-black my-2 hover:bg-white text-white'
+          <button disabled={email === "" || password === ""}
+            className={`border-2 uppercase p-2 w-full md:w-[70%] flex items-center justify-center hover:text-black my-2 mt-3 hover:bg-white text-white ${isLoading && 'bg-white'} rounded-sm`}
             onClick={handleSubmit}>
             {isLoading ? <CircularProgress /> : "Login"}
           </button>
           <div className='flex flex-col text-base w-full justify-center'>
             <h1 className='text-center text-blue-900 hover:underline cursor-pointer'>
-              Forgot Password
+              forgot password
             </h1>
             <span className='flex justify-center text-xs'>or</span>
             <hr className='border-black' />
             <div className='flex justify-center items-center'>
               <h1 className='mr-4'>Don't Have An Account?</h1>
               <Link to='/signup'>
-                <em className=' text-blue-950 text-lg cursor-pointer'>Sign Up Here</em>
+                <em className=' text-blue-950 text-base cursor-pointer uppercase'>sign up here</em>
               </Link>
             </div>
           </div>
