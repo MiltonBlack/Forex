@@ -12,8 +12,8 @@ import numberSeparator from 'number-separator'
 import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material';
 
 const Fund = () => {
-  const PROD_URL = `http://localhost:3005`
-  // const PROD_URL = `https://broker-backend.onrender.com`
+  // const PROD_URL = `http://localhost:3005`
+  const PROD_URL = `https://broker-backend.onrender.com`
 
   const { user, isLoading } = useSelector((state) => state.auth);
   const { accessToken, _id, balance } = user;
@@ -118,7 +118,8 @@ const Fund = () => {
   const { amount } = deposit;
 
   async function handleProofImg(e) {
-    const chooseImg = e.target.files[0]
+    const chooseImg = await e.target.files[0];
+    console.log(chooseImg);
     if (chooseImg && types.includes(chooseImg.type)) {
       setProofImg(chooseImg)
       setError("")
@@ -127,11 +128,14 @@ const Fund = () => {
       setError("please select an image file (.jpg/.png)")
     }
     await uploadProof(chooseImg);
-  }
+  };
 
   async function uploadProof(chooseImg) {
     if (!chooseImg) return;
+    console.log(chooseImg);
+    console.log(proofImg);
     const storageRef = ref(projectStorage, `/deposits/${chooseImg.name}`);
+    // log()
     const uploadSequence = await uploadBytesResumable(storageRef, chooseImg);
     uploadSequence.on("state_changed", (snapshot) => {
       const uploadProgress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
@@ -140,6 +144,7 @@ const Fund = () => {
       () => {
         getDownloadURL(uploadSequence.snapshot.ref).then(url => setUrlProof(url))
       })
+      console.log(urlProof);
   };
 
 // console.log(error);
@@ -315,6 +320,11 @@ const Fund = () => {
                   onChange={handleProofImg}
                   accept='image/*' />
                 <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium mb-4 text-base rounded-md">{progress}%</div>
+                {/* <button
+                  className='border my-2 bg-black/50 text-white p-1 rounded'
+                  onClick={uploadProof}>
+                   Complete Upload
+                </button> */}
                 <button
                   className='border my-2 bg-black/50 text-white p-1 rounded'
                   onClick={handleDepositRequest}>

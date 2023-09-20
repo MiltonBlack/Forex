@@ -49,7 +49,7 @@ const AdminSingleDeposit = () => {
             <span className='py-2'>{single.firstName} {single.lastName}</span>
             <span className='py-2'>${numberSeparator(oneDeposit.amount, ",")}</span>
             <span className='py-2'>{moment(oneDeposit.createdAt).fromNow()}</span>
-            <span className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</span>
+            <span className={`p-1 ${oneDeposit.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{oneDeposit.status}</span>
           </div>
         </div>
         {oneDeposit.status === "pending" && <button className='border flex w-full p-2 bg-neutral-600 text-white font-normal' onClick={approveDeposit}>{isLoading ? <CircularProgress /> : "Approve Deposit"}</button>}

@@ -7,19 +7,22 @@ import { BiUserCircle } from 'react-icons/bi'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import '../styles/Navbar.css'
+import { Skeleton } from '@mui/material';
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const { user, User } = useSelector((state) => state.auth);
   const [navBar, setNavBar] = useState(false);
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState(user);
-  const { email } = data;
+  
+  // const { email } = User;
   function toggleMenu() {
     setOpen(!open);
-  }
-  // const User = localStorage.getItem("user");
+  };
+  // const user = localStorage.getItem("user");
+  // console.log(user);
+  const [data, setData] = useState(user);
   useEffect(() => {
     if (!user) {
       navigate('/')
@@ -53,7 +56,7 @@ const NavBar = () => {
                   <FaQuestionCircle className='mr-3' />
                   <h1 className='ml-2'>Help</h1>
                 </NavLink>
-                <button className='flex items-center border rounded bg-red-600 p-1 text-white' onClick={Logout}>Logout <FaPowerOff className='ml-2' /></button>
+                <button className='flex items-center border rounded bg-red-600 p-1 text-white' onClick={()=>Logout()}>Logout <FaPowerOff className='ml-2' /></button>
               </div>
             </div>
           </div>)}
@@ -77,11 +80,11 @@ const NavBar = () => {
                   Logged in as:
                 </span>
                 <span className='ml-1 text-sm flex'>{user.firstName} {user.lastName}</span>
-                <Link to='/dashboard/profile' className='border border-black w-full flex my-1 items-center justify-center bg-white'>View Profile</Link>
-                <Link to='/dashboard/settings bg-white' className='flex border-black items-center justify-center border w-full my-1'>Settings <FaCog className='mx-2' /></Link>
-                <div className='flex border-black items-center justify-center border w-full cursor-pointer bg-slate-600 text-white' onClick={dispatch(userProfile(email))}>Refresh <GiCycle className='mx-2'/></div>
+                <Link to='/dashboard/profile' className='border border-white w-full flex my-1 items-center justify-center text-black bg-white'>View Profile</Link>
+                <Link to='/dashboard/settings ' className='flex bg-white text-black border-white items-center justify-center border w-full my-1'>Settings <FaCog className='mx-2' /></Link>
+                <div className='flex border-slate-600 items-center justify-center border w-full cursor-pointer bg-slate-600 text-white' onClick={()=> dispatch(userProfile(user.email))}>Refresh <GiCycle className='mx-2'/></div>
                 <div
-                  className='flex border-black items-center justify-center border w-full cursor-pointer bg-red-400 text-red-900' onClick={Logout}>
+                  className='flex border-red-400 my-1 items-center justify-center border w-full cursor-pointer bg-red-400 text-red-900' onClick={()=> Logout()}>
                   Logout
                   <FaDoorOpen className='mx-2' />
                 </div>

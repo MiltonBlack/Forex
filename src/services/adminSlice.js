@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 
 const token = JSON.parse(localStorage.getItem("accessToken"));
-const BASE_URL = `http://localhost:3005`
+// const PROD_URL = `http://localhost:3005`
 const PROD_URL = `https://broker-backend.onrender.com`
 
 export const LoginAdmin = createAsyncThunk("admin/Login", async (adminData, thunkAPI) => {
@@ -12,7 +12,7 @@ export const LoginAdmin = createAsyncThunk("admin/Login", async (adminData, thun
             localStorage.setItem("btctoken", JSON.stringify(response?.data.accessToken));
             // sessionStorage.setItem("btcadmin", JSON.stringify(response?.data));
         }
-        return response?.data;
+        return response?.data; 
     } catch (error) {
         const message =
             (error.response &&

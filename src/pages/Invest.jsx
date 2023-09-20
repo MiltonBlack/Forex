@@ -153,7 +153,7 @@ const Invest = () => {
         console.log(res.data); 
         setInvestSuccess(true)}
       ).catch((err) => console.log(err));
-      
+
       timeOut();
   }
   function timeOut(){
@@ -245,7 +245,7 @@ const Invest = () => {
                 <span className='mb-3 text-sm'>you will be debited ${numberSeparator(invDeposit.amount, ",")} from your wallet or deposit directly to have access to all the features of this plan</span>
                 <span></span>
                 <div className='py-2 flex items-center justify-between font-normal'>
-                  <button className='border p-1 bg-lime-500 rounded px-2' onClick={handleRequest} disabled={balance < plan1.amount}>{balance < plan1.amount ? "Subscribe from Wallet" : "Insufficient Funds"}</button>
+                  {balance > plan1.amount ? <button className='border p-1 bg-lime-500 rounded px-2' onClick={handleRequest} disabled={balance < plan1.amount}>"Subscribe From Wallet"</button> : <span>"Insufficient Funds"</span>}
                   <button className='border p-1 bg-amber-500 px-2 rounded' onClick={() => { setDeposit(true); }}>Deposit and Subscribe Directly</button>
                 </div>
               </div>

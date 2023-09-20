@@ -32,7 +32,7 @@ const Security = () => {
     } else {
       await axios
         .put(
-          `http://localhost:3005/api/auth/settings/personnal/${user._id}`,
+          `https://broker-backend.onrender.com/api/auth/settings/personnal/${user._id}`,
           data,
           config
         )

@@ -11,13 +11,16 @@ const DashHome = () => {
   const dispatch = useDispatch();
   const { user, isLoading, User } = useSelector((state) => state.auth);
   const { email } = user;
+  const [mail, setMail] = useState({
+    email: email,
+  });
   const onLoadScriptRef = useRef();
   const [data, setData] = useState(User);
 
   useEffect(
     () => {
       setData(user);
-      dispatch(userProfile(email));
+      dispatch(userProfile(mail));
       onLoadScriptRef.current = createWidget;
 
       if (!tvScriptLoadingPromise) {

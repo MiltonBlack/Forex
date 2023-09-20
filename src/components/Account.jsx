@@ -29,7 +29,7 @@ const Account = () => {
     };
     await axios
       .put(
-        `http://localhost:3005/api/auth/settings/account/${_id}`,
+        `https://broker-backend.onrender.com/api/auth/settings/account/${_id}`,
         data,
         config
       )

@@ -4,9 +4,9 @@ import axios from 'axios';
 const user = JSON.parse(localStorage.getItem("user"));
 // const token = user.accessToken;
 
-const PROD_URL = `http://localhost:3005`
+// const PROD_URL = `http://localhost:3005`
 // const BASE_URL = `http://localhost:3005`
-// const PROD_URL = `https://broker-backend.onrender.com`
+const PROD_URL = `https://broker-backend.onrender.com`
 export const Register = createAsyncThunk("auth/Register", async (userData, thunkAPI) => {
     try {
         const response = await axios.post(`${PROD_URL}/api/auth/register`, userData);
@@ -91,12 +91,12 @@ export const allWithdrawals = createAsyncThunk("auth/Withdrawals", async (id, th
     }
 });
 
-export const userProfile = createAsyncThunk("auth/Profile", async (email, thunkAPI) => {
+export const userProfile = createAsyncThunk("auth/Profile", async (mail, thunkAPI) => {
     const token = thunkAPI.getState().auth.user.accessToken;
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
-    return await axios.get(`${PROD_URL}/api/auth/profile/${email}`, config).then(res => (res?.data)).catch(err => console.log(err));
+    return await axios.post(`${PROD_URL}/api/auth/profile`,mail, config).then(res => (res?.data)).catch(err => console.log(err));
 });
 
 export const logout = createAsyncThunk("auth/logout", async () => {

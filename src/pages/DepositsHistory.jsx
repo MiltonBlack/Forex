@@ -7,8 +7,8 @@ import axios from 'axios';
 import numberSeparator from 'number-separator';
 
 const DepositsHistory = () => {
-    const PROD_URL = `http://localhost:3005`
-    // const PROD_URL = `https://broker-backend.onrender.com`
+    // const PROD_URL = `http://localhost:3005`
+    const PROD_URL = `https://broker-backend.onrender.com`
     const dispatch = useDispatch();
     const { deposits, user } = useSelector((state) => state.auth);
     const { _id, accessToken } = user;

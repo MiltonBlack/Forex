@@ -23,7 +23,7 @@ const Login = () => {
       setLoginSuccess(true);
       setTimeout(()=>{
         navigate('/dashboard')
-      },2000)
+      },5000);
     }
   }, [user, loggedIn, isLoading]);
   const onChange = (e) => {

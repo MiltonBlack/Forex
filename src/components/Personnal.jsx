@@ -26,7 +26,7 @@ const Personnal = () => {
     };
     await axios
       .put(
-        `http://localhost:3005/api/auth/settings/personnal/${user._id}`,
+        `https://broker-backend.onrender.com/api/auth/settings/personnal/${user._id}`,
         detail,
         config
       )

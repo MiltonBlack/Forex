@@ -9,7 +9,6 @@ const TransactionHistory = () => {
   // if (isLoading) {
   //   return <Loader />
   // }
-  console.log(deposits);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh]'>
