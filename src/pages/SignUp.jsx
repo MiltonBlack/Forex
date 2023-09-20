@@ -67,7 +67,7 @@ const SignUp = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (firstName === "" || lastName === "" || email === "") {
+    if (firstName === "" || lastName === "" || email === "" || password === "" || password2 === "") {
       setSignUpOpen(true);
     }
     else if (password !== password2) {

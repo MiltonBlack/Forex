@@ -24,6 +24,9 @@ const Personnal = () => {
         Authorization: `Bearer ${user.accessToken}`,
       },
     };
+    if(firstName==="" || lastName===""|| email===""){
+      console.log('Details Cannot be left Blank!');
+    }
     await axios
       .put(
         `https://broker-backend.onrender.com/api/auth/settings/personnal/${user._id}`,

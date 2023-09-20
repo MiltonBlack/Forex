@@ -46,7 +46,7 @@ const Login = () => {
   };
   function handleSubmit(e) {
     e.preventDefault();
-    if (email === "" && password === "") {
+    if (email === "" || password === "") {
       setLoginField(true);
     } else {
       const userData = {

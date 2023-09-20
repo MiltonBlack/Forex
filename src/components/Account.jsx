@@ -27,6 +27,9 @@ const Account = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
+    if(walletAddress === ""){
+      console.log('wallet Address cannot be empty!');
+    }
     await axios
       .put(
         `https://broker-backend.onrender.com/api/auth/settings/account/${_id}`,

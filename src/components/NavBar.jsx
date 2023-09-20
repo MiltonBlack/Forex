@@ -71,7 +71,7 @@ const NavBar = () => {
         </div>
         <div className='flex items-center justify-center relative'>
           <FaBell className='hidden md:flex' />
-          <h1 className='mx-2 hidden md:flex'>{user.firstName} {user.lastName}</h1>
+          <h1 className='mx-2 hidden md:flex'>{user?.firstName} {user?.lastName}</h1>
           <FaArrowCircleDown onClick={toggleMenu} className='cursor-pointer hidden md:flex' />
           {open &&
             (<div className='absolute right-0 top-8 bg-black/50 w-[120px] text-base font-normal text-white'>
@@ -79,7 +79,7 @@ const NavBar = () => {
                 <span className='text-xs'>
                   Logged in as:
                 </span>
-                <span className='ml-1 text-sm flex'>{user.firstName} {user.lastName}</span>
+                <span className='ml-1 text-sm flex'>{user?.firstName} {user?.lastName}</span>
                 <Link to='/dashboard/profile' className='border border-white w-full flex my-1 items-center justify-center text-black bg-white'>View Profile</Link>
                 <Link to='/dashboard/settings ' className='flex bg-white text-black border-white items-center justify-center border w-full my-1'>Settings <FaCog className='mx-2' /></Link>
                 <div className='flex border-slate-600 items-center justify-center border w-full cursor-pointer bg-slate-600 text-white' onClick={()=> dispatch(userProfile(user.email))}>Refresh <GiCycle className='mx-2'/></div>

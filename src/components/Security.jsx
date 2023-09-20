@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
+import { Alert, Slide, Snackbar } from '@mui/material'
 
 const Security = () => {
-  const { user } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth);
+  const [empty, setEmpty] = useState(false);
+  const [noMatch, setNoMatch] = useState(false);
+  const [sameP, setSameP] = useState(false);
   const [details, setDetails] = useState({
-    password: user.password,
+    password: user?.password,
     newPassword: "",
     confirmPassword: ""
   });
@@ -25,10 +29,12 @@ const Security = () => {
     const data = {
       newPassword
     }
-    if (password === newPassword) {
-      console.log('New Password Cannot be Old Password');
+    if (password === "" || newPassword === "" || confirmPassword === "") {
+      setEmpty(true);
+    } else if (password === newPassword) {
+      setSameP(true);
     } else if (newPassword !== confirmPassword) {
-      console.log('Passwords do not match');
+      setNoMatch(true);
     } else {
       await axios
         .put(
@@ -41,9 +47,33 @@ const Security = () => {
     }
     console.log(data);
   }
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setEmpty(false);
+    sameP(false);
+    noMatch(false);
+  };
   console.log(details);
   return (
     <div className='p-4 w-full md:w-[40%]'>
+      <Snackbar autoHideDuration={5000} open={sameP} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='warning' >
+          New Password Cannot Be Old Password!
+        </Alert>
+      </Snackbar>
+      <Snackbar autoHideDuration={5000} open={noMatch} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='warning' >
+          Passwords Do Not Match!!
+        </Alert>
+      </Snackbar>
+      <Snackbar autoHideDuration={5000} open={empty} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='warning' >
+          Input Fields Cannot be Empty!!!
+        </Alert>
+      </Snackbar>
       <div className='my-4'>
         <h1>Old Password</h1>
         <input

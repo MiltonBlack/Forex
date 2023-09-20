@@ -10,43 +10,60 @@ import { FaBitcoin, FaCopy, FaTimes } from 'react-icons/fa'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { projectStorage } from '../firebase/config';
 // import Loader from '../components/Loader'
-import { Snackbar, Slide, Alert } from '@mui/material';
+import { Snackbar, Slide, Alert, CircularProgress } from '@mui/material';
 import numberSeparator from 'number-separator';
 
 const Invest = () => {
   const { log } = console;
   // const PROD_URL = `http://localhost:3005`
   const PROD_URL = `https://broker-backend.onrender.com`
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { user, deposits } = useSelector((state) => state.auth);
   const { accessToken, _id } = user;
+  // URL for the Uploaded Proof of Payment
   const [urlProof, setUrlProof] = useState(null);
   const [proofImg, setProofImg] = useState(null);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
+  // State for Proof of Payment Images Supported Types
   const types = ['image/png', 'image/jpg'];
   const [copySuccess, setCopySuccess] = useState('');
   const copyRef = useRef(null);
   const [info, setInfo] = useState(user);
+  // State for wallet Address for Funds to be sent into
   const [wallet, setWallet] = useState(null);
+  // State for Snackbar Success on Invest
   const [investSuccess, setInvestSuccess] = useState(false);
-  const approvedDeposits = deposits.find((item) => item.status !== "pending");
-  const totalDepositAmount = approvedDeposits.reduce((currentTotal, item) => {
-    return item.amount + currentTotal;
-  }, 0);
-  const balance = totalDepositAmount + 50;
+  let approvedDeposits;
+  let totalDepositAmount = 0;
+  let balance;
+  if (deposits) {
+    // Get all Deposits with the status "Pending"
+    approvedDeposits = deposits?.find((item) => item.status !== "pending");
+    // Total all Deposits with the status of "Pending"
+    totalDepositAmount = approvedDeposits?.reduce((currentTotal, item) => {
+      return item.amount + currentTotal;
+    }, 0);
+  };
+  balance = parseInt(totalDepositAmount) + 50;
+  console.log("balance: " + balance);
 
-  useEffect(()=>{
+  // Call Get Wallet Address on page Load
+  useEffect(() => {
     getWallet();
-  },[])
-  async function getWallet(){
+  }, []);
+
+  // Fetch Wallet Address Function and Save to wallet State.
+  async function getWallet() {
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    await axios.get("http://localhost:3005/api/auth/settings/walletaddress", config).then((res)=> setWallet(res.data)).catch(err => console.log(err));
+    await axios.get(`${PROD_URL}/api/auth/settings/walletaddress`, config).then((res) => setWallet(res.data)).catch(err => console.log(err));
   }
+
+  // Function to Select and Save Proof of Payment Locally to proofImg state.
   async function handleProofImg(e) {
     const chooseImg = e.target.files[0]
     if (chooseImg && types.includes(chooseImg.type)) {
@@ -56,11 +73,13 @@ const Invest = () => {
       setProofImg(null)
       setError("please select an image file (.jpg/.png)")
     }
-    await uploadProof(chooseImg);
+    // await uploadProof(chooseImg);
   }
-  async function uploadProof(chooseImg) {
-    if (!chooseImg) return;
-    const storageRef = ref(projectStorage, `/deposits/${chooseImg.name}`);
+  log("Proof Of Payment: " + proofImg);
+  // Function to Call Proof of Payment Upload
+  async function uploadProof(proofImg) {
+    if (!proofImg) return;
+    const storageRef = ref(projectStorage, `/deposits/${proofImg.name}`);
     const uploadSequence = await uploadBytesResumable(storageRef, chooseImg);
     uploadSequence.on("state_changed", (snapshot) => {
       const uploadProgress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
@@ -69,7 +88,8 @@ const Invest = () => {
       () => {
         getDownloadURL(uploadSequence.snapshot.ref).then(url => setUrlProof(url))
       })
-  }
+  };
+  log("Progress" + progress + "%");
   const [plan1, setPlan] = useState({
     plan: "none",
     balance: "",
@@ -86,6 +106,8 @@ const Invest = () => {
   });
   const [subscribe, setSubscribe] = useState(false);
   const [deposit, setDeposit] = useState(false);
+
+  // Function to Copy Wallet Address to Clipboard
   function copyAddress(e) {
     copyRef.current.select();
     document.execCommand('copy');
@@ -113,8 +135,8 @@ const Invest = () => {
         // localStorage.setItem("user", JSON.stringify(info));
       })
       .catch((err) => log(err));
-      // Call Deposit Function after Updating User Plan and ProofImageURL
-      await handleDepositRequest();
+    // Call Deposit Function after Updating User Plan and ProofImageURL
+    await handleDepositRequest();
   }
 
   const handleRequest = async () => {
@@ -149,36 +171,42 @@ const Invest = () => {
         `${PROD_URL}/api/auth/deposit`,
         invDeposit,
         config
-      ).then((res) =>{
-        console.log(res.data); 
-        setInvestSuccess(true)}
+      ).then((res) => {
+        console.log(res.data);
+        setInvestSuccess(true)
+      }
       ).catch((err) => console.log(err));
 
-      timeOut();
+    timeOut();
   }
-  function timeOut(){
-    setTimeout(()=>{
+
+  // Timeout Function to Set Snackbar State to False After 3 Seconds.
+  function timeOut() {
+    setTimeout(() => {
       setInvestSuccess(false);
-    },3000)
+    }, 3000)
   }
+
+  // Function to Close Snackbar on Outside Click: An MUI function for their Snackbar!!
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
   };
+
   return (
     <>
       <div className='pt-16 bg-stone-100 px-10 relative'>
-      <Snackbar autoHideDuration={5000} open={balance < plan1.amount} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
-        <Alert sx={{ width: '100%' }} severity='warning' >
-          Insufficient Wallet Balance for Plan!!!
-        </Alert>
-      </Snackbar>
-      <Snackbar autoHideDuration={5000} open={investSuccess} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
-        <Alert sx={{ width: '100%' }} severity='success' >
-          Investment Successful
-        </Alert>
-      </Snackbar>
+        <Snackbar autoHideDuration={5000} open={balance < plan1.amount} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+          <Alert sx={{ width: '100%' }} severity='warning' >
+            Insufficient Wallet Balance for Plan!!!
+          </Alert>
+        </Snackbar>
+        <Snackbar autoHideDuration={5000} open={investSuccess} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+          <Alert sx={{ width: '100%' }} severity='success' >
+            Investment Successful
+          </Alert>
+        </Snackbar>
         <div className='flex my-4 flex-col'>
           <h1 className='text-3xl md:text-5xl font-bold md:font-extrabold'>We've got a Plan <br />that's Perfect for you</h1>
           <div className='p-1 border border-black rounded flex w-fit my-4'>
@@ -263,7 +291,7 @@ const Invest = () => {
                 </div>
                 <div className='flex flex-col p-2'>
                   <div className='flex items-center my-1'>
-                    <div className='flec flex-col'>
+                    <div className='flex flex-col'>
                       <div className='flex items-center my-2'>
                         <span>Amount</span>
                         <span className='p-1 bg-slate-400 rounded'>{numberSeparator(invDeposit.amount, ",")}</span>
@@ -290,9 +318,12 @@ const Invest = () => {
                     onChange={handleProofImg}
                     accept='image/*' />
                   <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium text-base rounded-md mb-1">{progress}%</div>
-                  <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={handleInvest}>
-                    Complete Subscription
-                  </button>
+                  {urlProof === null ? <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={uploadProof}>
+                    {progress !== 0 ? "Complete Upload" : <CircularProgress value={progress} />}
+                  </button> :
+                    <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={handleInvest}>
+                      Complete Subscription
+                    </button>}
                 </div>
               </div>
             </div>
