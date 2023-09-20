@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 
@@ -6,7 +6,6 @@ const Account = () => {
   const { user } = useSelector((state) => state.auth);
   const {accessToken, _id} = user;
   const [info, setInfo] = useState(user);
-  const [wallet, setWallet] = useState([]);
   const [details, setDetails] = useState({
     walletType: user.walletType,
     walletAddress: user.walletAddress

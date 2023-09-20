@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import axios from 'axios'
 import Check from '../components/Check'
 import Plan from '../components/Plan'
@@ -47,6 +47,7 @@ const Invest = () => {
   };
   balance = parseInt(totalDepositAmount) + 50;
   console.log("balance: " + balance);
+  log(error);
 
   // Call Get Wallet Address on page Load
   useEffect(() => {
@@ -192,6 +193,7 @@ const Invest = () => {
     if (reason === "clickaway") {
       return;
     }
+    setInvestSuccess(false)
   };
 
   return (
