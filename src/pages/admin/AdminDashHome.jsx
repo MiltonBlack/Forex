@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaPlus, FaUser } from 'react-icons/fa'
 import Card from '../../components/Card'
-// import { getAllDepositsAdmin, getAllUsersAdmin, getAllWithdrawalsAdmin } from '../../services/adminSlice';
+import numberSeparator from 'number-separator';
 
 let tvScriptLoadingPromise;
 const AdminDashHome = () => {
@@ -10,14 +10,15 @@ const AdminDashHome = () => {
   const { admin } = useSelector((state) => state.admin);
   const { totalDeposit, withdrawals } = admin;
   const pendingDeposit = totalDeposit.filter((item) => item.status === "pending");
-  const arry = [pendingDeposit];
   const pendingDepositAmount = pendingDeposit?.reduce((currentTotal, item) => {
-      return item.amount + currentTotal;
+      return parseInt(item.amount) + currentTotal;
     }, 0);
-  console.log(admin);
-  console.log(pendingDeposit); 
-  console.log(arry); 
-  console.log(pendingDepositAmount); 
+  const totalDepositAmount = totalDeposit?.reduce((currentTotal, item)=> {
+    return parseInt(item.amount) + currentTotal;
+  }, 0);
+  const totalWithdrawalAmount = withdrawals?.reduce((currentTotal, item)=> {
+    return parseInt(item.withdrawAmount) + currentTotal;
+  }, 0); 
   const onLoadScriptRef = useRef();
 
   useEffect(
@@ -88,8 +89,8 @@ const AdminDashHome = () => {
           <Card>
             <div className='flex flex-col h-full w-full justify-between'>
               <div className='flex w-full justify-between items-center'>
-                <span>Pending Deposits:</span>
-                <span>${ }</span>
+                <span className=' text-base font-light'>Pending Deposits:</span>
+                <span>${numberSeparator(pendingDepositAmount, ",")}</span>
               </div>
               <div className='flex w-full justify-between items-center'>
                 <span className='font-light text-sm text-slate-600 mt-4'>No:</span>
@@ -100,8 +101,8 @@ const AdminDashHome = () => {
           <Card>
             <div className='flex flex-col h-full w-full justify-between'>
               <div className='flex w-full justify-between items-center'>
-                <span>Total Deposits:</span>
-                <span>${ }</span>
+                <span className=' text-base font-light'>Total Deposits:</span>
+                <span>${numberSeparator(totalDepositAmount, ",")}</span>
               </div>
               <div className='flex w-full justify-between items-center'>
                 <span className='font-light text-sm text-slate-600 mt-4'>No:</span>
@@ -112,8 +113,8 @@ const AdminDashHome = () => {
           <Card>
             <div className='flex flex-col h-full w-full justify-between'>
               <div className='flex w-full justify-between items-center'>
-                <span>Pending Withdrawals:</span>
-                <span>${ }</span>
+                <span className=' text-base font-light'>Pending Withdrawals:</span>
+                <span>${numberSeparator(totalWithdrawalAmount, ",")}</span>
               </div>
               <div className='flex w-full justify-between items-center'>
                 <span className='font-light text-sm text-slate-600 mt-4'>No:</span>
