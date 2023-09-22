@@ -2,31 +2,22 @@ import React, { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaPlus, FaUser } from 'react-icons/fa'
 import Card from '../../components/Card'
-import { getAllDepositsAdmin, getAllUsersAdmin, getAllWithdrawalsAdmin } from '../../services/adminSlice';
+// import { getAllDepositsAdmin, getAllUsersAdmin, getAllWithdrawalsAdmin } from '../../services/adminSlice';
 
 let tvScriptLoadingPromise;
 const AdminDashHome = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllUsersAdmin());
-    dispatch(getAllDepositsAdmin());
-    dispatch(getAllWithdrawalsAdmin());
-  }, [dispatch]);
-  const { admin, allUsers, deposits, withdrawals } = useSelector((state) => state.admin);
-  const totalUsers = allUsers.length;
-  const pendingDeposits = deposits.find((item) => item.status === "pending");
-  const totalPendingDeposits = pendingDeposits.length;
-  const pendingDepositAmount = pendingDeposits.reduce((currentTotal, item) => {
-    return item.amount + currentTotal;
-  }, 0);
-  const totalDeposits = deposits.reduce((currentTotal, item) => {
-    return item.amount + currentTotal;
-  }, 0);
-  const noOfDeposits = deposits.length;
-  const pendingWithdrawals = withdrawals.reduce((currentTotal, item) => {
-    return item.withdrawAmount + currentTotal;
-  }, 0);
-  const totalPendingWithdawals = withdrawals.length;
+  const { admin } = useSelector((state) => state.admin);
+  const { totalDeposit, withdrawals } = admin;
+  const pendingDeposit = totalDeposit.filter((item) => item.status === "pending");
+  const arry = [pendingDeposit];
+  const pendingDepositAmount = pendingDeposit?.reduce((currentTotal, item) => {
+      return item.amount + currentTotal;
+    }, 0);
+  console.log(admin);
+  console.log(pendingDeposit); 
+  console.log(arry); 
+  console.log(pendingDepositAmount); 
   const onLoadScriptRef = useRef();
 
   useEffect(
@@ -70,6 +61,7 @@ const AdminDashHome = () => {
     },
     []
   );
+
   return (
     <>
       <div className=' bg-stone-200 w-full h-full flex flex-col px-5 md:px-10 pt-16'>
@@ -88,7 +80,7 @@ const AdminDashHome = () => {
               <div className='flex w-full justify-between items-center'>
                 <FaUser size={30} />
                 <span>All Users:</span>
-                <span>{totalUsers}</span>
+                <span>{ }</span>
               </div>
               <span className='font-light text-sm text-slate-600 mt-4'>25% This week</span>
             </div>
@@ -97,11 +89,11 @@ const AdminDashHome = () => {
             <div className='flex flex-col h-full w-full justify-between'>
               <div className='flex w-full justify-between items-center'>
                 <span>Pending Deposits:</span>
-                <span>${pendingDepositAmount}</span>
+                <span>${ }</span>
               </div>
               <div className='flex w-full justify-between items-center'>
                 <span className='font-light text-sm text-slate-600 mt-4'>No:</span>
-                <span className='font-light text-sm text-slate-600 mt-4'>{totalPendingDeposits}</span>
+                <span className='font-light text-sm text-slate-600 mt-4'>{pendingDeposit.length}</span>
               </div>
             </div>
           </Card>
@@ -109,11 +101,11 @@ const AdminDashHome = () => {
             <div className='flex flex-col h-full w-full justify-between'>
               <div className='flex w-full justify-between items-center'>
                 <span>Total Deposits:</span>
-                <span>${totalDeposits}</span>
+                <span>${ }</span>
               </div>
               <div className='flex w-full justify-between items-center'>
                 <span className='font-light text-sm text-slate-600 mt-4'>No:</span>
-                <span className='font-light text-sm text-slate-600 mt-4'>{noOfDeposits}</span>
+                <span className='font-light text-sm text-slate-600 mt-4'>{totalDeposit.length}</span>
               </div>
             </div>
           </Card>
@@ -121,11 +113,11 @@ const AdminDashHome = () => {
             <div className='flex flex-col h-full w-full justify-between'>
               <div className='flex w-full justify-between items-center'>
                 <span>Pending Withdrawals:</span>
-                <span>${pendingWithdrawals}</span>
+                <span>${ }</span>
               </div>
               <div className='flex w-full justify-between items-center'>
                 <span className='font-light text-sm text-slate-600 mt-4'>No:</span>
-                <span className='font-light text-sm text-slate-600 mt-4'>{totalPendingWithdawals}</span>
+                <span className='font-light text-sm text-slate-600 mt-4'>{withdrawals.length}</span>
               </div>
             </div>
           </Card>
@@ -166,7 +158,7 @@ const AdminDashHome = () => {
         <Card>
           <div className='flex justify-center items-center w-full font-light'>
             <marquee behavior="" direction="">
-              Contact Us to Build Your Website, Broker, E-Commerce, NFT, Mobile Applications (Andriod and IOS), PortFolios, Courrier Services, Logistics.  WhatApp Line: +2349037289192 
+              Contact Us to Build Your Website, Broker, E-Commerce, NFT, Mobile Applications (Andriod and IOS), PortFolios, Courrier Services, Logistics.  WhatApp Line: +2349037289192
             </marquee>
           </div>
         </Card>

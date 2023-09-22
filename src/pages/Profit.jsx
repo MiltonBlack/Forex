@@ -42,12 +42,8 @@ const Profit = () => {
     }
   };
   useEffect(() => {
-    { plan !== "None" && calc() }
+    plan !== "None" && calc() 
   }, [plan]);
-  console.log(intervalString);
-  console.log(interval);
-  console.log(currentDay);
-  console.log(cString);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 h-[80vh]'>

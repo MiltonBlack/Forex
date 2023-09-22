@@ -22,7 +22,7 @@ const Invest = () => {
   const { accessToken, _id } = user;
   // URL for the Uploaded Proof of Payment
   const [urlProof, setUrlProof] = useState(null);
-  const [proofImg, setProofImg] = useState(null);
+  const [proofImg, setProofImg] = useState("");
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
   // State for Proof of Payment Images Supported Types
@@ -30,6 +30,7 @@ const Invest = () => {
   const [copySuccess, setCopySuccess] = useState('');
   const copyRef = useRef(null);
   const [info, setInfo] = useState(user);
+  log(info);
   // State for wallet Address for Funds to be sent into
   const [wallet, setWallet] = useState(null);
   // State for Snackbar Success on Invest
@@ -37,14 +38,12 @@ const Invest = () => {
   let approvedDeposits;
   let totalDepositAmount = 0;
   let balance;
-  if (deposits) {
     // Get all Deposits with the status "Pending"
     approvedDeposits = deposits?.find((item) => item.status !== "pending");
     // Total all Deposits with the status of "Pending"
     totalDepositAmount = approvedDeposits?.reduce((currentTotal, item) => {
       return item.amount + currentTotal;
     }, 0);
-  };
   balance = parseInt(totalDepositAmount) + 50;
   console.log("balance: " + balance);
   log(error);
@@ -63,25 +62,19 @@ const Invest = () => {
     };
     await axios.get(`${PROD_URL}/api/auth/settings/walletaddress`, config).then((res) => setWallet(res.data)).catch(err => console.log(err));
   }
-
+  
+  
   // Function to Select and Save Proof of Payment Locally to proofImg state.
-  async function handleProofImg(e) {
-    const chooseImg = e.target.files[0]
-    if (chooseImg && types.includes(chooseImg.type)) {
-      setProofImg(chooseImg)
-      setError("")
-    } else {
-      setProofImg(null)
-      setError("please select an image file (.jpg/.png)")
-    }
-    // await uploadProof(chooseImg);
-  }
-  log("Proof Of Payment: " + proofImg);
+  function handleProofImg(e) {
+    setProofImg(e.target.files[0]);
+  };
+
+  log("Proof Of Payment 2 : " + proofImg);
   // Function to Call Proof of Payment Upload
   async function uploadProof(proofImg) {
     if (!proofImg) return;
     const storageRef = ref(projectStorage, `/deposits/${proofImg.name}`);
-    const uploadSequence = await uploadBytesResumable(storageRef, chooseImg);
+    const uploadSequence = await uploadBytesResumable(storageRef, proofImg);
     uploadSequence.on("state_changed", (snapshot) => {
       const uploadProgress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
       setProgress(uploadProgress);
@@ -321,7 +314,7 @@ const Invest = () => {
                     accept='image/*' />
                   <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium text-base rounded-md mb-1">{progress}%</div>
                   {urlProof === null ? <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={uploadProof}>
-                    {progress !== 0 ? "Complete Upload" : <CircularProgress value={progress} />}
+                    {progress === 0 ? "Complete Upload" : <CircularProgress value={progress} />}
                   </button> :
                     <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={handleInvest}>
                       Complete Subscription

@@ -6,7 +6,7 @@ import img from '../../assets/solana.jpg'
 import { Alert, Snackbar, CircularProgress, Slide } from '@mui/material'
 
 const AdminLogin = () => {
-  const { isLoading, admin, accessToken, error } = useSelector((state) => state.admin);
+  const { isLoading, isLoggedIn } = useSelector((state) => state.admin);
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -14,10 +14,12 @@ const AdminLogin = () => {
   });
   const { email, password } = formData;
   useEffect(() => {
-    if (accessToken && !isLoading) {
-      navigate('/auth/admin')
+    if (isLoggedIn === true) {
+      setTimeout(() => {
+        navigate('/auth/admin');
+    }, 2000);
     }
-  }, [accessToken, isLoading]);
+  }, [isLoggedIn]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onChange = (e) => {
@@ -34,23 +36,29 @@ const AdminLogin = () => {
     setOpen(false);
   };
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    if (email === "" && password === "") {
-      await setOpen(true);
-      // <Snackbar message='Input Fields Cannot be blank!!'/>
+    if (email === "" || password === "") {
+     setOpen(true);
     } else {
       const adminData = {
         email,
         password
       };
       // Send userData to LoginUser function in authSlice for Login Request. 
-      await dispatch(LoginAdmin(adminData));
+      dispatch(LoginAdmin(adminData));
+      console.log(adminData)
     }
   };
 
   return (
     <div className=' bg-sky-500 flex items-center justify-center w-screen h-screen relative'>
+      <Snackbar autoHideDuration={4000} open={isLoggedIn} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='success' >
+          Signin Successfull
+        </Alert>
+      </Snackbar>
+      <Snackbar message='Input Fields Cannot be blank!!' autoHideDuration={4000} open={open} onClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "right" }}/>
       <img src={img} alt="" className='h-screen w-screen' />
       <div className='fixed top-0 right-0 left-0 bottom-0 w-full h-full flex items-center justify-center bg-black/75'>
         <div className='border-2 border-black shadow-xl p-2 flex flex-col w-[380px] md:w-[512px] items-start justify-center bg-slate-500/50'>
@@ -87,7 +95,7 @@ const AdminLogin = () => {
             <hr className='border-black' />
             <div className='flex justify-center items-center'>
               <h1 className='mr-4'>Don't Have An Account?</h1>
-              <Link to='/signup'>
+              <Link to='/auth/administration/v1/create'>
                 <em className=' text-blue-950 text-lg cursor-pointer'>Sign Up Here</em>
               </Link>
             </div>

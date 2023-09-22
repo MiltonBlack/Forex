@@ -24,6 +24,7 @@ const SignUp = () => {
   const { firstName, lastName, country, email, password, password2 } = formData;
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState([]);
+  console.log(selectedCountry);
   useEffect(() => {
     fetch(
       "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"

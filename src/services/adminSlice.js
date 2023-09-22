@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 
 const token = JSON.parse(localStorage.getItem("accessToken"));
-// const PROD_URL = `http://localhost:3005`
-const PROD_URL = `https://broker-backend.onrender.com`
+const PROD_URL = `http://localhost:3005`
+// const PROD_URL = `https://broker-backend.onrender.com`
 
 export const LoginAdmin = createAsyncThunk("admin/Login", async (adminData, thunkAPI) => {
     try {
@@ -138,7 +138,7 @@ const initialState = {
     withdrawals:[],
     accessToken: token ? token : null,
     isLoading: false,
-    success: false,
+    isLoggedIn:false,
     deleted:false,
     updated:false,
     updatedAcct:false,
@@ -156,6 +156,7 @@ const adminSlice = createSlice({
             state.isLoading = false;
             state.accessToken = action.payload.accessToken;
             state.admin = action.payload;
+            state.isLoggedIn = true;
         },
         [LoginAdmin.rejected]: (state, action) => {
             state.isLoading = false;

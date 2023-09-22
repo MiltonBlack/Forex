@@ -9,8 +9,8 @@ import numberSeparator from 'number-separator';
 const DepositsHistory = () => {
     // const PROD_URL = `http://localhost:3005`
     const PROD_URL = `https://broker-backend.onrender.com`
-    const dispatch = useDispatch();
-    const { deposits, user } = useSelector((state) => state.auth);
+    // const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.auth);
     const { _id, accessToken } = user;
     const [depositData, setDepositData] = useState([]);
     useEffect(() => {

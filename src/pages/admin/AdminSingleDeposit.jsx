@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { approveDnSAdmin, approvePlan, getSingleDepositAdmin } from '../../services/adminSlice';
@@ -11,7 +11,7 @@ const AdminSingleDeposit = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSingleDepositAdmin(id));
-  }, [dispatch]);
+  }, [dispatch, id]);
   const { oneDeposit, allUsers, isLoading, success } = useSelector((state) => state.admin);
   const single = allUsers.find((item) => item._id === id);
   const { _id } = oneDeposit;

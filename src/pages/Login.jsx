@@ -15,7 +15,7 @@ const Login = () => {
   const { email, password } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, user, User, loggedIn } = useSelector((state) => state.auth);
+  const { isLoading, user, loggedIn } = useSelector((state) => state.auth);
   useEffect(() => {
     if (!loggedIn) {
       setLoginSuccess(false);
@@ -25,7 +25,7 @@ const Login = () => {
         navigate('/dashboard')
       }, 5000);
     }
-  }, [user, loggedIn, isLoading]);
+  }, [user, loggedIn, isLoading, navigate]);
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,

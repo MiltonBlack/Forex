@@ -11,7 +11,7 @@ const WithdrawHistory = () => {
     const { _id } = user;
     useEffect(()=> {
         dispatch(allWithdrawals(_id));
-    },[]);
+    },[_id, dispatch]);
     console.log(withdrawals);
     return (
         <div className='border my-4 rounded bg-white shadow-md flex flex-col items-center'>

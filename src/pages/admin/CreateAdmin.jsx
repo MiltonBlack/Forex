@@ -8,9 +8,20 @@ import { Snackbar, Alert, Slide } from '@mui/material';
 
 const CreateAdmin = () => {
     const { id } = useParams()
+    const PROD_URL = `http://localhost:3005`
+    // const PROD_URL = `https://broker-backend.onrender.com`
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
+    const [success, setSuccess] = useState(false);
+    useEffect(() => {
+        if (success === true) {
+            setSuccess(true);
+            setTimeout(() => {
+                navigate('/auth/admin/login');
+            }, 2000);
+        }
+    }, [success]);
     const [alertPassword, setAlertPassword] = useState(false);
     const [formData, setFormData] = useState({
         fullName: '',
@@ -30,6 +41,7 @@ const CreateAdmin = () => {
             return;
         }
         setAlertPassword(false);
+        setSuccess(false);
     };
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -42,7 +54,7 @@ const CreateAdmin = () => {
                 email,
                 password,
             };
-            fetch('http://localhost:3005/api/admin/register', {
+            fetch(`${PROD_URL}/api/admin/register`, {
                 method: "POST",
                 body: JSON.stringify(userData),
                 headers: {
@@ -50,19 +62,22 @@ const CreateAdmin = () => {
                 }
             }).then((response) => response.json())
                 .then((info) => {
-                    setData(info)
+                    setSuccess(true);
+                    setData(info);
                 }).catch(err => console.log(err));
 
         }
     };
-    console.log(id);
-    console.log(formData);
-    console.log(data);
     return (
         <div className='bg-sky-500 w-screen h-screen relative'>
             <Snackbar autoHideDuration={5000} open={alertPassword} onClose={handlePassClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
                 <Alert sx={{ width: '100%' }} severity='warning' >
                     Passwords Do Not Match!!!
+                </Alert>
+            </Snackbar>
+            <Snackbar autoHideDuration={4000} open={success} onClose={handlePassClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+                <Alert sx={{ width: '100%' }} severity='success' >
+                    Created Successfully
                 </Alert>
             </Snackbar>
             <img src={img} alt="" className='h-screen w-screen' />
@@ -115,7 +130,7 @@ const CreateAdmin = () => {
                     </button>
                     <div className='flex justify-center items-center'>
                         <h1 className='mr-4 text-sm text-white'>Already Have An Account?</h1>
-                        <Link to='/login'>
+                        <Link to='/auth/admin/login'>
                             <em className=' text-blue-950 text-lg cursor-pointer'>Login</em>
                         </Link>
                     </div>

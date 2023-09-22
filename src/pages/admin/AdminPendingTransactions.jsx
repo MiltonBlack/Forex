@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllDepositsAdmin, getAllWithdrawalsAdmin } from '../../services/adminSlice';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
@@ -9,7 +9,7 @@ import Loader from '../../components/Loader';
 const AdminPendingTransactions = () => {
   const dispatch = useDispatch();
   const { deposits, withdrawals, isLoading } = useSelector((state) => state.admin);
-  const [filter, setFilter] = React.useState('deposits');
+  const [filter, setFilter] = useState('deposits');
 
   useEffect(() => {
     dispatch(getAllDepositsAdmin());
@@ -17,9 +17,9 @@ const AdminPendingTransactions = () => {
   }, [dispatch]);
 
   const deposit = deposits.find((item) => item.status === "pending");
-  const filtered = React.useMemo(() => {
+  const filtered = useMemo(() => {
     return filter === 'deposits' ? deposit : withdrawals;
-  }, [deposits, deposit, withdrawals, filter]);
+  }, [deposit, withdrawals, filter]);
 
   const handleFilter = (e) => {
     setFilter(e.target.value)
