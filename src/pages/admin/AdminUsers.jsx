@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteUserAdmin, getAllUsersAdmin } from '../../services/adminSlice';
 import moment from 'moment';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { FaAngleLeft, FaAngleRight, FaTimes } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md'
 import Loader from '../../components/Loader';
 import Modal from '../../components/Modal';
@@ -13,9 +13,11 @@ const AdminUsers = () => {
   const { allUsers, isLoading, deleted } = useSelector((state) => state.admin);
   const [deleteData, setDeleteData] = useState(false);
   const [userData, setUserData] = useState([]);
+  const [open, setOpen] = useState(false);
+  console.log(allUsers)
   useEffect(() => {
     dispatch(getAllUsersAdmin());
-  }, [dispatch]);
+  }, []);
   function DeleteUser() {
     // Send a delete request to the server
     // for now log to the console 'deleted'
@@ -58,7 +60,7 @@ const AdminUsers = () => {
                   <td>{item.investment}</td>
                   <td className='p-1 bg-red-400 rounded-sm text-white'>{item.emailVerified}</td>
                   <td>{moment(item.createdAt).fromNow()}</td>
-                  <td className=' bg-red-300'><MdDelete color='red' onClick={() => { setDeleteData(true); setUserData(item); }} /></td>
+                  <td className=' bg-red-300 flex items-center w-full justify-center h-full'><MdDelete color='red' onClick={() => { setDeleteData(true); setUserData(item); setOpen(true) }} /></td>
                 </tr>
               )}
             </tbody>
@@ -76,9 +78,17 @@ const AdminUsers = () => {
       </div>
       {deleteData && (
         <Modal>
+        <div
+            className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer hover:rotate-180 transition'
+            onClick={() => setOpen(false)} 
+            >
+            <FaTimes color='red' />
+          </div>
+          <div className='flex flex-col items-center justify-center h-40 font-light mt-5'>
           <h1>Delete User with the following id: {userData._id}</h1>
           <span>{userData.firstName} {userData.lastName}</span>
-          <button className='my-2 bg-red-500 text-white rounded-sm' onClick={DeleteUser}>{!deleted ? "Confirm User Delete!" : <CircularProgress />}</button>
+          <button className='my-2 bg-red-500 text-white rounded-sm p-1' onClick={DeleteUser}>{!deleted ? "Confirm User Delete!" : <CircularProgress />}</button>
+          </div>
         </Modal>
       )
       }

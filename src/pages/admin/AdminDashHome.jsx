@@ -8,7 +8,7 @@ let tvScriptLoadingPromise;
 const AdminDashHome = () => {
   const dispatch = useDispatch();
   const { admin } = useSelector((state) => state.admin);
-  const { totalDeposit, withdrawals } = admin;
+  const { totalDeposit, withdrawals, usersLength } = admin;
   const pendingDeposit = totalDeposit.filter((item) => item.status === "pending");
   const pendingDepositAmount = pendingDeposit?.reduce((currentTotal, item) => {
       return parseInt(item.amount) + currentTotal;
@@ -19,6 +19,7 @@ const AdminDashHome = () => {
   const totalWithdrawalAmount = withdrawals?.reduce((currentTotal, item)=> {
     return parseInt(item.withdrawAmount) + currentTotal;
   }, 0); 
+  console.log(admin);
   const onLoadScriptRef = useRef();
 
   useEffect(
@@ -81,7 +82,7 @@ const AdminDashHome = () => {
               <div className='flex w-full justify-between items-center'>
                 <FaUser size={30} />
                 <span>All Users:</span>
-                <span>{ }</span>
+                <span>{usersLength}</span>
               </div>
               <span className='font-light text-sm text-slate-600 mt-4'>25% This week</span>
             </div>

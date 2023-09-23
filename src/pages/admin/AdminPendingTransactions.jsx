@@ -16,7 +16,7 @@ const AdminPendingTransactions = () => {
     dispatch(getAllWithdrawalsAdmin());
   }, [dispatch]);
 
-  const deposit = deposits.find((item) => item.status === "pending");
+  const deposit = deposits.filter((item) => item.status === "pending");
   const filtered = useMemo(() => {
     return filter === 'deposits' ? deposit : withdrawals;
   }, [deposit, withdrawals, filter]);

@@ -24,10 +24,10 @@ export const LoginAdmin = createAsyncThunk("admin/Login", async (adminData, thun
     }
 });
 
-export const getAllUsersAdmin = createAsyncThunk("admin/AllUsers", async (thunkAPI) => {
+export const getAllUsersAdmin = createAsyncThunk("admin/AllUsers", async (_, thunkAPI) => {
     const accessToken = thunkAPI.getState().admin.admin.accessToken;
     const config = {
-        headers: { Authorization: `Bearer ${accessToken}` }
+        headers: { Authorization: `Bearer ${token}` }
     };
     try {
         const response = await axios.get(`${PROD_URL}/api/admin/all`, config);
@@ -71,7 +71,7 @@ export const getProfileAdmin = createAsyncThunk("admin/Profile", async (thunkAPI
 export const deleteUserAdmin = createAsyncThunk('admin/deleteUser', async (id, thunkAPI) => {
     const accessToken = thunkAPI.getState().admin.admin.accessToken;
     const config = {
-        headers: { Authorization: `Bearer ${accessToken}` }
+        headers: { Authorization: `Bearer ${token}` }
     };
     return await axios.delete(`${PROD_URL}/api/admin/user/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 });

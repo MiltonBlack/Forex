@@ -1,18 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-import { getAllDepositsAdmin } from '../../services/adminSlice';
+import { FaAngleLeft, FaAngleRight, FaTimes } from 'react-icons/fa';
+import { approveDnSAdmin, approvePlan, getAllDepositsAdmin, getAllUsersAdmin } from '../../services/adminSlice';
 import moment from 'moment';
 import numberSeparator from 'number-separator';
 import Loader from '../../components/Loader';
 import { Link } from 'react-router-dom';
+import Modal from '../../components/Modal';
+import { CircularProgress } from '@mui/material';
 
 const AdminDeposit = () => {
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     dispatch(getAllDepositsAdmin());
+    dispatch(getAllUsersAdmin());
   }, [dispatch]);
-  const { deposits, isLoading } = useSelector((state) => state.admin);
+  const { deposits, isLoading, allUsers } = useSelector((state) => state.admin);
+  const [data, setData] = useState({
+    user_id:'',
+    amount: '',
+    status: '',
+    createdAt: '',
+  });
+  console.log(data)
+  const single = allUsers.find((item) => item._id === data?.user_id);
+  console.log(single)
+  function approveDeposit() {
+    dispatch(approveDnSAdmin(data._id));
+    dispatch(approvePlan(data.user_id));
+    // await timeOut();
+  };
   if (isLoading) {
     return <Loader />;
   }
@@ -35,14 +53,15 @@ const AdminDeposit = () => {
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
               {deposits?.map((item, idx) =>
-                <Link to={item.user_id}>
-                  <tr key={idx}>
-                    <td>{numberSeparator(item.amount, ",")}</td>
-                    <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
-                    <td>USDT</td>
-                    <td>{moment(item.createdAt).fromNow()}</td>
-                  </tr>
-                </Link>)}
+                // <Link to={`${item.user_id}_${item.id}`} >
+                <tr key={idx} onClick={() => { setData({ user_id:item.user_id, status: item.status, createdAt: item.createdAt, amount: item.amount }); setOpen(true); }}>
+                  <td>${numberSeparator(item.amount, ",")}</td>
+                  <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
+                  <td>USDT</td>
+                  <td>{moment(item.createdAt).fromNow()}</td>
+                </tr>
+                // </Link>
+              )}
             </tbody>
           </table>
           <div className='w-[80%] border mt-4'></div>
@@ -56,6 +75,29 @@ const AdminDeposit = () => {
           </div>
         </div>
       </div>
+      {open && (
+        <Modal>
+          <div
+            className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer hover:rotate-180 transition'
+            onClick={() => setOpen(false)}>
+            <FaTimes color='red' />
+          </div>
+          <div>
+            <div className='flex flex-col h-full w-full bg-white p-5 shadow-md rounded-md my-4'>
+              <div className='grid grid-cols-1 md:grid-cols-2 md:gap-4'>
+                <img src="" alt="" className=' rounded-md h-[200px] w-full' />
+                <div className='flex flex-col'>
+                  <span className='py-2'>{single?.firstName} {single?.lastName}</span>
+                  {/* <span className='py-2'>${numberSeparator(data?.amount, ",")}</span> */}
+                  <span className='py-2'>{moment(data?.createdAt).fromNow()}</span>
+                  <span className={`p-1 ${data?.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{data?.status}</span>
+                </div>
+              </div>
+              {data?.status === "pending" && <button className='border flex w-full p-2 bg-neutral-600 text-white font-normal' onClick={approveDeposit}>{isLoading ? <CircularProgress /> : "Approve Deposit"}</button>}
+            </div>
+          </div>
+        </Modal>
+      )}
     </>
   )
 }
