@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 
 const token = JSON.parse(localStorage.getItem("accessToken"));
+const admin = JSON.parse(localStorage.getItem("btcadmin"));
 const PROD_URL = `http://localhost:3005`
 // const PROD_URL = `https://broker-backend.onrender.com`
 
@@ -10,6 +11,7 @@ export const LoginAdmin = createAsyncThunk("admin/Login", async (adminData, thun
         const response = await axios.post(`${PROD_URL}/api/admin/signin`, adminData);
         if (response?.data) {
             localStorage.setItem("btctoken", JSON.stringify(response?.data.accessToken));
+            localStorage.setItem("btcadmin", JSON.stringify(response?.data));
             // sessionStorage.setItem("btcadmin", JSON.stringify(response?.data));
         }
         return response?.data; 
@@ -69,6 +71,7 @@ export const getProfileAdmin = createAsyncThunk("admin/Profile", async (thunkAPI
 });
 
 export const deleteUserAdmin = createAsyncThunk('admin/deleteUser', async (id, thunkAPI) => {
+    const token = JSON.parse(localStorage.getItem("accessToken"));
     const accessToken = thunkAPI.getState().admin.admin.accessToken;
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -126,12 +129,12 @@ export const approvePlan = createAsyncThunk("admin/approvePlan", async (id)=>{
 })
 
 export const logoutAdmin = createAsyncThunk("admin/logout", async () => {
-    await sessionStorage.removeItem("btcadmin");
+    await localStorage.removeItem("btcadmin");
     await localStorage.removeItem("btctoken");
 });
 
 const initialState = {
-    admin: [],
+    admin: admin ? admin : [],
     allUsers:[],
     deposits:[],
     oneDeposit:[],

@@ -26,7 +26,7 @@ const Landing = () => {
         <img src={solana} alt="" className='md:h-screen h-[70vh] w-screen object-cover' />
         <div className='absolute w-full h-full items-center justify-center px-10 md:px-36 pt-6 md:pt-16 bg-black/75'>
           <div className='flex flex-col items-center justify-center h-full w-full'>
-            <h1 className='text-5xl text-center leading-[60px]'>Trade Securely on the <br /> World's Most active Digital Asset Exchange</h1>
+            <h1 className=' text-4xl md:text-5xl text-center md:leading-[60px]'>Trade Securely on the <br /> World's Most active Digital Asset Exchange</h1>
             <p className='text-lg text-center my-2'>We are a US Based Digital Asset Exchange offering Maximum Security and Advanced Trading Features</p>
             <div className='text-base md:text-lg my-3'>
               <Link to='signup'>
@@ -42,12 +42,12 @@ const Landing = () => {
       <section className='flex bg-gradient-to-b from-slate-800 px-10 md:px-36 py-5 md:py-10 text-white'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
           <div className='h-full flex items-center'>
-            <img src={device} alt="" className='' />
+            <img src={device} alt="" className=' md:h-40 h-full md:py-0 py-2' />
           </div>
-          <div className='ml-2'>
-            <h1 className=' text-base md:text-3xl font-thin'>All You Need To Know About Bitcoin</h1>
+          <div className='ml-2 md:py-0 py-4'>
+            <h1 className=' text-xl md:text-3xl font-thin'>All You Need To Know About Bitcoin</h1>
             <div className=' border-2 h-2 border-black bg-black rounded-lg w-28 my-1 md:my-4'></div>
-            <p className='font-thin my-2 text-xs md:text-xl text-justify'>
+            <p className='font-thin my-2 text-lg md:text-xl text-justify'>
               Welcome to the exciting world of Bitcoin! In this concise guide, we'll introduce you to the fundamentals of Bitcoin – the pioneering cryptocurrency that has revolutionized finance and technology. Learn what Bitcoin is, how it works, and why it matters. Explore its potential for investments and its impact on the global economy. Whether you're a curious beginner or looking to deepen your understanding, this is your gateway to all things Bitcoin.
             </p>
           </div>
@@ -56,16 +56,16 @@ const Landing = () => {
       <section className='flex bg-gradient-to-t from-stone-300 px-10 md:px-36 py-5 md:py-10 text-black'>
         <div className='grid grid-cols-1 md:grid-cols-2'>
           <div>
-            <h1 className='text-base md:text-3xl font-thin'>Trade on MT4, MT5 and cTrader Everywhere and Anytime</h1>
+            <h1 className='text-xl md:text-3xl font-thin'>Trade on MT4, MT5 and cTrader Everywhere and Anytime</h1>
             <div className=' border-2 h-2 border-black bg-black rounded-lg w-28 my-1 md:my-4'></div>
-            <p className='font-mono my-2 text-xs md:text-xl'>Choose one of the world's top trading platforms and trade on any device. Make Trading a part of your lifestyle.</p>
-            <div className='ml-4 flex flex-col text-xs md:text-xl'>
+            <p className=' my-2 text-lg md:text-xl'>Choose one of the world's top trading platforms and trade on any device. Make Trading a part of your lifestyle.</p>
+            <div className='ml-4 flex flex-col text-sm md:text-xl'>
               <span className='font-light my-1'>Award winning platforms, choosen by millions of traders around the world</span>
               <span className=' font-light my-1'>Inccredibly customizable and user-friendly allowing you to focus on trading</span>
             </div>
           </div>
           <div className='flex bg-white p-2'>
-            <img src={nama} alt="" />
+            <img src={nama} alt="" className='md:h-40 h-full md:py-0 py-2' />
           </div>
         </div>
       </section>
@@ -91,7 +91,9 @@ const Landing = () => {
       </section>
       <section className='bg-stone-100 px-10 md:px-36 py-5 md:py-10 font-light text-base'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
-          <img src={edu} alt="" />
+          <div className='flex items-center justify-center'>
+          <img src={edu} alt="" className=' md:h-48 h-52' />
+          </div>
           <div>
             <h1 className='text-xl md:text-2xl my-3'>Equip Yourself With Free Education</h1>
             <span className='my-2 text-sm md:text-base'>

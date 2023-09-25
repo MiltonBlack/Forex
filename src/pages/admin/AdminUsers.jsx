@@ -25,6 +25,9 @@ const AdminUsers = () => {
     console.log('deleted');
     dispatch(deleteUserAdmin(id));
   }
+  function toggleModal(){
+    setOpen(!open)
+  }
   if (isLoading) {
     return <Loader />;
   };
@@ -53,7 +56,7 @@ const AdminUsers = () => {
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
-              {allUsers.map((item, idx) =>
+              {allUsers?.map((item, idx) =>
                 <tr key={idx}>
                   <td>{item.firstName} {item.lastName}</td>
                   <td>{item.email}</td>
@@ -80,7 +83,7 @@ const AdminUsers = () => {
         <Modal>
         <div
             className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer hover:rotate-180 transition'
-            onClick={() => setOpen(false)} 
+            onClick={toggleModal} 
             >
             <FaTimes color='red' />
           </div>
