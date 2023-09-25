@@ -16,7 +16,7 @@ const AdminPendingTransactions = () => {
     dispatch(getAllWithdrawalsAdmin());
   }, [dispatch]);
 
-  const deposit = deposits.filter((item) => item.status === "pending");
+  const deposit = deposits?.filter((item) => item.status === "pending");
   const filtered = useMemo(() => {
     return filter === 'deposits' ? deposit : withdrawals;
   }, [deposit, withdrawals, filter]);
@@ -55,7 +55,7 @@ const AdminPendingTransactions = () => {
               </tr>
             </thead>
             <tbody className='font-light text-center md:text-lg text-base'>
-              {filtered.map((item, idx) =>
+              {filtered?.map((item, idx) =>
                 <tr key={idx}>
                   <td>{numberSeparator(item.amount, ",") || numberSeparator(item.withdrawAmount, ",")}</td>
                   <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>

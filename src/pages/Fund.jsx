@@ -320,11 +320,11 @@ const Fund = () => {
                   onChange={handleProofImg}
                   accept='image/*' />
                 <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium mb-4 text-base rounded-md">{progress}%</div>
-                {/* <button
+                <button
                   className='border my-2 bg-black/50 text-white p-1 rounded'
                   onClick={uploadProof}>
                    Complete Upload
-                </button> */}
+                </button>
                 <button
                   className='border my-2 bg-black/50 text-white p-1 rounded'
                   onClick={handleDepositRequest}>

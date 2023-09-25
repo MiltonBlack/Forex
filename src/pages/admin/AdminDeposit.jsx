@@ -18,18 +18,18 @@ const AdminDeposit = () => {
   }, [dispatch]);
   const { deposits, isLoading, allUsers } = useSelector((state) => state.admin);
   const [data, setData] = useState({
-    user_id:'',
-    amount: '',
+    user_id: 0, 
     status: '',
     createdAt: '',
+    amount: '',
   });
   console.log(data)
-  const single = allUsers.find((item) => item._id === data?.user_id);
+  console.log(deposits)
+  const single = allUsers?.find((item) => item._id === data?.user_id);
   console.log(single)
   function approveDeposit() {
     dispatch(approveDnSAdmin(data._id));
     dispatch(approvePlan(data.user_id));
-    // await timeOut();
   };
   if (isLoading) {
     return <Loader />;
@@ -54,7 +54,7 @@ const AdminDeposit = () => {
             <tbody className='font-light text-center md:text-lg text-base'>
               {deposits?.map((item, idx) =>
                 // <Link to={`${item.user_id}_${item.id}`} >
-                <tr key={idx} onClick={() => { setData({ user_id:item.user_id, status: item.status, createdAt: item.createdAt, amount: item.amount }); setOpen(true); }}>
+                <tr key={idx} onClick={() => { setData({ user_id: item.user_id, status: item.status, createdAt: item.createdAt, amount: item.amount }); setOpen(true); }}>
                   <td>${numberSeparator(item.amount, ",")}</td>
                   <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
                   <td>USDT</td>
@@ -83,17 +83,17 @@ const AdminDeposit = () => {
             <FaTimes color='red' />
           </div>
           <div>
-            <div className='flex flex-col h-full w-full bg-white p-5 shadow-md rounded-md my-4'>
+            <div className='flex flex-col h-full w-full bg-white p-5 my-4'>
               <div className='grid grid-cols-1 md:grid-cols-2 md:gap-4'>
                 <img src="" alt="" className=' rounded-md h-[200px] w-full' />
-                <div className='flex flex-col'>
+                <div className='flex flex-col font-light'>
                   <span className='py-2'>{single?.firstName} {single?.lastName}</span>
-                  {/* <span className='py-2'>${numberSeparator(data?.amount, ",")}</span> */}
+                  <span className='py-2'>${numberSeparator(data?.amount, ",")}</span>
                   <span className='py-2'>{moment(data?.createdAt).fromNow()}</span>
                   <span className={`p-1 ${data?.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{data?.status}</span>
                 </div>
               </div>
-              {data?.status === "pending" && <button className='border flex w-full p-2 bg-neutral-600 text-white font-normal' onClick={approveDeposit}>{isLoading ? <CircularProgress /> : "Approve Deposit"}</button>}
+              {data?.status === "pending" && <button className='border flex w-full p-2 bg-neutral-600 text-white font-normal text-center mt-2 rounded' onClick={approveDeposit}>{isLoading ? <CircularProgress /> : "Approve Deposit"}</button>}
             </div>
           </div>
         </Modal>

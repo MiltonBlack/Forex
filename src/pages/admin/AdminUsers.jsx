@@ -85,7 +85,7 @@ const AdminUsers = () => {
             <FaTimes color='red' />
           </div>
           <div className='flex flex-col items-center justify-center h-40 font-light mt-5'>
-          <h1>Delete User with the following id: {userData._id}</h1>
+          <h1>You are About to Delete a User with the following id: {userData._id} !!</h1>
           <span>{userData.firstName} {userData.lastName}</span>
           <button className='my-2 bg-red-500 text-white rounded-sm p-1' onClick={DeleteUser}>{!deleted ? "Confirm User Delete!" : <CircularProgress />}</button>
           </div>

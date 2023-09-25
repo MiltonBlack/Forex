@@ -40,7 +40,7 @@ const Landing = () => {
         </div>
       </section>
       <section className='flex bg-gradient-to-b from-slate-800 px-10 md:px-36 py-5 md:py-10 text-white'>
-        <div className='grid grid-cols-2 gap-2'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
           <div className='h-full flex items-center'>
             <img src={device} alt="" className='' />
           </div>
@@ -54,7 +54,7 @@ const Landing = () => {
         </div>
       </section>
       <section className='flex bg-gradient-to-t from-stone-300 px-10 md:px-36 py-5 md:py-10 text-black'>
-        <div className='grid grid-cols-2'>
+        <div className='grid grid-cols-1 md:grid-cols-2'>
           <div>
             <h1 className='text-base md:text-3xl font-thin'>Trade on MT4, MT5 and cTrader Everywhere and Anytime</h1>
             <div className=' border-2 h-2 border-black bg-black rounded-lg w-28 my-1 md:my-4'></div>
@@ -90,7 +90,7 @@ const Landing = () => {
         </div>
       </section>
       <section className='bg-stone-100 px-10 md:px-36 py-5 md:py-10 font-light text-base'>
-        <div className='grid grid-cols-2 gap-2'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
           <img src={edu} alt="" />
           <div>
             <h1 className='text-xl md:text-2xl my-3'>Equip Yourself With Free Education</h1>
@@ -117,7 +117,7 @@ const Landing = () => {
           <div className='grid grid-cols-5 gap-1 md:gap-5'>
             {newspapers.map((item, idx) => (
               <div className='w-full h-24 bg-stone-100 flex items-center justify-center' key={idx}>
-                <img src={item.image} alt="" />
+                <img src={item.image} alt="" className=' h-16 object-cover'/>
               </div>
             ))}
             {/* <div className='w-full h-24 bg-stone-100 flex items-center justify-center'>

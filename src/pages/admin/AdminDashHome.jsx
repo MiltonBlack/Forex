@@ -9,7 +9,7 @@ const AdminDashHome = () => {
   const dispatch = useDispatch();
   const { admin } = useSelector((state) => state.admin);
   const { totalDeposit, withdrawals, usersLength } = admin;
-  const pendingDeposit = totalDeposit.filter((item) => item.status === "pending");
+  const pendingDeposit = totalDeposit?.filter((item) => item.status === "pending");
   const pendingDepositAmount = pendingDeposit?.reduce((currentTotal, item) => {
       return parseInt(item.amount) + currentTotal;
     }, 0);

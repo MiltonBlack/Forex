@@ -7,7 +7,7 @@ const Footer = () => {
     <div className='grid grid-cols-3 md:grid-cols-5 gap-5'>
       <div>
         <h1 className='font-normal text-md my-2'>Bitcoin Exchange Trading and Investment Platform</h1>
-        <p>Explore its Potential for Investments and its Impacts on the Global Economy. Whether you're a curious beginner or looking to deepen your understanding, This is your Gateway to all things Bitcoin.</p>
+        <p className='text-sm font-thin'>Explore its Potential for Investments and its Impacts on the Global Economy. Whether you're a curious beginner or looking to deepen your understanding, This is your Gateway to all things Bitcoin.</p>
       </div>
       <div>
         <h1 className='font-normal text-md my-2'>Trading</h1>
@@ -24,7 +24,7 @@ const Footer = () => {
       </div>
       <div>
         <h1 className='font-normal text-md my-2'>Social Links</h1>
-        <div className='flex w-full justify-between mx-2 mr-2'>
+        <div className='grid gap-1 grid-cols-3 w-full'>
           <FaFacebook/>
           <FaTwitter/>
           <FaInstagram/>
