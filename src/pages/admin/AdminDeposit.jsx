@@ -18,18 +18,21 @@ const AdminDeposit = () => {
   }, [dispatch]);
   const { deposits, isLoading, allUsers } = useSelector((state) => state.admin);
   const [data, setData] = useState({
-    user_id: 0, 
+    _id: 0,
+    user_id: 0,
     status: '',
     createdAt: '',
     amount: '',
   });
   console.log(data)
-  console.log(deposits)
   const single = allUsers?.find((item) => item._id === data?.user_id);
   console.log(single)
   function approveDeposit() {
-    dispatch(approveDnSAdmin(data._id));
-    dispatch(approvePlan(data.user_id));
+    const id = data._id;
+    const user = data.user_id;
+    console.log(id)
+    dispatch(approveDnSAdmin(id));
+    // dispatch(approvePlan(user));
   };
   if (isLoading) {
     return <Loader />;
@@ -54,7 +57,7 @@ const AdminDeposit = () => {
             <tbody className='font-light text-center md:text-lg text-base'>
               {deposits?.map((item, idx) =>
                 // <Link to={`${item.user_id}_${item.id}`} >
-                <tr key={idx} onClick={() => { setData({ user_id: item.user_id, status: item.status, createdAt: item.createdAt, amount: item.amount }); setOpen(true); }}>
+                <tr className='cursor-pointer' key={idx} onClick={() => { setData({_id: item._id, user_id: item.user_id, status: item.status, createdAt: item.createdAt, amount: item.amount }); setOpen(true); }}>
                   <td>${numberSeparator(item.amount, ",")}</td>
                   <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
                   <td>USDT</td>

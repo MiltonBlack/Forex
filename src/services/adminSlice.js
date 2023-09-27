@@ -14,7 +14,7 @@ export const LoginAdmin = createAsyncThunk("admin/Login", async (adminData, thun
             localStorage.setItem("btcadmin", JSON.stringify(response?.data));
             // sessionStorage.setItem("btcadmin", JSON.stringify(response?.data));
         }
-        return response?.data; 
+        return response?.data;
     } catch (error) {
         const message =
             (error.response &&
@@ -87,6 +87,7 @@ export const getAllDepositsAdmin = createAsyncThunk('admin/allDeposits', async (
 });
 
 export const getSingleDepositAdmin = createAsyncThunk('admin/singleDeposit', async (id) => {
+    const token = await JSON.parse(localStorage.getItem("accessToken"));
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
@@ -94,6 +95,7 @@ export const getSingleDepositAdmin = createAsyncThunk('admin/singleDeposit', asy
 });
 
 export const getAllWithdrawalsAdmin = createAsyncThunk('admin/allWithdrawals', async () => {
+    const token = JSON.parse(localStorage.getItem("accessToken"));
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
@@ -101,6 +103,7 @@ export const getAllWithdrawalsAdmin = createAsyncThunk('admin/allWithdrawals', a
 });
 
 export const updateAccountAdmin = createAsyncThunk('admin/updateAccount', async (id) => {
+    const token = await JSON.parse(localStorage.getItem("accessToken"));
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
@@ -108,25 +111,28 @@ export const updateAccountAdmin = createAsyncThunk('admin/updateAccount', async 
 });
 
 export const updateSecurityAdmin = createAsyncThunk('admin/updateSecurity', async (id) => {
+    const token = JSON.parse(localStorage.getItem("accessToken"));
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
     return await axios.get(`${PROD_URL}/api/admin/settings/security/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
-export const approveDnSAdmin = createAsyncThunk('admin/approveDnS', async (id) => {
+export const approveDnSAdmin = createAsyncThunk('admin/approveDnS', async (id, thunkAPI) => {
+    const token = await JSON.parse(localStorage.getItem("accessToken"));
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
-    return await axios.get(`${PROD_URL}/api/admin/approve/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
+    return await axios.put(`${PROD_URL}/api/admin/approve/${id}`, { "status": "approved", "pending": false }, config).then(res => (res.data)).catch(err => console.log(err))
 });
 
-export const approvePlan = createAsyncThunk("admin/approvePlan", async (id)=>{
+export const approvePlan = createAsyncThunk("admin/approvePlan", async (user, thunkAPI) => {
+    const token = await JSON.parse(localStorage.getItem("accessToken"));
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
-    return await axios.get(`${PROD_URL}/api/admin/approve/plan/${id}`, config).then(res => (res.data)).catch(err => console.log(err))
-})
+    return await axios.put(`${PROD_URL}/api/admin/approve/plan/${user}`, { "planStatus" : true }, config).then(res => (res.data)).catch(err => console.log(err))
+});
 
 export const logoutAdmin = createAsyncThunk("admin/logout", async () => {
     await localStorage.removeItem("btcadmin");
@@ -135,16 +141,16 @@ export const logoutAdmin = createAsyncThunk("admin/logout", async () => {
 
 const initialState = {
     admin: admin ? admin : [],
-    allUsers:[],
-    deposits:[],
-    oneDeposit:[],
-    withdrawals:[],
+    allUsers: [],
+    deposits: [],
+    oneDeposit: [],
+    withdrawals: [],
     accessToken: token ? token : null,
     isLoading: false,
-    isLoggedIn:false,
-    deleted:false,
-    updated:false,
-    updatedAcct:false,
+    isLoggedIn: false,
+    deleted: false,
+    updated: false,
+    updatedAcct: false,
     error: []
 };
 
@@ -273,20 +279,20 @@ const adminSlice = createSlice({
         },
         [approvePlan.fulfilled]: (state, action) => {
             state.isLoading = false;
-            state.admin = action.payload;
+            // state.admin = action.payload;
         },
         [approvePlan.rejected]: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
             state.updated = false;
         },
-        [logoutAdmin.pending]: (state, action)=>{
+        [logoutAdmin.pending]: (state, action) => {
             state.isLoading = true;
         },
-        [logoutAdmin.fulfilled]: (state, action)=>{
+        [logoutAdmin.fulfilled]: (state, action) => {
             state.isLoading = false;
         },
-        [logoutAdmin.rejected]: (state, action)=>{
+        [logoutAdmin.rejected]: (state, action) => {
             state.isLoading = false;
             state.error = action.error.message;
         }
