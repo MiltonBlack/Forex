@@ -28,9 +28,6 @@ const AdminPendingTransactions = () => {
   if (isLoading) {
     return <Loader />;
   }
-  console.log(withdrawals);
-  console.log(filter);
-  console.log(filtered);
   return (
     <>
       <div className='pt-16 bg-stone-100 px-5 md:px-10 min-h-[100vh] h-full'>
@@ -58,7 +55,7 @@ const AdminPendingTransactions = () => {
             <tbody className='font-light text-center md:text-lg text-base'>
               {filtered?.map((item, idx) =>
                 <tr key={idx}>
-                  <td>{numberSeparator(item?.amount, ",") || item?.withdrawAmount}</td>
+                  <td>${numberSeparator(item?.amount, ",") || item?.withdrawAmount}</td>
                   <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
                   <td>USDT</td>
                   <td>{moment(item.createdAt).fromNow()}</td>

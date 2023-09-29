@@ -133,7 +133,9 @@ const SignUp = () => {
             className='my-2 p-1 w-full border rounded'
             name='country'
             value={country}
-            onChange={onChange} >
+            onChange={onChange}
+            defaultValue='USA'
+            >
             <option value="Country">Country</option>
             {countries.map((o) => (
               <option key={o.value} value={o.value}>

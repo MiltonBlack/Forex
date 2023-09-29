@@ -9,7 +9,6 @@ import { plans } from '../data/plans'
 import { FaBitcoin, FaCopy, FaTimes } from 'react-icons/fa'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { projectStorage } from '../firebase/config';
-// import Loader from '../components/Loader'
 import { Snackbar, Slide, Alert, CircularProgress } from '@mui/material';
 import numberSeparator from 'number-separator';
 
@@ -30,7 +29,6 @@ const Invest = () => {
   const [copySuccess, setCopySuccess] = useState('');
   const copyRef = useRef(null);
   const [info, setInfo] = useState(user);
-  log(info);
   // State for wallet Address for Funds to be sent into
   const [wallet, setWallet] = useState(null);
   // State for Snackbar Success on Invest
@@ -39,14 +37,14 @@ const Invest = () => {
   let totalDepositAmount = 0;
   let balance;
     // Get all Deposits with the status "Pending"
-    approvedDeposits = deposits?.find((item) => item.status !== "pending");
+    approvedDeposits = deposits?.filter((item) => item.status !== "pending");
     // Total all Deposits with the status of "Pending"
     totalDepositAmount = approvedDeposits?.reduce((currentTotal, item) => {
-      return item.amount + currentTotal;
+      return parseInt(item.amount) + currentTotal;
     }, 0);
   balance = parseInt(totalDepositAmount) + 50;
-  console.log("balance: " + balance);
-  log(error);
+  // console.log("balance: " + balance);
+  // log(error);
 
   // Call Get Wallet Address on page Load
   useEffect(() => {

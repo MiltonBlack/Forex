@@ -12,11 +12,11 @@ import numberSeparator from 'number-separator'
 import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material';
 
 const Fund = () => {
-  const PROD_URL = `http://localhost:3005`
-  // const PROD_URL = `https://broker-backend.onrender.com`
+  // const PROD_URL = `http://localhost:3005`
+  const PROD_URL = `https://broker-backend.onrender.com`
 
   const { user, isLoading } = useSelector((state) => state.auth);
-  const { accessToken, _id, balance } = user;
+  const { accessToken, _id } = user;
 
   // Copy to Clipboard State and useRef Initilization.
   const [copySuccess, setCopySuccess] = useState('');

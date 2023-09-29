@@ -47,7 +47,6 @@ const AdminLogin = () => {
       };
       // Send userData to LoginUser function in authSlice for Login Request. 
       dispatch(LoginAdmin(adminData));
-      console.log(adminData)
     }
   };
 

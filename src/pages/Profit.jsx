@@ -23,7 +23,7 @@ const Profit = () => {
   var cString = moment().diff(moment([createdAt]), "days");
   let initialROI;
   let progress;
-  const interval = intervalString.split(" ")[0];
+  // const interval = intervalString.split(" ")[0];
   if (cString > duration) {
     initialROI = ROI;
     progress = 100;
@@ -35,10 +35,10 @@ const Profit = () => {
     setCurrentPlan(cP);
     if (currentDay === day) {
       initialROI = 1 * amount;
-    } else if (interval === duration) {
+    } else if (cString === duration) {
       initialROI = ROI;
     } else {
-      initialROI = interval * amount;
+      initialROI = cString * amount * 0.45;
     }
   };
   useEffect(() => {

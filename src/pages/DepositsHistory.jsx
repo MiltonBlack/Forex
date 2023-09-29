@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
-import { allDeposits } from '../services/authSlice';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import numberSeparator from 'number-separator';
 
 const DepositsHistory = () => {
     // const PROD_URL = `http://localhost:3005`
     const PROD_URL = `https://broker-backend.onrender.com`
-    // const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
     const { _id, accessToken } = user;
     const [depositData, setDepositData] = useState([]);
     useEffect(() => {
-        // dispatch(allDeposits(_id));
         fetchDepositTransaction()
     }, []);
 
@@ -26,7 +23,6 @@ const DepositsHistory = () => {
         }
         await axios.get(`${PROD_URL}/api/auth/deposit/single/${_id}`, config).then((res) =>
             (setDepositData(() => res.data))
-            // localStorage.setItem("user", JSON.stringify(res?.data));
         ).catch((err) => console.log(err))
     }
     return (
@@ -43,7 +39,7 @@ const DepositsHistory = () => {
                 <tbody className='font-light text-center md:text-lg text-base'>
                     {depositData?.map((item, idx) =>
                         (<tr key={idx}>
-                            <td>{numberSeparator(item.amount, ",")}</td>
+                            <td>${numberSeparator(item.amount, ",")}</td>
                             <td className={`p-1 ${item.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{item.status}</td>
                             <td>USDT</td>
                             <td>{moment(item.createdAt).fromNow()}</td>

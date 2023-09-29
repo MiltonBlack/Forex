@@ -3,8 +3,8 @@ import axios from 'axios';
 
 const token = JSON.parse(localStorage.getItem("accessToken"));
 const admin = JSON.parse(localStorage.getItem("btcadmin"));
-const PROD_URL = `http://localhost:3005`
-// const PROD_URL = `https://broker-backend.onrender.com`
+// const PROD_URL = `http://localhost:3005`
+const PROD_URL = `https://broker-backend.onrender.com`
 
 export const LoginAdmin = createAsyncThunk("admin/Login", async (adminData, thunkAPI) => {
     try {

@@ -19,7 +19,7 @@ const AdminDashHome = () => {
   const totalWithdrawalAmount = withdrawals?.reduce((currentTotal, item)=> {
     return parseInt(item.withdrawAmount) + currentTotal;
   }, 0); 
-  console.log(admin);
+
   const onLoadScriptRef = useRef();
 
   useEffect(
@@ -160,7 +160,7 @@ const AdminDashHome = () => {
         <Card>
           <div className='flex justify-center items-center w-full font-light'>
             <marquee behavior="" direction="">
-              Contact Us to Build Your Website, Broker, E-Commerce, NFT, Mobile Applications (Andriod and IOS), PortFolios, Courrier Services, Logistics.  WhatApp Line: +2349037289192
+              Contact Us to Build Your Website, Dashboards, Real Estate website, Broker, E-Commerce, Crypto, NFT, Mobile Applications (Andriod and IOS), PortFolios, Courrier Services, Logistics.  WhatsApp Line: +2349037289192
             </marquee>
           </div>
         </Card>

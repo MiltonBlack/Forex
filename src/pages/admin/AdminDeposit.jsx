@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { FaAngleLeft, FaAngleRight, FaTimes } from 'react-icons/fa';
-import { approveDnSAdmin, approvePlan, getAllDepositsAdmin, getAllUsersAdmin } from '../../services/adminSlice';
+import { approveDnSAdmin, getAllDepositsAdmin, getAllUsersAdmin } from '../../services/adminSlice';
 import moment from 'moment';
 import numberSeparator from 'number-separator';
 import Loader from '../../components/Loader';
-import { Link } from 'react-router-dom';
 import Modal from '../../components/Modal';
 import { CircularProgress } from '@mui/material';
 
@@ -24,15 +23,12 @@ const AdminDeposit = () => {
     createdAt: '',
     amount: '',
   });
-  console.log(data)
   const single = allUsers?.find((item) => item._id === data?.user_id);
-  console.log(single)
   function approveDeposit() {
     const id = data._id;
     const user = data.user_id;
     console.log(id)
     dispatch(approveDnSAdmin(id));
-    // dispatch(approvePlan(user));
   };
   if (isLoading) {
     return <Loader />;

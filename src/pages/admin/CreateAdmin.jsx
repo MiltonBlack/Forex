@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
 import img from '../../assets/broker.jpg'
 import { Snackbar, Alert, Slide } from '@mui/material';
 
 const CreateAdmin = () => {
     const { id } = useParams()
-    const PROD_URL = `http://localhost:3005`
-    // const PROD_URL = `https://broker-backend.onrender.com`
+    // const PROD_URL = `http://localhost:3005`
+    const PROD_URL = `https://broker-backend.onrender.com`
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [data, setData] = useState([]);
     const [success, setSuccess] = useState(false);
     useEffect(() => {
@@ -124,6 +122,7 @@ const CreateAdmin = () => {
                         </div>
                     </div>
                     <button
+                    disabled={ fullName === "" || password === "" || password2 === "" }
                         className='uppercase border-2 p-2 my-4 w-[70%] hover:bg-white text-white transition'
                         onClick={handleSubmit}>
                         Sign Up

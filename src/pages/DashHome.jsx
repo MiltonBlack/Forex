@@ -65,7 +65,6 @@ const DashHome = () => {
   }
   return (
     <>
-      {/* <NavBar /> */}
       <div className=' bg-stone-200 w-full h-full flex flex-col px-5 md:px-10 pt-16'>
         <div className='flex w-full justify-between items-center my-8'>
           <div>
