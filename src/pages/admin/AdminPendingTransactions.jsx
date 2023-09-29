@@ -20,8 +20,7 @@ const AdminPendingTransactions = () => {
   const withdraw = withdrawals?.filter((item) => item.status === "pending");
   const filtered = useMemo(() => {
     return filter === 'deposits' ? deposit : withdraw;
-    // return filter === 'withdrawals' && withdrawals;
-  }, [deposit, withdrawals, filter]);
+  }, [deposit, withdraw, deposits, withdrawals, filter]);
 
   const handleFilter = (e) => {
     setFilter(e.target.value)
