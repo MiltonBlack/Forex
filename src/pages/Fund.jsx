@@ -10,6 +10,7 @@ import Loader from '../components/Loader';
 import moment from 'moment'
 import numberSeparator from 'number-separator'
 import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material';
+import ImageUpload from '../components/ImageUpload';
 
 const Fund = () => {
   // const PROD_URL = `http://localhost:3005`
@@ -27,6 +28,8 @@ const Fund = () => {
 
   // Proof of Payment URL state
   const [urlProof, setUrlProof] = useState(null);
+  const [imageUpload, ] = useState({});
+  const [logo, setLogo] = useState('')
   const [open, setOPen] = useState(false);
   const [depositLoading, setDepositLoading] = useState(false);
   const [withdrawLoading, setWithdrawLoading] = useState(false);
@@ -45,6 +48,35 @@ const Fund = () => {
       },
     };
     await axios.get(`${PROD_URL}/api/auth/settings/walletaddress`, config).then((res)=> setWallet( res.data)).catch(err => console.log(err));
+  }
+
+  const HandleImg = (e) => {
+    if(e.target.files[0]) {
+      setProofImg({
+        src: URL.createObjectURL(e.target.files[0]),
+        alt: e.target.files[0].name
+      });
+    }
+    setLogo(e.target.files[0]);
+  }
+
+  const proofUpload = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "Blackdice");
+    let data = "";
+    await axios.post(
+      "https://api.cloudinary.com/v1_1/Blackdice/image/upload", formData
+    ).then((response)=> {
+      data = response.data["secure_url"];
+      console.log(data);
+    })
+    return data;
+  }
+
+  const handleImgSubmit = async (e)=> {
+    imageUpload.image = logo;
+    await proofUpload(logo);
   }
   const [wallet, setWallet] = useState('No Wallet Address');
   // set balance field in model for the backend to reflect here
@@ -289,7 +321,7 @@ const Fund = () => {
                 onClick={toggleWallet}>
                 <FaTimes color='red' />
               </div>
-              <div className='flex flex-col p-2 max-w-lg md:w-fit'>
+              <div className='flex flex-col p-2 max-w-sm md:w-fit'>
                 <div className='flex items-center my-1'>
                   <FaBitcoin />
                   <span className='ml-2'>Bitcoin Address</span>
@@ -312,13 +344,14 @@ const Fund = () => {
                   value={amount}
                   onChange={onChange} />
                 <span className='text-base my-1'>Upload Proof Of Payment</span>
-                <input
+                {/* <input
                   type="file"
                   name="file"
                   id="fileUpload"
                   className='border p-2 my-1'
                   onChange={handleProofImg}
-                  accept='image/*' />
+                  accept='image/*' /> */}
+                  <ImageUpload/>
                 <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium mb-4 text-base rounded-md">{progress}%</div>
                 <button
                   className='border my-2 bg-black/50 text-white p-1 rounded'
@@ -338,7 +371,7 @@ const Fund = () => {
             <div className='absolute right-2 border border-black rounded-full p-1 hover:scale-110 cursor-pointer hover:rotate-180 transition' onClick={toggleWithdraw}>
               <FaTimes color='red' />
             </div>
-            <div className='flex flex-col p-2'>
+            <div className='flex max-w-sm flex-col p-2'>
               <div className='flex items-center my-1'>
                 <FaBitcoin />
                 <span className='ml-2'>Bitcoin</span>

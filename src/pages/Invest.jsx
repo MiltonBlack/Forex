@@ -24,6 +24,7 @@ const Invest = () => {
   const [proofImg, setProofImg] = useState("");
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
+  const data = new FormData();
   // State for Proof of Payment Images Supported Types
   const types = ['image/png', 'image/jpg'];
   const [copySuccess, setCopySuccess] = useState('');
@@ -36,12 +37,12 @@ const Invest = () => {
   let approvedDeposits;
   let totalDepositAmount = 0;
   let balance;
-    // Get all Deposits with the status "Pending"
-    approvedDeposits = deposits?.filter((item) => item.status !== "pending");
-    // Total all Deposits with the status of "Pending"
-    totalDepositAmount = approvedDeposits?.reduce((currentTotal, item) => {
-      return parseInt(item.amount) + currentTotal;
-    }, 0);
+  // Get all Deposits with the status "Pending"
+  approvedDeposits = deposits?.filter((item) => item.status !== "pending");
+  // Total all Deposits with the status of "Pending"
+  totalDepositAmount = approvedDeposits?.reduce((currentTotal, item) => {
+    return parseInt(item.amount) + currentTotal;
+  }, 0);
   balance = parseInt(totalDepositAmount) + 50;
   // console.log("balance: " + balance);
   // log(error);
@@ -60,8 +61,15 @@ const Invest = () => {
     };
     await axios.get(`${PROD_URL}/api/auth/settings/walletaddress`, config).then((res) => setWallet(res.data)).catch(err => console.log(err));
   }
-  
-  
+
+  function uploadImage() {
+    const data = new FormData();
+    data.append("file", proofImg);
+    data.append("upload_preset", "Blackdice");
+    data.append("cloud_name", "doxb8ritt");
+    axios.post("https://api.cloudinary.com/v1_1/doxb8ritt/image/upload", data).then((res) => { setUrlProof(res.data.url); console.log(res.data.url) });
+  }
+
   // Function to Select and Save Proof of Payment Locally to proofImg state.
   function handleProofImg(e) {
     setProofImg(e.target.files[0]);
@@ -277,7 +285,7 @@ const Invest = () => {
         {/* Invest By Depositing Directly With the Plan Amount */}
         {deposit && (
           <Modal>
-            <div>
+            <div className=' max-w-sm'>
               <div className='relative font-thin'>
                 <div className='absolute right-0 top-0 border border-black rounded-full p-1 hover:scale-110 cursor-pointer' onClick={() => { setDeposit(false); }}>
                   <FaTimes color='red' />
@@ -307,12 +315,14 @@ const Invest = () => {
                     </button>
                   </div>
                   <span className='text-base my-1'>Upload Proof Of Payment</span>
-                  <input type="file" name="" className='border p-2 my-1' id="fileUpload"
+                  {/* <input type="file" name="" className='border p-2 my-1' id="fileUpload"
                     onChange={handleProofImg}
-                    accept='image/*' />
+                    accept='image/*' /> */}
+                    <input type="file" onChange={(e)=> setProofImg(e.target.files[0])} />
                   <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium text-base rounded-md mb-1">{progress}%</div>
-                  {urlProof === null ? <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={uploadProof}>
-                    {progress === 0 ? "Complete Upload" : <CircularProgress value={progress} />}
+                  {urlProof === null ? <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={uploadImage}>
+                    {/* {progress === 0 ? "Complete Upload" : <CircularProgress value={progress} />} */}
+                    <CircularProgress/>
                   </button> :
                     <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={handleInvest}>
                       Complete Subscription

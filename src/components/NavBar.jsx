@@ -43,7 +43,7 @@ const NavBar = () => {
               <div className='absolute right-2 top-2 border border-black rounded-full p-1 hover:scale-125 cursor-pointer shadow-lg shadow-rose-700 transition' onClick={() => { setNavBar(false) }}>
                 <FaTimes color='red' size={26} />
               </div>
-              <div className='flex flex-col items-start justify-between h-full py-15 pl-20 font-normal'>
+              <div className='flex flex-col items-start justify-between h-screen py-5 pl-20 font-normal'>
                 <NavLink to='/dashboard' className='flex items-center text-xl font-bold border-black cursor-pointer  active:rounded'><GrOverview className='mr-3' /> Overview</NavLink>
                 <NavLink to='/dashboard/transactionHistory' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer '><FaHistory className='mr-3' /> History</NavLink>
                 <NavLink to='/dashboard/wallet' className='flex items-center hover:border border-black px-1 cursor-pointer '><GiWallet className='mr-3' /> Wallet</NavLink>
