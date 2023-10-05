@@ -49,7 +49,14 @@ const Fund = () => {
     };
     await axios.get(`${PROD_URL}/api/auth/settings/walletaddress`, config).then((res)=> setWallet( res.data)).catch(err => console.log(err));
   }
-
+  function uploadImage() {
+    const data = new FormData();
+    data.append("file", proofImg);
+    data.append("upload_preset", "Blackdice");
+    data.append("cloud_name", "doxb8ritt");
+    axios.post("https://api.cloudinary.com/v1_1/doxb8ritt/image/upload", data).then((res) => { setUrlProof(res.data.url); console.log(res.data.url) });
+    console.log(urlProof);
+  }
   const HandleImg = (e) => {
     if(e.target.files[0]) {
       setProofImg({
@@ -344,18 +351,18 @@ const Fund = () => {
                   value={amount}
                   onChange={onChange} />
                 <span className='text-base my-1'>Upload Proof Of Payment</span>
-                {/* <input
+                <input
                   type="file"
                   name="file"
                   id="fileUpload"
                   className='border p-2 my-1'
-                  onChange={handleProofImg}
-                  accept='image/*' /> */}
-                  <ImageUpload/>
+                  onChange={(e)=> setProofImg(e.target.files[0])}
+                  accept='image/*' /> 
+                  {/* <ImageUpload/> */}
                 <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium mb-4 text-base rounded-md">{progress}%</div>
                 <button
                   className='border my-2 bg-black/50 text-white p-1 rounded'
-                  onClick={uploadProof}>
+                  onClick={uploadImage}>
                    Complete Upload
                 </button>
                 <button
