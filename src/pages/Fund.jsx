@@ -201,6 +201,9 @@ const Fund = () => {
         config
       ).then((res) => {
         setDepositLoading(false);
+        if(res.data){
+          setOPen(false);
+        }
       }
         // localStorage.setItem("user", JSON.stringify(res?.data));
       ).catch((err) => console.log(err));
@@ -360,16 +363,17 @@ const Fund = () => {
                   accept='image/*' /> 
                   {/* <ImageUpload/> */}
                 <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium mb-4 text-base rounded-md">{progress}%</div>
-                <button
+               {urlProof === null ? <button
                   className='border my-2 bg-black/50 text-white p-1 rounded'
                   onClick={uploadImage}>
                    Complete Upload
                 </button>
+                :
                 <button
                   className='border my-2 bg-black/50 text-white p-1 rounded'
                   onClick={handleDepositRequest}>
                   {depositLoading ? <CircularProgress /> : "Complete Payment"}
-                </button>
+                </button>}
               </div>
             </Modal>
           )}

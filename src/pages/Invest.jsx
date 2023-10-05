@@ -175,7 +175,11 @@ const Invest = () => {
         config
       ).then((res) => {
         console.log(res.data);
-        setInvestSuccess(true)
+        setInvestSuccess(true);
+        if(res.data){
+          setDeposit(false);
+          setSubscribe(false);
+        }
       }
       ).catch((err) => console.log(err));
 
@@ -277,7 +281,7 @@ const Invest = () => {
                 <span></span>
                 <div className='py-2 flex items-center justify-between font-normal'>
                   {balance > plan1.amount ? <button className='border p-1 bg-lime-500 rounded px-2' onClick={handleRequest} disabled={balance < plan1.amount}>"Subscribe From Wallet"</button> : <span>"Insufficient Funds"</span>}
-                  <button className='border p-1 bg-amber-500 px-2 rounded' onClick={() => { setDeposit(true); }}>Deposit and Subscribe Directly</button>
+                  <button className='border p-1 bg-amber-500 px-2 rounded' onClick={() => { setDeposit(true); setSubscribe(false); }}>Deposit and Subscribe Directly</button>
                 </div>
               </div>
             </div>
