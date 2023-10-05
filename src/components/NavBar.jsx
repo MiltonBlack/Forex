@@ -44,15 +44,15 @@ const NavBar = () => {
                 <FaTimes color='red' size={26} />
               </div>
               <div className='flex flex-col items-start justify-between h-screen py-5 pl-20 font-normal'>
-                <NavLink to='/dashboard' className='flex items-center text-xl font-bold border-black cursor-pointer  active:rounded'><GrOverview className='mr-3' /> Overview</NavLink>
-                <NavLink to='/dashboard/transactionHistory' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer '><FaHistory className='mr-3' /> History</NavLink>
-                <NavLink to='/dashboard/wallet' className='flex items-center hover:border border-black px-1 cursor-pointer '><GiWallet className='mr-3' /> Wallet</NavLink>
-                <NavLink to='/dashboard/swap' className='flex items-center hover:border border-black px-1 cursor-pointer '><GrSend className='mr-3' /> Swap</NavLink>
-                <NavLink to='/dashboard/plans' className='flex items-center hover:border border-black px-1 cursor-pointer '><GiTrade className='mr-3' /> Trading Plans</NavLink>
-                <NavLink to='/dashboard/ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer '><FaUpload className='mr-3' /> ROI</NavLink>
-                <NavLink to='/dashboard/profile' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><BiUserCircle className='mr-3' /> Profile</NavLink>
-                <NavLink to='/dashboard/settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><GiSettingsKnobs className='mr-3' /> Settings</NavLink>
-                <NavLink to='/dashboard/help' className='flex items-center hover:border border-black px-1 cursor-pointer'>
+                <NavLink to='/dashboard' className='flex items-center text-xl font-bold border-black cursor-pointer  active:rounded' onClick={() => { setNavBar(false) }}><GrOverview className='mr-3' /> Overview</NavLink>
+                <NavLink to='/dashboard/transactionHistory' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer ' onClick={() => { setNavBar(false) }}><FaHistory className='mr-3' /> History</NavLink>
+                <NavLink to='/dashboard/wallet' className='flex items-center hover:border border-black px-1 cursor-pointer ' onClick={() => { setNavBar(false) }}><GiWallet className='mr-3' /> Wallet</NavLink>
+                <NavLink to='/dashboard/swap' className='flex items-center hover:border border-black px-1 cursor-pointer ' onClick={() => { setNavBar(false) }}><GrSend className='mr-3' /> Swap</NavLink>
+                <NavLink to='/dashboard/plans' className='flex items-center hover:border border-black px-1 cursor-pointer ' onClick={() => { setNavBar(false) }}><GiTrade className='mr-3' /> Trading Plans</NavLink>
+                <NavLink to='/dashboard/ROI' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer ' onClick={() => { setNavBar(false) }}><FaUpload className='mr-3' /> ROI</NavLink>
+                <NavLink to='/dashboard/profile' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer' onClick={() => { setNavBar(false) }}><BiUserCircle className='mr-3' /> Profile</NavLink>
+                <NavLink to='/dashboard/settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer' onClick={() => { setNavBar(false) }}><GiSettingsKnobs className='mr-3' /> Settings</NavLink>
+                <NavLink to='/dashboard/help' className='flex items-center hover:border border-black px-1 cursor-pointer' onClick={() => { setNavBar(false) }}>
                   <FaQuestionCircle className='mr-3' />
                   <h1 className='ml-2'>Help</h1>
                 </NavLink>

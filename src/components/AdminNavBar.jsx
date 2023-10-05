@@ -33,12 +33,15 @@ const AdminNavBar = () => {
                 <FaTimes color='red' size={26} />
               </div>
               <div className='flex flex-col items-start justify-between h-screen w-full py-10 pl-20 font-normal'>
-                <NavLink to='/auth/admin' className='flex items-center text-xl font-bold border-black cursor-pointer active:bg-slate-400 rounded'><GrOverview className='mr-3'/>Overview</NavLink>
-                <NavLink to='allusers' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer'><FaUserFriends className='mr-3'/>Users</NavLink>
-                <NavLink to='/auth/admin/deposits' className='flex items-center hover:border border-black px-1 cursor-pointer'><RiLuggageDepositFill className='mr-3'/> Deposits</NavLink>
-                <NavLink to='/auth/admin/withdrawals' className='flex items-center hover:border border-black px-1 cursor-pointer'><BiMoney className='mr-3'/>Withdrawals</NavLink>
-                <NavLink to='/auth/admin/pending' className='flex items-center hover:border border-black px-1 cursor-pointer'><GrHistory className='mr-3'/>Pending</NavLink>
-                <NavLink to='/auth/admin/settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer'><MdAdminPanelSettings className='mr-3'/> Settings</NavLink>
+                <NavLink to='/auth/admin' className='flex items-center text-xl font-bold border-black cursor-pointer active:bg-slate-400 rounded' onClick={() => { setNavBar(false) }}>
+                  <GrOverview className='mr-3' />
+                  Overview
+                </NavLink>
+                <NavLink to='allusers' className='flex items-center text-xl hover:border border-black px-1 cursor-pointer' onClick={() => { setNavBar(false) }}><FaUserFriends className='mr-3' />Users</NavLink>
+                <NavLink to='/auth/admin/deposits' className='flex items-center hover:border border-black px-1 cursor-pointer' onClick={() => { setNavBar(false) }}><RiLuggageDepositFill className='mr-3' /> Deposits</NavLink>
+                <NavLink to='/auth/admin/withdrawals' className='flex items-center hover:border border-black px-1 cursor-pointer' onClick={() => { setNavBar(false) }}><BiMoney className='mr-3' />Withdrawals</NavLink>
+                <NavLink to='/auth/admin/pending' className='flex items-center hover:border border-black px-1 cursor-pointer' onClick={() => { setNavBar(false) }}><GrHistory className='mr-3' />Pending</NavLink>
+                <NavLink to='/auth/admin/settings' className='flex items-center mr-3 hover:border border-black px-1 cursor-pointer' onClick={() => { setNavBar(false) }}><MdAdminPanelSettings className='mr-3' /> Settings</NavLink>
                 <button className='flex items-center border rounded bg-red-500 p-1 text-white' onClick={Logout}>Logout <FaPowerOff className='ml-2' /></button>
               </div>
             </div>
