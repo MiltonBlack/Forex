@@ -317,9 +317,6 @@ const Invest = () => {
                     </button>
                   </div>
                   <span className='text-base my-1'>Upload Proof Of Payment</span>
-                  {/* <input type="file" name="" className='border p-2 my-1' id="fileUpload"
-                    onChange={handleProofImg}
-                    accept='image/*' /> */}
                     <input type="file" onChange={(e)=> setProofImg(e.target.files[0])} />
                   <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium text-base rounded-md mb-1">{progress}%</div>
                   {urlProof === null ? <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={uploadImage}>
