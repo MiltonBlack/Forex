@@ -42,7 +42,7 @@ const Profit = () => {
     }
   };
   useEffect(() => {
-    plan !== "None" && calc() 
+    plan !== "None" && calc()
   }, [plan]);
   return (
     <>
@@ -57,7 +57,7 @@ const Profit = () => {
         <div className='border my-4 rounded bg-white shadow-md flex flex-col items-center'>
           <table className='w-full overflow-x-scroll'>
             <thead>
-              <tr className='bg-black/75 text-white uppercase md:text-lg text-sm'>
+              <tr className='bg-black/75 text-white uppercase md:text-lg text-xs'>
                 <th>Subscription Type</th>
                 <th>Amount</th>
                 <th>Progress</th>
@@ -67,7 +67,7 @@ const Profit = () => {
                 <th>Date Started</th>
               </tr>
             </thead>
-            <tbody className='font-light text-center md:text-lg text-base'>
+            <tbody className='font-light text-center md:text-lg text-sm'>
               {planStatus ?
                 (<tr>
                   <td>{plan}</td>
@@ -77,7 +77,10 @@ const Profit = () => {
                   <td>{duration}</td>
                   <td>${ROI ? ROI : "0"}</td>
                   <td>{intervalString}</td>
-                </tr>) : "Your Plan Has Not Being Approved Yet"}
+                </tr>) :
+                <span className='flex w-full items-center justify-center'>
+                  "Your Plan Has Not Being Approved Yet"
+                </span>}
             </tbody>
           </table>
           <div className='w-[80%] border mt-4'></div>

@@ -68,7 +68,9 @@ const Invest = () => {
     data.append("upload_preset", "Blackdice");
     data.append("cloud_name", "doxb8ritt");
     axios.post("https://api.cloudinary.com/v1_1/doxb8ritt/image/upload", data).then((res) => { setUrlProof(res.data.url); console.log(res.data.url) });
+    console.log(urlProof);
   }
+  console.log(urlProof);
 
   // Function to Select and Save Proof of Payment Locally to proofImg state.
   function handleProofImg(e) {
@@ -321,8 +323,7 @@ const Invest = () => {
                     <input type="file" onChange={(e)=> setProofImg(e.target.files[0])} />
                   <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium text-base rounded-md mb-1">{progress}%</div>
                   {urlProof === null ? <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={uploadImage}>
-                    {/* {progress === 0 ? "Complete Upload" : <CircularProgress value={progress} />} */}
-                    <CircularProgress/>
+                    {progress === 0 ? "Complete Upload" : <CircularProgress/>}
                   </button> :
                     <button className='border my-2 bg-black/50 text-white p-1 rounded' onClick={handleInvest}>
                       Complete Subscription
