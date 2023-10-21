@@ -15,11 +15,12 @@ const AdminDeposit = () => {
     dispatch(getAllDepositsAdmin());
     dispatch(getAllUsersAdmin());
   }, [dispatch]);
-  const { deposits, isLoading, allUsers } = useSelector((state) => state.admin);
+  const { deposits, isLoading, allUsers, error } = useSelector((state) => state.admin);
   const [data, setData] = useState({
     _id: 0,
     user_id: 0,
     status: '',
+    proofUrl: '',
     createdAt: '',
     amount: '',
   });
@@ -84,9 +85,9 @@ const AdminDeposit = () => {
           <div>
             <div className='flex flex-col h-full w-full bg-white p-5 my-4'>
               <div className='grid grid-cols-1 md:grid-cols-2 md:gap-4'>
-                <img src="" alt="" className=' rounded-md h-[200px] w-full' />
+                <img src={data?.proofUrl} alt="" className=' rounded-md h-[200px] w-full' />
                 <div className='flex flex-col font-light'>
-                  <span className='py-2'>{single?.firstName} {single?.lastName}</span>
+                  <span className='py-2 hidden md:flex'>{single?.firstName} {single?.lastName}</span>
                   <span className='py-2'>${numberSeparator(data?.amount, ",")}</span>
                   <span className='py-2'>{moment(data?.createdAt).fromNow()}</span>
                   <span className={`p-1 ${data?.status === "pending" ? "bg-red-400" : "bg-lime-400"} rounded-sm text-white`}>{data?.status}</span>

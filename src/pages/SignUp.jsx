@@ -9,8 +9,9 @@ import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material';
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { success, isLoading, register } = useSelector((state) => state.auth)
+  const { success, isLoading, register, error } = useSelector((state) => state.auth)
   const [open, setOpen] = useState(false);
+  const [anyError, setAnyError] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -66,6 +67,14 @@ const SignUp = () => {
     }
     setSignUpSuccess(false);
   };
+
+  const handleErrorClose = (event, reason)=> {
+    if (reason === "clickaway") {
+      return;
+    };
+    setAnyError(false);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (firstName === "" || lastName === "" || email === "" || password === "" || password2 === "") {
@@ -82,6 +91,7 @@ const SignUp = () => {
         password,
       }
       dispatch(Register(userData));
+      if (error !== "") setAnyError(true);
     }
   };
   return (
@@ -95,6 +105,11 @@ const SignUp = () => {
       <Snackbar autoHideDuration={4500} open={signUpOpen} onClose={handleEmptyClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
         <Alert sx={{ width: '100%' }} severity='warning' >
           Input Fields Cannot be empty!!!
+        </Alert>
+      </Snackbar>
+      <Snackbar autoHideDuration={4500} open={anyError} onClose={handleErrorClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='warning' >
+          {error}!!!
         </Alert>
       </Snackbar>
       <Snackbar autoHideDuration={4500} open={signUpSuccess} onClose={handleSuccessClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>

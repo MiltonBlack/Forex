@@ -169,7 +169,7 @@ const adminSlice = createSlice({
         },
         [LoginAdmin.rejected]: (state, action) => {
             state.isLoading = false;
-            state.error = action.error.message;
+            state.error = action.payload;
         },
         [getAllUsersAdmin.pending]: (state) => {
             state.isLoading = true;
@@ -180,7 +180,7 @@ const adminSlice = createSlice({
         },
         [getAllUsersAdmin.rejected]: (state, action) => {
             state.isLoading = false;
-            state.error = action.error.message;
+            state.error = action.payload;
         },
         [getProfileAdmin.pending]: (state) => {
             state.isLoading = true;
@@ -191,7 +191,7 @@ const adminSlice = createSlice({
         },
         [getProfileAdmin.rejected]: (state, action) => {
             state.isLoading = false;
-            state.error = action.error.message;
+            state.error = action.payload;
         },
         [deleteUserAdmin.pending]: (state) => {
             state.isLoading = true;

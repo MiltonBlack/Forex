@@ -36,7 +36,10 @@ const Fund = () => {
   const [withdraw, setWithdraw] = useState(false);
   const [progress, setProgress] = useState(0);
   const [proofImg, setProofImg] = useState(null)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
+  const [anyError, setAnyError] = useState("");
+  const [withdrawError, setWithdrawError] = useState(false);
+  const [depositError, setDepositError] = useState(false);
   const types = ['image/png', 'image/jpg'];
   useEffect(()=>{
     getWallet();
@@ -57,15 +60,15 @@ const Fund = () => {
     axios.post("https://api.cloudinary.com/v1_1/doxb8ritt/image/upload", data).then((res) => { setUrlProof(res.data.url); console.log(res.data.url) });
     console.log(urlProof);
   }
-  const HandleImg = (e) => {
-    if(e.target.files[0]) {
-      setProofImg({
-        src: URL.createObjectURL(e.target.files[0]),
-        alt: e.target.files[0].name
-      });
-    }
-    setLogo(e.target.files[0]);
-  }
+  // const HandleImg = (e) => {
+  //   if(e.target.files[0]) {
+  //     setProofImg({
+  //       src: URL.createObjectURL(e.target.files[0]),
+  //       alt: e.target.files[0].name
+  //     });
+  //   }
+  //   setLogo(e.target.files[0]);
+  // }
 
   const proofUpload = async (file) => {
     const formData = new FormData();
@@ -81,10 +84,10 @@ const Fund = () => {
     return data;
   }
 
-  const handleImgSubmit = async (e)=> {
-    imageUpload.image = logo;
-    await proofUpload(logo);
-  }
+  // const handleImgSubmit = async (e)=> {
+  //   imageUpload.image = logo;
+  //   await proofUpload(logo);
+  // }
   const [wallet, setWallet] = useState('No Wallet Address');
   // set balance field in model for the backend to reflect here
   const [deposit, setDeposit] = useState({
@@ -138,8 +141,13 @@ const Fund = () => {
     }
     await axios.get(`${PROD_URL}/api/auth/withdraw/single/${_id}`, config).then((res) =>
       (setWithdrawData(res.data))
-      // localStorage.setItem("user", JSON.stringify(res?.data));
-    ).catch((err) => console.log(err));
+    ).catch((err) => {
+      if(err.response || err.request) {
+        setWithdrawError(true);
+        if(err.response) setAnyError(err.response);
+        if(err.request) setAnyError(err.request);
+      };
+    });
   };
 
   async function fetchDepositTransaction() { 
@@ -150,8 +158,13 @@ const Fund = () => {
     }
     await axios.get(`${PROD_URL}/api/auth/deposit/single/${_id}`, config).then((res) =>
       (setDepositData(() => res.data))
-      // localStorage.setItem("user", JSON.stringify(res?.data));
-    ).catch((err) => console.log(err))
+    ).catch((err) => {
+      if(err.response || err.request) {
+        setDepositError(true);
+        if(err.response) setAnyError(err.response);
+        if(err.request) setAnyError(err.request);
+      }
+    })
   }
 
   const { amount } = deposit;

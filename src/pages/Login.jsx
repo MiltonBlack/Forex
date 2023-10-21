@@ -8,6 +8,7 @@ import { CircularProgress, Snackbar, Alert, Slide } from '@mui/material'
 const Login = () => {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [loginField, setLoginField] = useState(false);
+  const [anyError, setAnyError] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -15,7 +16,7 @@ const Login = () => {
   const { email, password } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, user, loggedIn } = useSelector((state) => state.auth);
+  const { isLoading, user, loggedIn, error } = useSelector((state) => state.auth);
   useEffect(() => {
     if (!loggedIn) {
       setLoginSuccess(false);
@@ -47,6 +48,13 @@ const Login = () => {
     setLoginField(false);
   };
 
+  const handleErrorClose = (event, reason)=> {
+    if (reason === "clickaway") {
+      return;
+    };
+    setAnyError(false);
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     if (email === "" || password === "") {
@@ -58,6 +66,7 @@ const Login = () => {
       };
       // send userData to LoginUser function in authSlice for Login Request. 
       dispatch(LoginUser(userData));
+      if (error !== "") setAnyError(true);
     }
   }
 
@@ -72,6 +81,11 @@ const Login = () => {
       <Snackbar autoHideDuration={5000} open={loginField} onClose={handleEmptyClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
         <Alert sx={{ width: '100%' }} severity='warning' >
           Email and Passwords Fields Cannot be Left Blank...
+        </Alert>
+      </Snackbar>
+      <Snackbar autoHideDuration={5000} open={anyError} onClose={handleErrorClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Alert sx={{ width: '100%' }} severity='warning' >
+          {error}!!!
         </Alert>
       </Snackbar>
       <div className='fixed top-0 right-0 left-0 bottom-0 w-full h-full flex items-center justify-center bg-black/75'>

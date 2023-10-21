@@ -147,7 +147,7 @@ const authSlice = createSlice({
         [Register.rejected]: (state, action) => {
             state.isLoading = false;
             state.success = false;
-            state.error = action.error.message;
+            state.error = action.payload;
         },
         [LoginUser.pending]: (state) => {
             state.isLoading = true;
@@ -159,7 +159,7 @@ const authSlice = createSlice({
         },
         [LoginUser.rejected]: (state, action) => {
             state.isLoading = false;
-            state.error = action.error.message;
+            state.error = action.payload;
         },
         [userProfile.pending]: (state) => {
             state.isLoading = true;
