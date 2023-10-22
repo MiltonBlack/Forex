@@ -28,7 +28,7 @@ const Fund = () => {
 
   // Proof of Payment URL state
   const [urlProof, setUrlProof] = useState(null);
-  const [imageUpload, ] = useState({});
+  const [imageUpload,] = useState({});
   const [logo, setLogo] = useState('')
   const [open, setOPen] = useState(false);
   const [depositLoading, setDepositLoading] = useState(false);
@@ -41,16 +41,16 @@ const Fund = () => {
   const [withdrawError, setWithdrawError] = useState(false);
   const [depositError, setDepositError] = useState(false);
   const types = ['image/png', 'image/jpg'];
-  useEffect(()=>{
+  useEffect(() => {
     getWallet();
-  },[])
-  async function getWallet(){
+  }, [])
+  async function getWallet() {
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    await axios.get(`${PROD_URL}/api/auth/settings/walletaddress`, config).then((res)=> setWallet( res.data)).catch(err => console.log(err));
+    await axios.get(`${PROD_URL}/api/auth/settings/walletaddress`, config).then((res) => setWallet(res.data)).catch(err => console.log(err));
   }
   function uploadImage() {
     const data = new FormData();
@@ -77,7 +77,7 @@ const Fund = () => {
     let data = "";
     await axios.post(
       "https://api.cloudinary.com/v1_1/Blackdice/image/upload", formData
-    ).then((response)=> {
+    ).then((response) => {
       data = response.data["secure_url"];
       console.log(data);
     })
@@ -142,15 +142,15 @@ const Fund = () => {
     await axios.get(`${PROD_URL}/api/auth/withdraw/single/${_id}`, config).then((res) =>
       (setWithdrawData(res.data))
     ).catch((err) => {
-      if(err.response || err.request) {
+      if (err.response || err.request) {
         setWithdrawError(true);
-        if(err.response) setAnyError(err.response);
-        if(err.request) setAnyError(err.request);
+        if (err.response) setAnyError(err.response);
+        if (err.request) setAnyError(err.request);
       };
     });
   };
 
-  async function fetchDepositTransaction() { 
+  async function fetchDepositTransaction() {
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -159,10 +159,10 @@ const Fund = () => {
     await axios.get(`${PROD_URL}/api/auth/deposit/single/${_id}`, config).then((res) =>
       (setDepositData(() => res.data))
     ).catch((err) => {
-      if(err.response || err.request) {
+      if (err.response || err.request) {
         setDepositError(true);
-        if(err.response) setAnyError(err.response);
-        if(err.request) setAnyError(err.request);
+        if (err.response) setAnyError(err.response);
+        if (err.request) setAnyError(err.request);
       }
     })
   }
@@ -196,10 +196,10 @@ const Fund = () => {
       () => {
         getDownloadURL(uploadSequence.snapshot.ref).then(url => setUrlProof(url))
       })
-      console.log(urlProof);
+    console.log(urlProof);
   };
 
-// console.log(error);
+  // console.log(error);
   async function handleDepositRequest() {
     const config = {
       headers: {
@@ -214,12 +214,17 @@ const Fund = () => {
         config
       ).then((res) => {
         setDepositLoading(false);
-        if(res.data){
+        if (res.data) {
           setOPen(false);
         }
       }
-        // localStorage.setItem("user", JSON.stringify(res?.data));
-      ).catch((err) => console.log(err));
+      ).catch((err) => {
+        if (err.response || err.request) {
+          setDepositError(true);
+          if (err.response) setAnyError(err.response);
+          if (err.request) setAnyError(err.request);
+        }
+      });
     fetchWithdrawalTransaction();
   }
 
@@ -247,8 +252,13 @@ const Fund = () => {
         setWithdrawLoading(false);
         console.log(res.data)
       }
-        // localStorage.setItem("user", JSON.stringify(res?.data));
-      ).catch((err) => console.log(err));
+      ).catch((err) => {
+        if(err.response || err.request) {
+          setWithdrawError(true);
+          if(err.response) setAnyError(err.response);
+          if(err.request) setAnyError(err.request);
+        }
+      });
   }
 
   function toggleWallet() {
@@ -275,6 +285,16 @@ const Fund = () => {
         <Snackbar autoHideDuration={4000} open={withdrawLoading} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
           <Alert sx={{ width: '100%' }} severity='success' >
             Withdrawal Request Sent Successfully
+          </Alert>
+        </Snackbar>
+        <Snackbar autoHideDuration={4000} open={depositError} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+          <Alert sx={{ width: '100%' }} severity='warning' >
+            {anyError}!!
+          </Alert>
+        </Snackbar>
+        <Snackbar autoHideDuration={4000} open={withdrawError} onClose={handleClose} TransitionComponent={Slide} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+          <Alert sx={{ width: '100%' }} severity='warning' >
+            {anyError}!!
           </Alert>
         </Snackbar>
         <div className='my-4'>
@@ -372,21 +392,21 @@ const Fund = () => {
                   name="file"
                   id="fileUpload"
                   className='border p-2 my-1'
-                  onChange={(e)=> setProofImg(e.target.files[0])}
-                  accept='image/*' /> 
-                  {/* <ImageUpload/> */}
+                  onChange={(e) => setProofImg(e.target.files[0])}
+                  accept='image/*' />
+                {/* <ImageUpload/> */}
                 <div style={{ width: progress + '%' }} className="h-1 bg-lime-600 font-medium mb-4 text-base rounded-md">{progress}%</div>
-               {urlProof === null ? <button
+                {urlProof === null ? <button
                   className='border my-2 bg-black/50 text-white p-1 rounded'
                   onClick={uploadImage}>
-                   Complete Upload
+                  Complete Upload
                 </button>
-                :
-                <button
-                  className='border my-2 bg-black/50 text-white p-1 rounded'
-                  onClick={handleDepositRequest}>
-                  {depositLoading ? <CircularProgress /> : "Complete Payment"}
-                </button>}
+                  :
+                  <button
+                    className='border my-2 bg-black/50 text-white p-1 rounded'
+                    onClick={handleDepositRequest}>
+                    {depositLoading ? <CircularProgress /> : "Complete Payment"}
+                  </button>}
               </div>
             </Modal>
           )}
@@ -427,7 +447,7 @@ const Fund = () => {
         )}
       </div>
       <Footer />
-    </>
+    </>  
   )
 }
 
